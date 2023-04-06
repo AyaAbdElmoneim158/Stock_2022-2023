@@ -1,3 +1,4 @@
+import 'package:app/shared/styles/style.dart';
 import 'package:flutter/material.dart';
 
 class TestPage extends StatelessWidget {
@@ -9,7 +10,7 @@ class TestPage extends StatelessWidget {
         body: Center(
       child: Text(
         "TestPage 🙈",
-        style: Theme.of(context).textTheme.headlineMedium,
+        style: titleStyle(context),
       ),
     ));
   }
