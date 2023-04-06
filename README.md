@@ -15,3 +15,4 @@
     * Add Constants:~> AppAssets, AppColors, AppStrings, AppEndPoints
     * Add Styling:~> AppTextStyling + StandardTextStyling
     * Add Theme:~> darkTheme + lightTheme
+  * Add Controllers:~> cubit + states + bloc_observer
