@@ -8,3 +8,4 @@
 ## * Steps 🐾
   * <b> Create flutter App
   * Add Firebase to App
+  * Add structure to App
