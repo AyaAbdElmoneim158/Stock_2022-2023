@@ -9,6 +9,8 @@
   * <b> Create flutter App
   * Add Firebase to App
   * Add structure to App
-  * Add Services files~> DioHelper, CacheHelper, authHelper, FirestoreHelper
+  * Add Services files:~> DioHelper, CacheHelper, authHelper, FirestoreHelper
   * Add Utilities:
     * Add Routes
+    * Add Constants:~> AppAssets, AppColors, AppStrings, AppEndPoints
+    * Add Styling:~> AppTextStyling + StandardTextStyling
