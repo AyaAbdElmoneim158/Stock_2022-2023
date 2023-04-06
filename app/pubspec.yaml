@@ -23,11 +23,15 @@ dependencies:
   google_fonts: ^4.0.3
   flutter_bloc: ^8.1.2
   bloc: ^8.1.1
-  flutter_localization: ^0.1.10
+  # flutter_localization: ^0.1.10
+  animate_do: ^3.0.2
+  concentric_transition: ^1.0.3
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_localizations:
+      sdk: flutter
 
   flutter_lints: ^2.0.0
 

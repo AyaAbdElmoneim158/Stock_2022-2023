@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=
+    , initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+
+        window.onload = async function () {
+            getStock();
+        };
+        async function getStock() {
+            const res = await fetch(
+                // "https://ou8m3oozn4.execute-api.ap-northeast-1.amazonaws.com/default/test?stock=abuk-0"
+                // "https://ou8m3oozn4.execute-api.ap-northeast-1.amazonaws.com/default/test?stock=abuk-1"
+                "https://ou8m3oozn4.execute-api.ap-northeast-1.amazonaws.com/default/test?stock=Commercial Services-2"
+
+
+                // "https://20mccck65d.execute-api.ap-northeast-1.amazonaws.com/?stock=Commercial%20Services-2"
+                // `https://20mccck65d.execute-api.ap-northeast-1.amazonaws.com/?stock=COMI-1`
+                // (`https://scrap-29ek.onrender.com/stock/ETEL`);
+            );
+
+            const data = await res.json();
+            console.log("Data...\n", data);
+        }
+
+    </script>
+</body>
+
+</html>
+<!-- /*
+['Commercial Services','Communications', 'Consumer Durables', 'Consumer Non-Durables','Consumer Services','Distribution Services','Electronic Technology','Energy Minerals','Finance','Health Services','Health Technology', 'Industrial Services', 'Miscellaneous','Non-Energy Minerals',
+             'Process Industries',
+             'Producer Manufacturing',
+             'Retail Trade',
+             'Technology Services',
+             'Transportation',
+             'Utilities', ]
+*/ -->

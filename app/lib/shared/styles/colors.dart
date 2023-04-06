@@ -1,3 +1,4 @@
+// #aca7ff, #ffa698 #e6e6e6
 //!~> AppColors: =====================================<
 import 'package:flutter/material.dart';
 
@@ -9,8 +10,10 @@ List<Color> cardColors = const [
   Color.fromARGB(255, 139, 224, 235),
   Color.fromARGB(255, 235, 139, 147),
 ];
-const Color primaryColor = Color(0XFFf5a623);
+const Color primaryColor = Color(0XFFaca7ff);
 const Color secondColor = Color(0XFF0b111e);
+const Color thirdColor = Color(0XFFffa698);
+
 const Color titleColor = Color(0XFF21252c);
 const Color bodyColor = Color(0XFFfafcff);
 const Color textColor = Color(0XFF525760);
