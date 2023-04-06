@@ -10,3 +10,5 @@
   * Add Firebase to App
   * Add structure to App
   * Add Services files~> DioHelper, CacheHelper, authHelper, FirestoreHelper
+  * Add Utilities:
+    * Add Routes
