@@ -35,16 +35,16 @@ abstract class Constants {
   static String loginTitle = lang ? " تسجيل الدخول " : " sign in ";
   static String loginBtn = lang ? "تسجيل الدخول" : " sign in";
   static String googleText =
-      lang ? "الدخول بايميل جوجل" : "Sign in with google";
-  static String toRegister = lang
-      ? " ليس لديك حساب؟ اضغط هنا "
-      : " Don't have an account? Press here ";
-  static String toLogin = lang
-      ? "لديك حساب بالفعل؟ اضغط هنا"
-      : " Don't have an account? Press here ";
+      lang ? "الدخول بايميل جوجل" : "  Sign in with google";
+  static String passedHere = lang ? "اضغط هنا" : "press here";
+  static String toRegister =
+      lang ? " ليس لديك حساب؟   " : " Don't have an account? ";
+  static String toLogin = lang ? "لديك حساب بالفعل؟ " : " Have an account? ";
   static String register = lang ? "تسجل حساب جديد" : "Register a new account";
   static String registerBtn = lang ? " تسجل الحساب " : "account register";
   static String nameFeild = lang ? "اسم المستخدم" : "User Name";
+  static String enterNameFeild =
+      lang ? " قم بادخال اسم المستخدم " : "Enter User Name";
   static String emailFeild = lang ? "الايميل" : "Email";
   static String phoneFeild = lang ? "الهاتف" : "Phone";
   static String passwordFeild = lang ? "كلمة المرور" : "Password";
@@ -66,7 +66,7 @@ abstract class Constants {
       ? "حدد تفاصيل الاتصال التي يجب أن نستخدمها لإعادة تعيين كلمة المرور الخاصة بك؟"
       : "Specify the contact details we should use to reset your password?";
   static String forgetPasswordWithEmail =
-      lang ? "هل نسيت كلمة السر " : "Forgot your password";
+      lang ? "هل نسيت كلمة السر " : "Forgot your password ? ";
   static String forgetPasswordWithEmailDes = lang
       ? "تقديم البريد الإلكتروني لحسابك أثناء رغبتك في إعادة تعيين كلمة المرور الخاصة بك !"
       : "Provide your account email when you want to reset your password!";

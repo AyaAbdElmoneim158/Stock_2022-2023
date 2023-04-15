@@ -18,5 +18,7 @@ TextStyle titleStyle(BuildContext context) => GoogleFonts.amiri(
         .headlineMedium!
         .copyWith(color: secondColor));
 TextStyle bodyStyle(BuildContext context) => GoogleFonts.amiri(
-    textStyle:
-        Theme.of(context).textTheme.headlineSmall!.copyWith(color: textColor));
+    textStyle: Theme.of(context)
+        .textTheme
+        .bodySmall!
+        .copyWith(color: firstColor, fontWeight: FontWeight.w600));
