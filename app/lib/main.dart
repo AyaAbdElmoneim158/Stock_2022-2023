@@ -17,7 +17,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   //ToDo:~> Add Firebase ------------------------------------------------------>
-  // await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   //ToDo:~> Add Services.... Dio, cache,Bloc --------------------------------------->
   DioHelper.init();
@@ -56,7 +56,7 @@ class MyApp extends StatelessWidget {
 
         //ToDo:~> Add Routes ---------------------------------------------------->
         onGenerateRoute: onGenerate,
-        initialRoute: AppRoutes.navbarRoute,
+        initialRoute: AppRoutes.landingRoute,
         // home: const TestPage(),
       ),
     );

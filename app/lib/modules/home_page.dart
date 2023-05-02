@@ -1,5 +1,14 @@
+import 'package:app/models/stock_model.dart';
+import 'package:app/shared/components/components.dart';
+import 'package:app/shared/components/constants.dart';
+import 'package:app/shared/cubit/cubit.dart';
+import 'package:app/shared/cubit/states.dart';
+import 'package:app/shared/router/routes.dart';
 import 'package:app/shared/styles/colors.dart';
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -7,85 +16,191 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      body: NestedScrollView(
-          headerSliverBuilder: (context, innerBoxIsScrolled) => [
-                SliverAppBar(
-                  backgroundColor: whiteColor,
-                  elevation: 0,
-                  automaticallyImplyLeading: false,
-                  bottom: PreferredSize(
-                    preferredSize: size * 0.05,
-                    child: Container(
-                        padding: EdgeInsets.all(size.height * 0.03),
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: whiteColor,
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(size.height * 0.04),
-                              topRight: Radius.circular(size.height * 0.04)),
-                        ),
-                        child: Text(
-                          "❔ استثمارتك",
-                          style: Theme.of(context).textTheme.headlineSmall,
-                        )),
-                  ),
-                  pinned: true,
-                  stretch: true,
-                  //! Add Stack Here .............................
-                  flexibleSpace: FlexibleSpaceBar(
-                    background: Container(
-                      color: Colors.white, //whiteColor,
-                      height: size.height * 0.6,
-                      child: Column(children: [
-                        Stack(children: [
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: size.height * 0.02,
-                              vertical: size.height * 0.04,
-                            ),
-                            child: SizedBox(
+    return BlocConsumer<AppCubit, AppStates>(
+        listener: (context, state) {},
+        builder: (context, state) {
+          final appCubit = AppCubit.get(context);
+          return Scaffold(
+            body: NestedScrollView(
+                headerSliverBuilder: (context, innerBoxIsScrolled) => [
+                      SliverAppBar(
+                        backgroundColor: Colors.white, //whiteColor,
+                        elevation: 0,
+                        automaticallyImplyLeading: false,
+                        bottom: PreferredSize(
+                          preferredSize: size * 0.05,
+                          child: Container(
+                              padding: EdgeInsets.all(size.height * 0.03),
                               width: double.infinity,
-                              child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Row(children: const [
-                                      Icon(Icons.search),
-                                      SizedBox(width: 8),
-                                      Icon(Icons.notifications),
-                                    ])
-                                  ]),
+                              decoration: BoxDecoration(
+                                color: Colors.white, //whiteColor,
+                                borderRadius: BorderRadius.only(
+                                    topLeft:
+                                        Radius.circular(size.height * 0.04),
+                                    topRight:
+                                        Radius.circular(size.height * 0.04)),
+                              ),
+                              child: Text(
+                                "الأسهم الخاصة بك التالية",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineSmall!
+                                    .copyWith(
+                                        color: firstColor,
+                                        fontWeight: FontWeight.bold),
+                              )),
+                        ),
+                        pinned: true,
+                        stretch: true,
+                        //! Add Stack Here .............................
+                        flexibleSpace: FlexibleSpaceBar(
+                          background: Container(
+                            color: Colors.white, //whiteColor,
+                            height: size.height * 0.6,
+                            child: Column(children: [
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: size.height * 0.02,
+                                  vertical: size.height * 0.04,
+                                ),
+                                child: SizedBox(
+                                  width: double.infinity,
+                                  child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Row(children: const [
+                                          Icon(Icons.search),
+                                          SizedBox(width: 8),
+                                          Icon(Icons.notifications),
+                                        ])
+                                      ]),
+                                ),
+                              ),
+                              CarouselSlider.builder(
+                                options: CarouselOptions(
+                                  height: 150,
+                                  aspectRatio: 16 / 9,
+                                  viewportFraction: 0.9,
+                                  initialPage: 0,
+                                  enableInfiniteScroll: true,
+                                  reverse: false,
+                                  autoPlay: true,
+                                  autoPlayInterval: const Duration(seconds: 3),
+                                  autoPlayAnimationDuration:
+                                      const Duration(milliseconds: 800),
+                                  autoPlayCurve: Curves.fastOutSlowIn,
+                                  enlargeCenterPage: true,
+                                  enlargeFactor: 0.3,
+                                  // onPageChanged: callbackFunction,
+                                  scrollDirection: Axis.horizontal,
+                                ),
+                                itemCount: Constants.onboaringData.length,
+                                itemBuilder: (BuildContext context,
+                                        int itemIndex, int pageViewIndex) =>
+                                    Container(
+                                        padding: const EdgeInsets.all(12),
+                                        width: double.infinity,
+                                        decoration: BoxDecoration(
+                                            color: firstColor,
+                                            borderRadius:
+                                                BorderRadius.circular(20)),
+                                        child: Row(
+                                          children: [
+                                            Image.network(
+                                                Constants.onboaringData[
+                                                    itemIndex]["image"],
+                                                width: 100,
+                                                fit: BoxFit.cover),
+                                            const SizedBox(width: 8),
+                                            Expanded(
+                                              child: Text(
+                                                  Constants.onboaringData[
+                                                      itemIndex]["text"],
+                                                  style: const TextStyle(
+                                                      color: Colors.white)),
+                                            )
+                                          ],
+                                        )
+                                        // Text(itemIndex.toString()),
+                                        ),
+                              )
+                            ]),
+                          ),
+                        ),
+                        expandedHeight: 400,
+                      ),
+                    ],
+                body: StreamBuilder<List<StockModle>>(
+                    stream: appCubit.getFollowingArrows(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.active) {
+                        final arrowss = snapshot.data;
+                        debugPrint("arrowss![1] ${arrowss!.length}");
+                        return ConditionalBuilder(
+                          condition: arrowss.isNotEmpty,
+                          builder: (context) => Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 32),
+                            color: Colors.white,
+                            child: ListView.builder(
+                              // controller: scrollController,
+                              itemCount: arrowss.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return defaultCard(context,
+                                    isFollow: true,
+                                    arrowModle: arrowss[index],
+                                    onDismissed: (DismissDirection direction) =>
+                                        appCubit.deleteFollowingArrow(
+                                            id: arrowss[index].id),
+                                    onTap: () {
+                                      // appCubit.getStockApiData(
+                                      //     context, arrowss[index].ramz);
+                                      Navigator.of(context,
+                                              rootNavigator: false)
+                                          .pushNamed(
+                                              AppRoutes.detailsStockRoute,
+                                              arguments: arrowss[index].ramz);
+                                    });
+                              },
                             ),
                           ),
-                        ])
-                      ]),
-                    ),
-                  ),
-                  expandedHeight: 400,
-                ),
-              ],
-          body: SingleChildScrollView(
-            child: Stack(
-              children: [
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-                  color: whiteColor,
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 8),
-                      Text(
-                          "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of",
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleMedium!
-                              .copyWith(fontWeight: FontWeight.w500))
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          )),
-    );
+                          fallback: (context) {
+                            return Container(
+                              color: Colors.white,
+                              child: Column(children: [
+                                const SizedBox(height: 60),
+                                // Videop
+                                const CircleAvatar(
+                                  radius: 90.0,
+                                  backgroundImage: NetworkImage(
+                                    "https://cdn3d.iconscout.com/3d/free/thumb/stock-market-4756743-3960608.png?f=avif",
+                                    // "https://cdnl.iconscout.com/lottie/premium/thumb/stock-growth-7470720-6137749.mp4"
+                                    // 'https://cdn3d.iconscout.com/3d/premium/thumb/stock-exchange-4843322-4039643.png'
+                                  ),
+                                  backgroundColor: Colors.transparent,
+                                ),
+                                const SizedBox(height: 5),
+                                InkWell(
+                                    onTap:
+                                        () {}, //=> appCubit.changeCurrentIndex(2),//{}, //=> Navigator.pushNamed(context, AppRoutes.arrowsSectorRoute),
+                                    child: Text(
+                                      "اختر الأسهم الخاص بك التي تريد متابعته",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headlineSmall,
+                                    ))
+                              ]),
+                            );
+                          },
+                        );
+                      } else {
+                        return Container(
+                            color: Colors.white,
+                            child: Center(
+                                child: Image.asset('assets/ripple.gif')));
+                      }
+                    })),
+          );
+        });
   }
 }

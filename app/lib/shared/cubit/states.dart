@@ -14,6 +14,11 @@ class AuthAppChangePasswordState implements AppStates {}
 
 class AuthAppChangePasswordCState implements AppStates {}
 
+class AuthAppChangestockNoState implements AppStates {}
+
+class AuthAppChangestockPriceState implements AppStates {}
+
+//
 //!~> forgetPassword  =============================================================<
 class AuthforgetPasswordAppSuccessState extends AppStates {}
 
@@ -62,3 +67,24 @@ class AuthpasswordConfirmErrorState extends AppStates {}
 class AuthNoPhoneErrorState extends AppStates {}
 
 class AuthcheckPasswordsErrorState extends AppStates {}
+
+//! StockApi .......................................
+class GetStockApiDatawSuccessState extends AppStates {}
+
+class GetStockApiDatawErrorState extends AppStates {
+  final String err;
+  GetStockApiDatawErrorState(this.err);
+}
+
+class GetStockApiDatawLoadingState extends AppStates {}
+
+//!~> Add Arrow to fav
+class AddArrowToFavSuccessState extends AppStates {}
+
+class AddArrowToFollowSuccessState extends AppStates {}
+
+class RemoveArrowToFavSuccessState extends AppStates {}
+
+class RemoveArrowToFollowSuccessState extends AppStates {}
+
+class AddArrowToFavExistState extends AppStates {}

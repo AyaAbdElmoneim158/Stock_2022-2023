@@ -61,4 +61,20 @@ class FirestoreHelper {
       return result;
     });
   }
+
+  //! firestore.collection('posts').where('tags', '!=', null)
+  bool isFavoriteArrow({required user}) {
+    Query<Map<String, dynamic>> query = _fireStore
+        .collection('users/${user?.uid}/followingArrow/')
+        .where('isFav', isEqualTo: true);
+    //!db.collection.find({ "fieldToCheck" : { $exists : true, $not : null } })
+    // _fireStore.collection.
+    //! db.getCollection('collectionName').findOne({"fieldName" : {$ne: null}})
+    // _fireStore.collection("").where(field)
+    // .getCollection('users/${user?.uid}/followingArrow/').findOne({"isFav":{true}});
+    // if(query){
+
+    // }
+    return true;
+  }
 }

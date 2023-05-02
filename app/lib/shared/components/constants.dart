@@ -1,7 +1,40 @@
-bool lang = true;
+import 'package:app/shared/styles/colors.dart';
+
+bool lang = false;
 bool theme = true;
+String docmentIdFormLocationData() => DateTime.now().toIso8601String();
 
 abstract class Constants {
+  static List<Map<String, dynamic>> onboaringData = [
+    {
+      'image':
+          'https://cdn3d.iconscout.com/3d/premium/thumb/stock-market-profit-8268826-6594786.png',
+      // 'https://cdn3d.iconscout.com/3d/premium/thumb/stock-research-7252794-5914997.png',
+      // 'https://ouch-cdn2.icons8.com/yIxQmzj1OHH3S9AiIgelaTGdpj3wApWqSqFh80arSEA/rs:fit:784:828/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvMTMx/L2NmOGIzZmY4LWRh/YjEtNDdiMS1hZGQ4/LWFkMTUwZTQwNzIx/NC5wbmc.png',
+      'text': onboardingText1,
+      'textColor': textColor,
+      'btnColor': secondColor,
+    },
+    {
+      'image':
+          'https://cdn3d.iconscout.com/3d/premium/thumb/stock-market-growth-8268827-6594787.png',
+      // 'https://cdn3d.iconscout.com/3d/premium/thumb/stock-market-investment-5768786-4833583.png',
+      //'https://ouch-cdn2.icons8.com/oEXWmNUZgj3vd_T5XSJe2dTB1GFWIBeJ1QEqRWw76O8/rs:fit:784:748/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvMzM1/L2Q3MjMyYzJlLTk0/NTMtNDUzMC1iZTEx/LWQ2MDZiN2RjYmFm/Yy5wbmc.png',
+      'text': onboardingText2,
+      'textColor': whiteColor,
+      'btnColor': whiteColor //,
+    },
+    {
+      'image':
+          'https://cdn3d.iconscout.com/3d/premium/thumb/trade-graph-6780336-5580788.png',
+      // 'https://cdn3d.iconscout.com/3d/premium/thumb/stock-exchange-6020107-4974984.png',
+      //'https://ouch-cdn2.icons8.com/g8bZd-d4qiYuomOBWh3x61II6HlK8Ir2zp_a2cFTcCA/rs:fit:784:784/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvNDI4/LzdjMjEyYjgzLTg0/NjQtNDQzMS04NzAz/LTNkNzk1YmUyMzli/MC5wbmc.png',
+      'text': onboardingText3,
+      'textColor': whiteColor,
+      'btnColor': firstColor,
+    }
+  ];
+
   static const double roundCorner = 0.03;
   static const double padding = 0.04;
   static const double sizedBox = 0.05;

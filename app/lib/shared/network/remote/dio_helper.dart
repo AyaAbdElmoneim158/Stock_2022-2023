@@ -4,8 +4,11 @@ import 'package:dio/dio.dart';
 class DioHelper {
   static Dio? dio;
 //!~> Dio_init >===============================================================<
-  static Dio? init() =>
-      dio = Dio(BaseOptions(baseUrl: "", receiveDataWhenStatusError: true));
+  static Dio? init() => dio = Dio(BaseOptions(
+      baseUrl:
+          "https://ou8m3oozn4.execute-api.ap-northeast-1.amazonaws.com/default/",
+      // "https://scrap-29ek.onrender.com/stock/",
+      receiveDataWhenStatusError: true));
 //!~> Dio_getData >============================================================<
   static Future<Response> getData(
           {required String path,

@@ -1,8 +1,10 @@
+import 'package:app/modules/fav_page.dart';
 import 'package:app/modules/profile_page.dart';
 import 'package:app/shared/styles/colors.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:app/modules/home_page.dart';
+import 'package:app/modules/expore.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({Key? key}) : super(key: key);
@@ -14,30 +16,34 @@ class BottomNavBar extends StatefulWidget {
 class _BottomNavBarState extends State<BottomNavBar> {
   int _page = 0;
   // ignore: non_constant_identifier_names
-  List<Widget> Screens = [
+  List<Widget> Screens = const [
+    ProfilePage(),
+
     // Scaffold(
     //     body: Center(
     //   child: Text('HomePage ...!',
     //       style: TextStyle(fontSize: 30, color: Colors.grey)),
     // )),
-    const HomePage(),
+    HomePage(),
     // HomePa(),
-    const Scaffold(
-        body: Center(
-      child: Text('FavoritePage ...!',
-          style: TextStyle(fontSize: 30, color: Colors.grey)),
-    )),
-    const Scaffold(
-        body: Center(
-      child: Text('ExplorePage ...!',
-          style: TextStyle(fontSize: 30, color: Colors.grey)),
-    )),
-    const Scaffold(
+    // Scaffold(
+    //     body: Center(
+    //   child: Text('FavoritePage ...!',
+    //       style: TextStyle(fontSize: 30, color: Colors.grey)),
+    // )),
+    FavoritePage(),
+    // Scaffold(
+    //     body: Center(
+    //   child: Text('ExplorePage ...!',
+    //       style: TextStyle(fontSize: 30, color: Colors.grey)),
+    // )),
+    Explore(),
+    Scaffold(
         body: Center(
       child: Text('RecommendPage ...!',
           style: TextStyle(fontSize: 30, color: Colors.grey)),
     )),
-    ProfilePage()
+    // ProfilePage()
   ];
   final GlobalKey<CurvedNavigationBarState> _bottomNavigationKey = GlobalKey();
   @override
@@ -76,8 +82,10 @@ class _BottomNavBarState extends State<BottomNavBar> {
           ],
           // color: ColorsApp.secondColor,
           color: Theme.of(context).dividerColor,
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          buttonBackgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          backgroundColor:
+              Colors.white, //Theme.of(context).scaffoldBackgroundColor,
+          buttonBackgroundColor:
+              Colors.white, // Theme.of(context).scaffoldBackgroundColor,
           // backgroundColor: ColorsApp.bodyColor,
           animationCurve: Curves.easeInOut,
           animationDuration: const Duration(milliseconds: 600),
