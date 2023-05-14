@@ -19,13 +19,18 @@
   - Add Theme:~> darkTheme + lightTheme
 - Add Controllers:~> cubit + states + bloc_observer
 - Add Authorization:
+
   - Add onboarding
   - Add Login/register
     // name-> أية رمضان
     // Email-> ayaabdelmon@gmail.com .... Ramdan2023@gmail.com
+
     // phone-> 01208553631
     // password-> ayaabdelmon .... Ramdan2023
     // c-password-> ayaabdelmon
+
 - Add nav-2...
   \_ Add to Models
 - add function one by one (add... show all at position)
+
+mohamed@gmail.com

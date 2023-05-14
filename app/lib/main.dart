@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:app/shared/components/constants.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:app/modules/profile_page2.dart';
 
 // import 'package:flutter_localization/flutter_localization.dart';
 
@@ -57,7 +58,7 @@ class MyApp extends StatelessWidget {
         //ToDo:~> Add Routes ---------------------------------------------------->
         onGenerateRoute: onGenerate,
         initialRoute: AppRoutes.landingRoute,
-        // home: const TestPage(),
+        // home: const ProfilePage(),
       ),
     );
   }

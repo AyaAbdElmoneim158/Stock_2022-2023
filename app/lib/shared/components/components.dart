@@ -374,41 +374,37 @@ Widget defaultCard(context,
 
 //!~> defaultSector >===========================<
 Widget defaultSector(context, SectorModle sectorModle, {int index = 0}) =>
-    InkWell(
-      onTap: () => Navigator.of(context, rootNavigator: false).pushNamed(
-          AppRoutes.stocksSectorRoute,
-          arguments: {'sector': sectorModle, 'index': index}),
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
-          //set border radius more than 50% of height and width to make circle
-        ),
-        color: cardColors[index],
-        child: Padding(
-          padding: const EdgeInsets.all(30.0),
-          child:
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Text(
-                //   "${number} Sectors ⚡",
-                //   maxLines: 1,
-                //   overflow: TextOverflow.ellipsis,
-                //   softWrap: false,
-                //   style: Theme.of(context).textTheme.bodySmall,
-                // ),
-                Text(
-                  sectorModle.name,
-                  maxLines: 1,
-                  overflow: TextOverflow.visible,
-                  softWrap: false,
-                  style: Theme.of(context).textTheme.headline6,
+    SizedBox(
+      width: double.infinity,
+      child: InkWell(
+        onTap: () => Navigator.of(context, rootNavigator: false)
+            .pushNamed(AppRoutes.stocksSectorRoute, arguments: sectorModle.name
+                // {'sector': sectorModle, 'index': index}
                 ),
-              ],
-            ),
-            Image.network(sectorModle.image, width: 60, fit: BoxFit.cover)
-          ]),
+        child: Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+            //set border radius more than 50% of height and width to make circle
+          ),
+          color: cardColors[index],
+          child: Padding(
+            padding: const EdgeInsets.all(30.0),
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Image.network(sectorModle.image,
+                      width: 60, fit: BoxFit.cover),
+                  Expanded(
+                    child: Text(
+                      sectorModle.name,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      softWrap: false,
+                      style: Theme.of(context).textTheme.headlineSmall,
+                    ),
+                  )
+                ]),
+          ),
         ),
       ),
     );

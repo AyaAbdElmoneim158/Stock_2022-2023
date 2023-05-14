@@ -43,15 +43,19 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
   late List<SalesData> _ScatterChartData6;
   late List<SalesData> _ScatterChartData7;
   late List<SalesData> _ScatterChartData8;
+
   late TooltipBehavior _tooltipBehavior;
   late TooltipBehavior _tooltipBehavior2;
   late TooltipBehavior _tooltipBehavior3;
   late TooltipBehavior _tooltipBehavior4;
   late TooltipBehavior _tooltipBehavior5;
   late TooltipBehavior _tooltipBehavior6;
+
   bool barChart1 = false;
   bool barChart2 = false;
+
   bool LineChart1 = false;
+
   bool ScatterChart1 = false;
   bool ScatterChart2 = false;
 
@@ -391,8 +395,10 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
     _LineBarChartData2 = getLineBarChartData2();
     _LineBarChartData3 = getLineBarChartData3();
     _LineBarChartData4 = getLineBarChartData4();
+
     _LineChartData1 = getLineChartData1();
     _LineChartData2 = getLineChartData2();
+
     _ScatterChartData1 = getScatterChartData1();
     _ScatterChartData2 = getScatterChartData2();
     _ScatterChartData3 = getScatterChartData3();

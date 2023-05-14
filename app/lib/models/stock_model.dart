@@ -1,3 +1,15 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+class StockModleSmall {
+  final String symbol;
+  final String price;
+  final String change;
+  StockModleSmall({
+    required this.symbol,
+    required this.price,
+    required this.change,
+  });
+}
+
 class StockModle {
   final String id;
   final String name;

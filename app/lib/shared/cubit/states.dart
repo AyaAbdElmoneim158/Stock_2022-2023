@@ -88,3 +88,28 @@ class RemoveArrowToFavSuccessState extends AppStates {}
 class RemoveArrowToFollowSuccessState extends AppStates {}
 
 class AddArrowToFavExistState extends AppStates {}
+
+//? !Income chart StockApi .......................................
+class GetIncomeChartApiDatawSuccessState extends AppStates {}
+
+class GetBalanceSheetChartApiDatawSuccessState extends AppStates {}
+
+class GetCashFlowChartApiDatawSuccessState extends AppStates {}
+
+//
+class GetIncomeChartApiDatawErrorState extends AppStates {
+  final String err;
+  GetIncomeChartApiDatawErrorState(this.err);
+}
+
+class GetIncomeChartApiDatawLoadingState extends AppStates {}
+
+//? !  Stock inner sectors Api .......................................
+class GetStockInnerSectorSuccessState extends AppStates {}
+
+class GetStockInnerSectorErrorState extends AppStates {
+  final String err;
+  GetStockInnerSectorErrorState(this.err);
+}
+
+class GetStockInnerSectorLoadingState extends AppStates {}

@@ -26,11 +26,13 @@ Route<dynamic> onGenerate(RouteSettings settings) {
       return CupertinoPageRoute(
           builder: (_) => NewsUrl(url: url), settings: settings);
     case AppRoutes.stocksSectorRoute:
-      final args = settings.arguments as Map<String, dynamic>;
-      final sector = args["sector"] as SectorModle;
-      final index = args["index"] as int;
+      // final args = settings.arguments as Map<String, dynamic>;
+      // final sector = args["sector"] as SectorModle;
+      // final index = args["index"] as int;
+      final args = settings.arguments as String;
+
       return CupertinoPageRoute(
-          builder: (_) => StocksInnerSectot(sector: sector, index: index),
+          builder: (_) => StocksInnerSectot(sectorName: args),
           settings: settings);
 
     case AppRoutes.detailsStockRoute:

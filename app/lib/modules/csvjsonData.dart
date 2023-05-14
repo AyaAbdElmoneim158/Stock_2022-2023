@@ -1,4 +1,28 @@
-const List jsonData=[
+import 'package:app/models/salesData_model.dart';
+
+/*
+List<SalesData> getLineBarChartData1() {
+    List<SalesData> salesData1 = [
+      //!~> income_statement...gross_profit
+      // SalesData("Q2'21", 1),
+      // SalesData("Q3'21", 2),
+      // SalesData("Q4'21", 4),
+      // SalesData("Q1'22", 6),
+      // SalesData("Q2'22", 8),
+      SalesData("Q4 '21", 1.24),
+      SalesData("Q1 '22", 1.55),
+      SalesData("Q2 '22", 2.35),
+      SalesData("Q3 '22", 4.07),
+      SalesData("Q4 '22", 2.65),
+      SalesData("Q1 '23", 0),
+      SalesData("Q2 '23", 0),
+    ];
+
+    return salesData1;
+  }
+  */
+
+const List jsonData = [
   {
     "Date": "02/09/2023",
     "Price": 42,
