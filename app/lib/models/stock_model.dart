@@ -65,13 +65,13 @@ class StockModle {
   }
 }
 
-class News {
+class Newsold {
   final String date;
   final String des;
   final String link;
   final String title;
 
-  News({this.date = '', this.des = '', this.link = '', this.title = ''});
+  Newsold({this.date = '', this.des = '', this.link = '', this.title = ''});
 
   Map<String, dynamic> toMap() {
     final result = <String, dynamic>{};
@@ -82,12 +82,109 @@ class News {
     return result;
   }
 
-  factory News.fromMap(Map<String, dynamic> map) {
-    return News(
+  factory Newsold.fromMap(Map<String, dynamic> map) {
+    return Newsold(
       date: map['date'] ?? '',
       des: map['des'] ?? '',
       link: map['link'] ?? '',
       title: map['title'] ?? '',
     );
+  }
+}
+
+//********************************************************
+//----------------------------------------------------------------------------
+class StockModelApi {
+  StockMainApi? stockMainApi;
+  String? name;
+  String? ramz;
+  String? about;
+  String? logo;
+  List<News>? news;
+
+  StockModelApi(
+      {this.stockMainApi,
+      this.name,
+      this.ramz,
+      this.about,
+      this.logo,
+      this.news});
+
+  StockModelApi.fromJson(Map<String, dynamic> json) {
+    stockMainApi = json['stock_main'] != null
+        ? StockMainApi.fromJson(json['stock_main'])
+        : null;
+    name = json['name'];
+    ramz = json['ramz'];
+    about = json['about'];
+    logo = json['logo'];
+    if (json['news'] != null) {
+      news = <News>[];
+      json['news'].forEach((v) {
+        news!.add(News.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = Map<String, dynamic>();
+    if (stockMainApi != null) {
+      data['stock_main'] = stockMainApi!.toJson();
+    }
+    data['name'] = name;
+    data['ramz'] = ramz;
+    data['about'] = about;
+    data['logo'] = logo;
+    if (news != null) {
+      data['news'] = news!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class StockMainApi {
+  String? stockPrice;
+  String? stockMRate;
+  String? incPercentage;
+
+  StockMainApi({this.stockPrice, this.stockMRate, this.incPercentage});
+
+  StockMainApi.fromJson(Map<String, dynamic> json) {
+    stockPrice = json['stock_price'];
+    stockMRate = json['stock_m_rate'];
+    incPercentage = json['inc_percentage'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['stock_price'] = this.stockPrice;
+    data['stock_m_rate'] = this.stockMRate;
+    data['inc_percentage'] = this.incPercentage;
+    return data;
+  }
+}
+
+class News {
+  String? title;
+  String? des;
+  String? date;
+  String? link;
+
+  News({this.title, this.des, this.date, this.link});
+
+  News.fromJson(Map<String, dynamic> json) {
+    title = json['title'];
+    des = json['des'];
+    date = json['date'];
+    link = json['link'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['title'] = this.title;
+    data['des'] = this.des;
+    data['date'] = this.date;
+    data['link'] = this.link;
+    return data;
   }
 }

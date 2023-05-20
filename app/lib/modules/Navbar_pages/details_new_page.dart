@@ -11,12 +11,17 @@
 // import 'package:covid_19/constants.dart';
 import 'package:app/models/salesData_model.dart';
 import 'package:app/shared/components/components.dart';
+import 'package:app/shared/cubit/cubit.dart';
+import 'package:app/shared/cubit/states.dart';
 import 'package:app/shared/styles/colors.dart';
+import 'package:app/shared/styles/style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:intl/intl.dart';
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 
 List<SalesData> salesData = [
   SalesData("Q2'21", 35),
@@ -30,160 +35,133 @@ late List<BarChart> incomeBarChartData1 = [
 ];
 
 class DetailNewsScreen extends StatelessWidget {
-  const DetailNewsScreen({super.key});
+  const DetailNewsScreen({super.key, required this.ramz});
+  final String ramz;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      // resizeToAvoidBottomPadding: false,
-      appBar: homeAppBar(context),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                      offset: const Offset(0, 21),
-                      blurRadius: 53,
-                      color: Colors.black.withOpacity(0.05),
+    return BlocProvider(
+      create: (context) => AppCubit()..getStockApiData(ramz: ramz),
+      child: BlocConsumer<AppCubit, AppStates>(
+          listener: (context, state) {},
+          builder: (context, state) {
+            final appCubit = AppCubit.get(context);
+            final size = MediaQuery.of(context).size;
+
+            return ConditionalBuilder(
+              condition: state is! GetStockApiDataLoadingState,
+              builder: (context) => Scaffold(
+                // resizeToAvoidBottomPadding: false,
+                backgroundColor: kBackgroundColor,
+                appBar: AppBar(
+                  backgroundColor: kBackgroundColor,
+                  title: Text('${appCubit.stockApiDataMap["ramz"]}stock'),
+                  titleTextStyle: kBodyText2,
+                  leading: IconButton(
+                    onPressed: () => Navigator.pop(context),
+                    icon: const Icon(
+                      Icons.arrow_back_ios,
+                      color: firstColor,
                     ),
-                  ],
+                  ),
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    buildTitleWithMoreIcon(),
-                    const SizedBox(height: 15),
-                    buildCaseNumber(context),
-                    const SizedBox(height: 15),
-                    // const Test(),
-                    // Container(
-                    //   // color: Colors.red,
-                    //   child: SfCartesianChart(
-                    //     //! --------------------------SfCartesianChart
-                    //     legend: Legend(
-                    //         isVisible: true, position: LegendPosition.bottom),
-                    //     tooltipBehavior: TooltipBehavior(enable: true),
-                    //     series: <CartesianSeries>[
-                    //       for (var group in incomeBarChartData1)
-                    //         ColumnSeries<SalesData1, String>(
-                    //             dataSource: group.data,
-                    //             xValueMapper: (SalesData1 sales, _) =>
-                    //                 sales.month,
-                    //             yValueMapper: (SalesData1 sales, _) =>
-                    //                 sales.sales,
-                    //             borderRadius: BorderRadius.circular(8.0),
-                    //             name: group.name,
-                    //             enableTooltip: true,
-                    //             spacing: 0.3),
-                    //     ],
-                    //     // primaryXAxis: CategoryAxis(),
-                    //     // primaryYAxis: NumericAxis(
-                    //     //     edgeLabelPlacement: EdgeLabelPlacement.shift,
-                    //     //     numberFormat: NumberFormat.simpleCurrency(
-                    //     //         decimalDigits: 2, name: 'B')),
-                    //     plotAreaBorderWidth: 0,
-                    //     borderColor: Colors.transparent,
-                    //     // plotAreaBackgroundColor:Colors.green,
-                    //     enableSideBySideSeriesPlacement: false,
-                    //     primaryXAxis: DateTimeAxis(isVisible: false),
-                    //     primaryYAxis: DateTimeAxis(isVisible: false),
-                    //   ),
-                    // )
-                    // Test(),
-                    // const Text(
-                    //   "From Health Center",
-                    //   style: TextStyle(
-                    //     fontWeight: FontWeight.w200,
-                    //     color: kTextMediumColor,
-                    //     fontSize: 16,
-                    //   ),
-                    // ),
-                    // const SizedBox(height: 15),
-                    // // WeeklyChart(),
-                    // const SizedBox(height: 15),
-                    // Row(
-                    //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //   children: <Widget>[
-                    //     buildInfoTextWithPercentage(
-                    //       percentage: "6.43",
-                    //       title: "From Last Week",
-                    //     ),
-                    //     buildInfoTextWithPercentage(
-                    //       percentage: "9.43",
-                    //       title: "Recovery Rate",
-                    //     ),
-                    //   ],
-                    // )
-                  ],
-                ),
-              ),
-              const SizedBox(height: 20),
-              Container(
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                      offset: const Offset(0, 21),
-                      blurRadius: 54,
-                      color: Colors.black.withOpacity(0.05),
-                    ),
-                  ],
-                ),
-                child: Column(
-                  children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                body: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: SingleChildScrollView(
+                    child: Column(
                       children: <Widget>[
-                        Text(
-                          "About ",
-                          style: Theme.of(context)
-                              .textTheme
-                              .headline5!
-                              .copyWith(color: kPrimaryColor, height: 1.2),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 25),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                offset: const Offset(0, 21),
+                                blurRadius: 53,
+                                color: Colors.black.withOpacity(0.05),
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              buildTitleWithMoreIcon(),
+                              const SizedBox(height: 15),
+                              buildCaseNumber(context),
+                              const SizedBox(height: 15),
+                            ],
+                          ),
                         ),
-                        const Icon(Iconsax.location)
+                        const SizedBox(height: 20),
+                        Container(
+                          padding: const EdgeInsets.all(20),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                offset: const Offset(0, 21),
+                                blurRadius: 54,
+                                color: Colors.black.withOpacity(0.05),
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            children: <Widget>[
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Text(
+                                    "About ",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline5!
+                                        .copyWith(
+                                            color: kPrimaryColor, height: 1.2),
+                                  ),
+                                  const Icon(Iconsax.location)
+                                ],
+                              ),
+                              const SizedBox(height: 10),
+                              // SvgPicture.asset("assets/icons/map.svg"),
+                              const Text(
+                                "Nowadays, making printed materials have become fast, easy and simple. If you want your promotional material to be an eye-catching object, you should make it colored. By way of using inkjet printer this is not hard to make. An inkjet printer is any printer that places extremely small droplets of ink onto paper to create an image.",
+                                style: TextStyle(
+                                  height: 1.5,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Text(
+                              "News",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headline5!
+                                  .copyWith(color: kPrimaryColor, height: 1.2),
+                            ),
+                            const Icon(Iconsax.location)
+                          ],
+                        ),
+                        const ItemList(),
                       ],
                     ),
-                    const SizedBox(height: 10),
-                    // SvgPicture.asset("assets/icons/map.svg"),
-                    const Text(
-                      "Nowadays, making printed materials have become fast, easy and simple. If you want your promotional material to be an eye-catching object, you should make it colored. By way of using inkjet printer this is not hard to make. An inkjet printer is any printer that places extremely small droplets of ink onto paper to create an image.",
-                      style: TextStyle(
-                        height: 1.5,
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ),
-              const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(
-                    "News",
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline5!
-                        .copyWith(color: kPrimaryColor, height: 1.2),
-                  ),
-                  const Icon(Iconsax.location)
-                ],
-              ),
-              const ItemList(),
-            ],
-          ),
-        ),
-      ),
+              fallback: (context) => Container(
+                  color: Colors.white,
+                  child: Center(
+                      child: Center(child: Image.asset('assets/ripple.gif')))),
+            );
+          }),
     );
   }
 
@@ -234,12 +212,15 @@ class DetailNewsScreen extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        const Text(
-          "We",
-          style: TextStyle(
-            color: kTextMediumColor,
-            fontWeight: FontWeight.w600,
-            fontSize: 15,
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            ramz,
+            style: const TextStyle(
+              color: kTextMediumColor,
+              fontWeight: FontWeight.w600,
+              fontSize: 15,
+            ),
           ),
         ),
         SvgPicture.asset("assets/icons/more.svg")

@@ -97,8 +97,8 @@ List<Widget> _listOfWidget = <Widget>[
   //     ),
   //   ),
   // ),
-  const ExploreNew(),
-  const HomePage(),
+  const HomePage(), const ExploreNew(),
+
   // Container(
   //   alignment: Alignment.center,
   //   child: SingleChildScrollView(

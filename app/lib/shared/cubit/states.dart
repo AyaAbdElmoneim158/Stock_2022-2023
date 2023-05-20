@@ -135,3 +135,13 @@ class FetchStocksAtSectorErrorState extends AppStates {
   final String err;
   FetchStocksAtSectorErrorState(this.err);
 }
+
+//! StockApi .......................................
+class GetStockApiDataSuccessState extends AppStates {}
+
+class GetStockApiDataErrorState extends AppStates {
+  final String err;
+  GetStockApiDataErrorState(this.err);
+}
+
+class GetStockApiDataLoadingState extends AppStates {}

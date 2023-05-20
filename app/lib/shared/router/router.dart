@@ -43,7 +43,7 @@ Route<dynamic> onGenerate(RouteSettings settings) {
     case AppRoutes.detailsStockRoute:
       final ramz = settings.arguments as String;
       return CupertinoPageRoute(
-          builder: (_) => DetailNewsScreen(),
+          builder: (_) => DetailNewsScreen(ramz: ramz),
           // DetailsStock(ramz: ramz),
           settings: settings);
     case AppRoutes.navbarRoute:

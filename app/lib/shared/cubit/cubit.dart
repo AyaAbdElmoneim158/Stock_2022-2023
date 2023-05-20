@@ -378,6 +378,35 @@ class AppCubit extends Cubit<AppStates> {
     return salesData;
   }
 
+  //----------------------------------------------------------------------------
+  //! getStockDetails ============================================<
+
+  // late StockModelApi
+  late Map<String, dynamic> stockApiDataMap;
+  void getStockApiData({required String ramz}) {
+    emit(GetStockApiDataLoadingState());
+    // stockApiDataMap ={};
+    //https://20mccck65d.execute-api.ap-northeast-1.amazonaws.com/?stock=ABUK-0
+    // print("Before $stockApiDataMap");
+    DioHelper.getData(
+      path: "/",
+      queryParameters: {
+        //"abuk-0"
+        "stock": "$ramz-0"
+      },
+    ).then((value) {
+      stockApiDataMap = {"ramz": value.data['ramz']};
+      // stockApiDataMap = StockModelApi.fromJson(value.data);
+      // StockModelApi
+
+      print("After ${value.data}");
+      emit(GetStockApiDataSuccessState());
+    }).catchError((err) {
+      debugPrint("getStockApiData error ::$err");
+      emit(GetStockApiDataErrorState(err));
+    });
+  }
+
 //--------------------------------------------------------
   List<StockAtSectorModel> stocksAtSectors = [];
   void fetchStocksAtSectors({required String setcorName}) {

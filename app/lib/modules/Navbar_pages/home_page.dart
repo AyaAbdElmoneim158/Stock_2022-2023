@@ -23,9 +23,11 @@ class HomePage extends StatelessWidget {
         builder: (context, state) {
           final appCubit = AppCubit.get(context);
           return Scaffold(
-            // floatingActionButton: FloatingActionButton.small(
-            //     child: const Icon(Icons.logout),
-            //     onPressed: () => AuthHelper.instance.logout()),
+            floatingActionButton: FloatingActionButton.small(
+                child: const Icon(Icons.logout),
+                onPressed: () => appCubit.getStockApiData(ramz: 'FWRY')
+                //  => AuthHelper.instance.logout()
+                ),
             body: NestedScrollView(
                 headerSliverBuilder: (context, innerBoxIsScrolled) => [
                       SliverAppBar(
