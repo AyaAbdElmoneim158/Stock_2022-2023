@@ -11,7 +11,7 @@ ThemeData lightTheme = ThemeData(
     ),
     visualDensity: VisualDensity.adaptivePlatformDensity,
     scaffoldBackgroundColor: whiteColor,
-    inputDecorationTheme: InputDecorationTheme(
+    /*  inputDecorationTheme: InputDecorationTheme(
       border: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(20.0))),
       // labelStyle: Theme.of(context).textTheme.subtitle1,
@@ -32,6 +32,7 @@ ThemeData lightTheme = ThemeData(
           borderRadius: BorderRadius.circular(8.0),
           borderSide: const BorderSide(color: firstColor)),
     ),
+*/
 //!~> bodyText >================================================<
     textTheme: GoogleFonts.dmSansTextTheme().apply(displayColor: firstColor),
     // textTheme: const  TextTheme(

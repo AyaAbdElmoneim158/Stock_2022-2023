@@ -125,3 +125,13 @@ class AddArrowToFavExistState extends AppStates {}
 // }
 
 // class GetStockInnerSectorLoadingState extends AppStates {}
+
+//! fetchStocksAtSector ---------------------------------------------------
+class FetchStocksAtSectorSuccessState extends AppStates {}
+
+class FetchStocksAtSectorLoadingState extends AppStates {}
+
+class FetchStocksAtSectorErrorState extends AppStates {
+  final String err;
+  FetchStocksAtSectorErrorState(this.err);
+}

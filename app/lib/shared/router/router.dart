@@ -3,6 +3,7 @@ import 'package:app/layout/bottom_navbar_new.dart';
 import 'package:app/models/sector_model.dart';
 import 'package:app/modules/Auth_pages/successful_page.dart';
 import 'package:app/modules/Navbar_pages/details_new_page.dart';
+import 'package:app/modules/Navbar_pages/stocks_inner_sector_new.dart';
 import 'package:app/modules/details_page.dart';
 import 'package:app/modules/Auth_pages/forgetpasssword/with_email.dart';
 import 'package:app/modules/landing_page.dart';
@@ -28,14 +29,15 @@ Route<dynamic> onGenerate(RouteSettings settings) {
 
       return CupertinoPageRoute(
           builder: (_) => NewsUrl(url: url), settings: settings);
-    case AppRoutes.stocksSectorRoute:
+    case AppRoutes.stocksAtSectorRoute:
       // final args = settings.arguments as Map<String, dynamic>;
       // final sector = args["sector"] as SectorModle;
       // final index = args["index"] as int;
       final args = settings.arguments as String;
 
       return CupertinoPageRoute(
-          builder: (_) => StocksInnerSectot(sectorName: args),
+          builder: (_) => StockAtSectorNew(sectorName: args), //
+          // StocksInnerSectot(sectorName: args),
           settings: settings);
 
     case AppRoutes.detailsStockRoute:

@@ -1,5 +1,6 @@
 import 'package:app/models/salesData_model.dart';
 import 'package:app/models/sector_model.dart';
+import 'package:app/models/stock_at_sector_model.dart';
 import 'package:app/models/stock_model.dart';
 import 'package:app/models/user_model.dart';
 import 'package:app/shared/components/constants.dart';
@@ -315,15 +316,15 @@ class AppCubit extends Cubit<AppStates> {
         builder: (data, documentId) => StockModle.fromMap(data!, documentId),
         queryBuilder: (query) => query.where('ramz', isEqualTo: ramz),
       );
-  // !~> getAllSectors ====================================================<
-  Stream<List<SectorModle>> getAllSectors() => _fireStore.collectionsStream(
-      path: 'sectors/',
-      builder: (data, documentId) => SectorModle.fromMap(data!, documentId));
-  // !~>  getAllStockInnerEachSector ====================================================<
-  Stream<List<StockModle>> getAllStockInnerEachSector({required String id}) =>
-      _fireStore.collectionsStream(
-          path: 'sectors/$id/stocks/',
-          builder: (data, documentId) => StockModle.fromMap(data!, documentId));
+  // // !~> getAllSectors ====================================================<
+  // Stream<List<SectorModel>> getAllSectors() => _fireStore.collectionsStream(
+  //     path: 'sectors/',
+  //     builder: (data, documentId) => SectorModel.fromMap(data!, documentId));
+  // // !~>  getAllStockInnerEachSector ====================================================<
+  // Stream<List<StockModle>> getAllStockInnerEachSector({required String id}) =>
+  //     _fireStore.collectionsStream(
+  //         path: 'sectors/$id/stocks/',
+  //         builder: (data, documentId) => StockModle.fromMap(data!, documentId));
 //* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 /*
    List<SalesData> salesData1 = [
@@ -377,6 +378,29 @@ class AppCubit extends Cubit<AppStates> {
     return salesData;
   }
 
+//--------------------------------------------------------
+  List<StockAtSectorModel> stocksAtSectors = [];
+  void fetchStocksAtSectors({required String setcorName}) {
+    emit(FetchStocksAtSectorLoadingState());
+    DioHelper.getData(
+        path: '/test',
+        queryParameters: {"stock": "$setcorName-2"}).then((value) {
+      var allData = value.data; //jsonDecode(value.data); length
+
+      for (int i = 1; i < allData.length; i++) {
+        stocksAtSectors.add(StockAtSectorModel(
+            symbol: allData["$i"][0],
+            price: allData["$i"][1],
+            change: allData["$i"][2],
+            change100: allData["$i"][3]));
+      }
+      debugPrint("len: ${stocksAtSectors.length}");
+      emit(FetchStocksAtSectorSuccessState());
+    }).catchError((err) {
+      debugPrint("error at fetchStocksAtSectors: $err");
+      emit(FetchStocksAtSectorErrorState(err));
+    });
+  }
 //! Fetch Chart ....................................................................................
 //https://20mccck65d.execute-api.ap-northeast-1.amazonaws.com/?stock=ABUK-1
   // Map<dynamic, dynamic> incomeChartApiDataMap = {};

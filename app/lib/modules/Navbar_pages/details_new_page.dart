@@ -36,7 +36,7 @@ class DetailNewsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       // resizeToAvoidBottomPadding: false,
-      appBar: buildDetailsAppBar(context),
+      appBar: homeAppBar(context),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
         child: SingleChildScrollView(

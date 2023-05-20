@@ -6,7 +6,11 @@ class DioHelper {
   static Dio? dio;
 //!~> Dio_init >===============================================================<
   static Dio? init() => dio = Dio(BaseOptions(
-      baseUrl: "https://20mccck65d.execute-api.ap-northeast-1.amazonaws.com",
+      // ?stock=Communications-2
+      baseUrl:
+// "https://20mccck65d.execute-api.ap-northeast-1.amazonaws.com/",
+          'https://ou8m3oozn4.execute-api.ap-northeast-1.amazonaws.com/default/',
+      // "https://20mccck65d.execute-api.ap-northeast-1.amazonaws.com",
       // "https://ou8m3oozn4.execute-api.ap-northeast-1.amazonaws.com/default/",
       // "https://scrap-29ek.onrender.com/stock/",
       receiveDataWhenStatusError: true));

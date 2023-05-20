@@ -3,10 +3,13 @@ import 'package:app/models/sector_model.dart';
 import 'package:app/models/stock_at_sector_model.dart';
 import 'package:app/models/stock_model.dart';
 import 'package:app/modules/coin.dart';
+import 'package:app/shared/cubit/cubit.dart';
 import 'package:app/shared/cubit/states.dart';
 import 'package:app/shared/router/routes.dart';
 import 'package:app/shared/styles/colors.dart';
+import 'package:app/shared/styles/style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:iconsax/iconsax.dart';
@@ -271,14 +274,15 @@ Widget defaultCard(context,
 }
 
 //!~> defaultSector >===========================<
-Widget defaultSector(context, SectorModle sectorModle, {int index = 0}) =>
+Widget defaultSector(context, SectorModel sectorModle, {int index = 0}) =>
     SizedBox(
       width: double.infinity,
       child: InkWell(
-        onTap: () => Navigator.of(context, rootNavigator: false)
-            .pushNamed(AppRoutes.stocksSectorRoute, arguments: sectorModle.name
-                // {'sector': sectorModle, 'index': index}
-                ),
+        onTap: () => Navigator.of(context, rootNavigator: false).pushNamed(
+            AppRoutes.stocksAtSectorRoute,
+            arguments: sectorModle.name
+            // {'sector': sectorModle, 'index': index}
+            ),
         child: Card(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
@@ -351,6 +355,395 @@ SnackBar snackbarErr(AppStates state, {required String message}) {
   );
 }
 
+//?~> Search_box ..............................................................
+class SearchBox extends StatelessWidget {
+  final ValueChanged<String> onChanged;
+  const SearchBox({
+    super.key,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.all(20),
+      padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 1),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: secondColor.withOpacity(0.32),
+        ),
+      ),
+      child: TextField(
+        onChanged: onChanged,
+        decoration: const InputDecoration(
+          border: InputBorder.none,
+          icon: Icon(Icons.search, color: Color(0XFF12192C)),
+          hintText: "Search Here",
+          hintStyle: TextStyle(color: kTextColor),
+        ),
+      ),
+    );
+  }
+}
+
+//?~> sector item..............................................................
+class ItemCard extends StatelessWidget {
+  final String title, svgSrc;
+  final void Function()? press;
+  const ItemCard({
+    super.key,
+    required this.title,
+    required this.svgSrc,
+    required this.press,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    // This size provide you the total height and width of the screen
+    Size size = MediaQuery.of(context).size;
+    return Container(
+      margin: const EdgeInsets.only(left: 10, right: 10, top: 20, bottom: 20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            offset: const Offset(0, 4),
+            blurRadius: 6,
+            color: const Color(0xFFB0CCE1).withOpacity(0.22),
+          ),
+        ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: () => navigatorTo(
+              context: context,
+              routeName: AppRoutes.stocksAtSectorRoute,
+              arguments: title),
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              children: <Widget>[
+                Container(
+                  margin: const EdgeInsets.only(bottom: 15),
+                  padding: const EdgeInsets.all(25),
+                  decoration: BoxDecoration(
+                    color: kPrimaryColor.withOpacity(0.13),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Image.network(
+                    svgSrc,
+                    width: size.width * 0.1,
+                  ),
+                ),
+                Text(
+                  title,
+                  style: kBodyText.copyWith(
+                      color: firstColor, fontWeight: FontWeight.w700),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+//?~>homeAppBar.................................................................
+AppBar homeAppBar(BuildContext context) {
+  return AppBar(
+    backgroundColor: kBackgroundColor,
+    elevation: 0,
+    leading: IconButton(
+      icon: const Icon(Icons.menu, color: Color(0XFF12192C)),
+      onPressed: () {},
+    ),
+    actions: <Widget>[
+      IconButton(
+        icon: const Icon(Icons.search, color: Color(0XFF12192C)),
+        onPressed: () {},
+      ),
+    ],
+  );
+}
+
+//?~> Sectors list...................................................................
+class ItemList extends StatelessWidget {
+  const ItemList({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 220,
+      child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: fackSector.length,
+          itemBuilder: (context, index) => ItemCard(
+              title: fackSector[index].name,
+              svgSrc: fackSector[index].image,
+              press: () {})),
+    );
+  }
+}
+
+//?~> CategoryItem ...................................................................
+class CategoryItem extends StatelessWidget {
+  final String title;
+  final bool isActive;
+  static bool active = false;
+
+  // final void Function()? press;
+  const CategoryItem({
+    super.key,
+    required this.title,
+    this.isActive = false,
+    // required this.press,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocConsumer<AppCubit, AppStates>(
+        listener: (context, state) {},
+        builder: (context, state) {
+          final appCubit = AppCubit.get(context);
+          final size = MediaQuery.of(context).size;
+
+          return GestureDetector(
+            onTap: () => appCubit.fetchStocksAtSectors(setcorName: title),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+              child: Column(
+                children: <Widget>[
+                  Text(
+                    title,
+                    style: isActive
+                        ? const TextStyle(
+                            color: kTextColor,
+                            fontWeight: FontWeight.bold,
+                          )
+                        : const TextStyle(fontSize: 12),
+                  ),
+                  if (isActive)
+                    Container(
+                      margin: const EdgeInsets.symmetric(vertical: 5),
+                      height: 3,
+                      width: 22,
+                      decoration: BoxDecoration(
+                        color: kPrimaryColor,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+}
+
+//?~> CategoryList ...................................................................
+class CategoryList extends StatelessWidget {
+  const CategoryList({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: const [
+          CategoryItem(
+            title: "Commercial Services",
+            isActive: true,
+          ),
+          CategoryItem(
+            title: "Finance",
+          ),
+          CategoryItem(
+            title: "Commercial Services",
+          ),
+          CategoryItem(
+            title: "Commercial Services",
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+//?~> StockList ...................................................................
+ListView stockList({required List<StockAtSectorModel> stocksAtSector}) {
+  return ListView.separated(
+    separatorBuilder: (context, index) => Padding(
+      padding: const EdgeInsets.only(top: 15, bottom: 15, left: 70, right: 15),
+      child: Divider(
+        height: 1.6,
+        thickness: 1.5,
+        color: Colors.grey.shade200,
+      ),
+    ),
+    itemCount: stocksAtSector.length,
+    itemBuilder: (context, index) =>
+        stockCard(context, stockAtSector: stocksAtSector[index]),
+  );
+}
+
+//?~> StockCard ...................................................................
+/*Padding stockCard(BuildContext context,
+    {required StockAtSectorModel stockAtSector}) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 15),
+    child: Row(
+      children: [
+        // Image.network() // Wrab with circle Avter...
+        const CircleAvatar(
+          radius: 25,
+        ),
+        const SizedBox(width: 20),
+        Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text(stockAtSector.symbol,
+              style: Theme.of(context)
+                  .textTheme
+                  .titleLarge!
+                  .copyWith(color: secondColor, fontWeight: FontWeight.w600)),
+          Text("*20",
+              style: Theme.of(context)
+                  .textTheme
+                  .titleSmall!
+                  .copyWith(color: kTextColor)),
+        ]),
+        const Spacer(),
+        Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text(stockAtSector.price,
+              style: Theme.of(context)
+                  .textTheme
+                  .titleLarge!
+                  .copyWith(color: secondColor, fontWeight: FontWeight.w600)),
+          Text(stockAtSector.change,
+              style: Theme.of(context)
+                  .textTheme
+                  .titleSmall!
+                  .copyWith(color: kTextColor)),
+        ]),
+      ],
+    ),
+  );
+}*/
+
+//?~> news item..............................................................
+class NewsCard extends StatelessWidget {
+  final String title, des;
+  final void Function()? press;
+  const NewsCard({
+    super.key,
+    required this.title,
+    required this.des,
+    required this.press,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    // This size provide you the total height and width of the screen
+    Size size = MediaQuery.of(context).size;
+    return Container(
+      width: 250,
+      margin: const EdgeInsets.only(left: 10, right: 10, top: 20, bottom: 20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            offset: const Offset(0, 4),
+            blurRadius: 6,
+            color: const Color(0xFFB0CCE1).withOpacity(0.22),
+          ),
+        ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: () => navigatorTo(
+              context: context,
+              routeName: AppRoutes.detailsStockRoute,
+              arguments: title),
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  title,
+                  style: kBodyText.copyWith(
+                      color: secondColor, fontWeight: FontWeight.w700),
+                ),
+                const SizedBox(height: 16),
+                Expanded(
+                  child: Text(
+                    des,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                    style: kBodyText.copyWith(color: kTextColor),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+//?~> News list...................................................................
+class NewsList extends StatelessWidget {
+  const NewsList({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 200,
+      child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: fackSector.length,
+          itemBuilder: (context, index) => NewsCard(
+              title: fackSector[index].name,
+              des:
+                  "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reprehenderit beatae unde minus perferendis modi id nostrum! Maiores consectetur totam recusandae eveniet veritatis autem enim suscipit expedita! Quibusdam, quasi sint! A, architecto eos. Eius ea eligendi aut qui possimus! Nobis placeat dolores id assumenda iste similique? Dolores autem vitae modi sed!",
+              press: () {})),
+    );
+  }
+}
+
+//?~> buildDetailsAppBar...................................................................
+AppBar buildDetailsAppBar(BuildContext context, {required String title}) {
+  return AppBar(
+    backgroundColor: kBackgroundColor,
+    elevation: 0,
+    title: Text(title, style: kBodyText!.copyWith(color: kPrimaryColor)),
+    leading: IconButton(
+      icon: const Icon(
+        Icons.arrow_back_ios,
+        color: kPrimaryColor,
+      ),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    ),
+    actions: <Widget>[
+      IconButton(
+        icon: SvgPicture.asset("assets/icons/search.svg"),
+        onPressed: () {},
+      ),
+    ],
+  );
+}
+
+/*
 //! Search_box ..............................................................
 class SearchBox extends StatelessWidget {
   final ValueChanged<String> onChanged;
@@ -614,8 +1007,52 @@ GestureDetector stockCard(BuildContext context,
                     .copyWith(color: textColor, fontWeight: FontWeight.w600)),
           ]),
           const SizedBox(width: 20),
-          const CircleAvatar(
-            radius: 25,
+          CircleAvatar(
+            radius: 28,
+            backgroundColor: firstColor.withOpacity(0.1),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+*/
+GestureDetector stockCard(BuildContext context,
+    {required StockAtSectorModel stockAtSector}) {
+  return GestureDetector(
+    child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Image.network() // Wrab with circle Avter...
+
+          Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+            //stockAtSector.price
+            Text(stockAtSector.change100,
+                style: Theme.of(context)
+                    .textTheme
+                    .titleMedium!
+                    .copyWith(color: firstColor, fontWeight: FontWeight.w600)),
+            Text(stockAtSector.change,
+                style: Theme.of(context)
+                    .textTheme
+                    .titleSmall!
+                    .copyWith(color: firstColor)),
+          ]),
+          const Spacer(),
+          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            //stockAtSector.symbol
+            Text(stockAtSector.symbol,
+                style: Theme.of(context)
+                    .textTheme
+                    .titleLarge!
+                    .copyWith(color: textColor, fontWeight: FontWeight.w600)),
+          ]),
+          const SizedBox(width: 20),
+          CircleAvatar(
+            radius: 28,
+            backgroundColor: firstColor.withOpacity(0.1),
           ),
         ],
       ),

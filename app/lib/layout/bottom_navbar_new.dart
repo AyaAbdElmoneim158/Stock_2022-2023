@@ -97,6 +97,7 @@ List<Widget> _listOfWidget = <Widget>[
   //     ),
   //   ),
   // ),
+  const ExploreNew(),
   const HomePage(),
   // Container(
   //   alignment: Alignment.center,
@@ -112,7 +113,7 @@ List<Widget> _listOfWidget = <Widget>[
   //     ),
   //   ),
   // ),
-  const ExploreNew(),
+
   Container(
     alignment: Alignment.center,
     child: SingleChildScrollView(

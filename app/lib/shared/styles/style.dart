@@ -1,6 +1,27 @@
 import 'package:app/shared/styles/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter/material.dart';
+
+//!~> Style Text................................................................
+
+const kHeadline = TextStyle(
+  color: secondColor,
+  fontSize: 34,
+  fontWeight: FontWeight.bold,
+);
+
+const kBodyText =
+    TextStyle(color: kTextColor, fontSize: 15, fontWeight: FontWeight.w600);
+
+const kButtonText = TextStyle(
+  color: kTextColor,
+  fontSize: 16,
+  fontWeight: FontWeight.bold,
+);
+
+const kBodyText2 =
+    TextStyle(fontSize: 22, fontWeight: FontWeight.w500, color: kTextColor);
 
 TextStyle btnTextStyle(BuildContext context, Color textColor) =>
     GoogleFonts.amiri(
