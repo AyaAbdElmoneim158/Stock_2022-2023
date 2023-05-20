@@ -1,3 +1,4 @@
+import 'package:app/modules/Navbar_pages/explore_new.dart';
 import 'package:app/modules/Navbar_pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:sliding_clipped_nav_bar/sliding_clipped_nav_bar.dart';
@@ -97,20 +98,21 @@ List<Widget> _listOfWidget = <Widget>[
   //   ),
   // ),
   const HomePage(),
-  Container(
-    alignment: Alignment.center,
-    child: SingleChildScrollView(
-      child: Column(
-        children: const [
-          Icon(Iconsax.search_normal2, size: 30, color: Colors.brown),
-          Icon(Iconsax.search_normal3, size: 30, color: Colors.brown),
-          Icon(Iconsax.search_normal4, size: 30, color: Colors.brown),
-          Icon(Iconsax.search_status3, size: 30, color: Colors.brown),
-          Icon(Iconsax.search_status4, size: 30, color: Colors.brown),
-        ],
-      ),
-    ),
-  ),
+  // Container(
+  //   alignment: Alignment.center,
+  //   child: SingleChildScrollView(
+  //     child: Column(
+  //       children: const [
+  //         Icon(Iconsax.search_normal2, size: 30, color: Colors.brown),
+  //         Icon(Iconsax.search_normal3, size: 30, color: Colors.brown),
+  //         Icon(Iconsax.search_normal4, size: 30, color: Colors.brown),
+  //         Icon(Iconsax.search_status3, size: 30, color: Colors.brown),
+  //         Icon(Iconsax.search_status4, size: 30, color: Colors.brown),
+  //       ],
+  //     ),
+  //   ),
+  // ),
+  const ExploreNew(),
   Container(
     alignment: Alignment.center,
     child: SingleChildScrollView(

@@ -4,8 +4,8 @@ class SalesData {
   SalesData(this.month, this.sales);
 }
 
-class BarChart1 {
+class BarChart {
   final String name;
   final List<SalesData> data;
-  BarChart1(this.name, this.data);
+  BarChart(this.name, this.data);
 }

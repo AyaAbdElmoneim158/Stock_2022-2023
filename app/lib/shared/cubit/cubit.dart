@@ -341,18 +341,18 @@ class AppCubit extends Cubit<AppStates> {
   // SalesData("2019", 44),
   // SalesData("2020", 38),
   // SalesData("2021", 14),
-  List<BarChart1> groupSalesDataIncomeChart = [];
+  List<BarChart> groupSalesDataIncomeChart = [];
   late List<SalesData> salesDataIncomeChart1 = [];
   late List<SalesData> salesDataIncomeChart2 = [];
   late List<SalesData> salesDataIncomeChart3 = [];
   late List<SalesData> salesDataIncomeChart4 = [];
   late List<SalesData> salesDataIncomeChart5 = [];
 
-  List<BarChart1> groupSalesDataBalanceSheetChart = [];
+  List<BarChart> groupSalesDataBalanceSheetChart = [];
   late List<SalesData> salesDataBalanceSheetChart1 = [];
   late List<SalesData> salesDataBalanceSheetChart2 = [];
 
-  List<BarChart1> groupSalesDataCashFlowChart = [];
+  List<BarChart> groupSalesDataCashFlowChart = [];
   late List<SalesData> salesDataCashFlowChart1 = [];
   late List<SalesData> salesDataCashFlowChart2 = [];
   late List<SalesData> salesDataCashFlowChart3 = [];

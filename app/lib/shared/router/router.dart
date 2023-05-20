@@ -2,6 +2,7 @@ import 'package:app/layout/bottom_navbar.dart';
 import 'package:app/layout/bottom_navbar_new.dart';
 import 'package:app/models/sector_model.dart';
 import 'package:app/modules/Auth_pages/successful_page.dart';
+import 'package:app/modules/Navbar_pages/details_new_page.dart';
 import 'package:app/modules/details_page.dart';
 import 'package:app/modules/Auth_pages/forgetpasssword/with_email.dart';
 import 'package:app/modules/landing_page.dart';
@@ -40,7 +41,9 @@ Route<dynamic> onGenerate(RouteSettings settings) {
     case AppRoutes.detailsStockRoute:
       final ramz = settings.arguments as String;
       return CupertinoPageRoute(
-          builder: (_) => DetailsStock(ramz: ramz), settings: settings);
+          builder: (_) => DetailNewsScreen(),
+          // DetailsStock(ramz: ramz),
+          settings: settings);
     case AppRoutes.navbarRoute:
       return CupertinoPageRoute(
           builder: (_) => const BottomNavbarNew(), settings: settings);

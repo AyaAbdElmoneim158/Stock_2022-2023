@@ -1,5 +1,6 @@
 //!~> defaultButton >===========================<
 import 'package:app/models/sector_model.dart';
+import 'package:app/models/stock_at_sector_model.dart';
 import 'package:app/models/stock_model.dart';
 import 'package:app/modules/coin.dart';
 import 'package:app/shared/cubit/states.dart';
@@ -8,6 +9,7 @@ import 'package:app/shared/styles/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+import 'package:iconsax/iconsax.dart';
 
 //!~> Navigator.................................................................
 void navigatorTo(
@@ -345,6 +347,278 @@ SnackBar snackbarErr(AppStates state, {required String message}) {
       title: 'Error..!',
       message: message,
       contentType: ContentType.failure,
+    ),
+  );
+}
+
+//! Search_box ..............................................................
+class SearchBox extends StatelessWidget {
+  final ValueChanged<String> onChanged;
+  const SearchBox({
+    super.key,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.all(20),
+      padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 5),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: firstColor.withOpacity(0.32),
+        ),
+      ),
+      child: TextField(
+        onChanged: onChanged,
+        decoration: const InputDecoration(
+          border: InputBorder.none,
+          icon: Icon(Iconsax.search_favorite2, color: Color(0XFF12192C)),
+          hintText: "Search Here",
+          hintStyle: TextStyle(color: firstColor),
+        ),
+      ),
+    );
+  }
+}
+
+//! sector item..............................................................
+class ItemCard extends StatelessWidget {
+  final String title, shopName, svgSrc;
+  final void Function()? press;
+  const ItemCard({
+    super.key,
+    required this.title,
+    required this.shopName,
+    required this.svgSrc,
+    required this.press,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    // This size provide you the total height and width of the screen
+    Size size = MediaQuery.of(context).size;
+    return Container(
+      margin: const EdgeInsets.only(left: 10, right: 10, top: 20, bottom: 20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            offset: const Offset(0, 4),
+            blurRadius: 10,
+            color: const Color(0xFFB0CCE1).withOpacity(0.32),
+          ),
+        ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: press,
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              children: <Widget>[
+                Container(
+                    margin: const EdgeInsets.only(bottom: 15),
+                    padding: const EdgeInsets.all(25),
+                    decoration: BoxDecoration(
+                      color: secondColor.withOpacity(0.13),
+                      shape: BoxShape.circle,
+                    ),
+                    child: SvgPicture.network(
+                      // https://www.svgrepo.com/show/475520/bank.svg"",
+                      svgSrc,
+                      width: size.width * 0.18,
+                    )),
+                Text(title),
+                const SizedBox(height: 10),
+                Text(
+                  shopName,
+                  style: const TextStyle(fontSize: 12),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+//! CategoryItem ...................................................................
+class CategoryItem extends StatelessWidget {
+  final String title;
+  final bool isActive;
+  static bool active = false;
+
+  final void Function()? press;
+  const CategoryItem({
+    super.key,
+    required this.title,
+    this.isActive = false,
+    required this.press,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: press,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+        child: Column(
+          children: <Widget>[
+            Text(
+              title,
+              style: isActive
+                  ? const TextStyle(
+                      color: textColor,
+                      fontWeight: FontWeight.bold,
+                    )
+                  : const TextStyle(fontSize: 12),
+            ),
+            if (isActive)
+              Container(
+                margin: const EdgeInsets.symmetric(vertical: 5),
+                height: 3,
+                width: 22,
+                decoration: BoxDecoration(
+                  color: firstColor,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+//! CategoryList ...................................................................
+class CategoryList extends StatelessWidget {
+  const CategoryList({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          CategoryItem(
+            title: "Combo Meal",
+            isActive: true,
+            press: () {
+              CategoryItem.active = true;
+            },
+          ),
+          CategoryItem(
+            title: "Chicken",
+            press: () {},
+          ),
+          CategoryItem(
+            title: "Beverages",
+            press: () {},
+          ),
+          CategoryItem(
+            title: "Snacks & Sides",
+            press: () {},
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+//! Sectors list...................................................................
+class ItemList extends StatelessWidget {
+  const ItemList({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: <Widget>[
+          ItemCard(
+            svgSrc: "https://www.svgrepo.com/show/475520/bank.svgvg",
+            title: "Burger & Beer!",
+            shopName: "MacDonald's",
+            press: () {
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (context) {
+              //       // return DetailsScreen();
+              //     },
+              //   ),
+              // );
+            },
+          ),
+          ItemCard(
+            svgSrc: "assets/icons/chinese_noodles.svg",
+            title: "Chinese & Noodles",
+            shopName: "Wendys",
+            press: () {},
+          ),
+          ItemCard(
+            svgSrc: "assets/icons/burger_beer.svg",
+            title: "Burger & Beer",
+            shopName: "MacDonald's",
+            press: () {},
+          )
+        ],
+      ),
+    );
+  }
+}
+
+//?~> StockCard ...................................................................
+GestureDetector stockCard(BuildContext context,
+    {required StockAtSectorModel stockAtSector}) {
+  return GestureDetector(
+    // onTap: () {
+    //   debugPrint("onTap");
+    //   Navigator.pushNamed(context, AppRoutes.detailsStockRoute);
+    // },
+    child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Image.network() // Wrab with circle Avter...
+
+          Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+            //stockAtSector.price
+            Text(stockAtSector.change100,
+                style: Theme.of(context)
+                    .textTheme
+                    .titleMedium!
+                    .copyWith(color: firstColor, fontWeight: FontWeight.w600)),
+            Text(stockAtSector.change,
+                style: Theme.of(context)
+                    .textTheme
+                    .titleSmall!
+                    .copyWith(color: firstColor)),
+          ]),
+          const Spacer(),
+          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            //stockAtSector.symbol
+            Text(stockAtSector.symbol,
+                style: Theme.of(context)
+                    .textTheme
+                    .titleLarge!
+                    .copyWith(color: textColor, fontWeight: FontWeight.w600)),
+          ]),
+          const SizedBox(width: 20),
+          const CircleAvatar(
+            radius: 25,
+          ),
+        ],
+      ),
     ),
   );
 }

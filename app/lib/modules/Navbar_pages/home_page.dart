@@ -1,3 +1,4 @@
+import 'package:app/models/stock_at_sector_model.dart';
 import 'package:app/models/stock_model.dart';
 import 'package:app/shared/components/components.dart';
 import 'package:app/shared/components/constants.dart';
@@ -22,9 +23,9 @@ class HomePage extends StatelessWidget {
         builder: (context, state) {
           final appCubit = AppCubit.get(context);
           return Scaffold(
-            floatingActionButton: FloatingActionButton.small(
-                child: const Icon(Icons.logout),
-                onPressed: () => AuthHelper.instance.logout()),
+            // floatingActionButton: FloatingActionButton.small(
+            //     child: const Icon(Icons.logout),
+            //     onPressed: () => AuthHelper.instance.logout()),
             body: NestedScrollView(
                 headerSliverBuilder: (context, innerBoxIsScrolled) => [
                       SliverAppBar(
@@ -113,19 +114,21 @@ class HomePage extends StatelessWidget {
                                                 BorderRadius.circular(20)),
                                         child: Row(
                                           children: [
+                                            Expanded(
+                                              child: Align(
+                                                child: Text(
+                                                    Constants.onboaringData[
+                                                        itemIndex]["text"],
+                                                    style: const TextStyle(
+                                                        color: Colors.white)),
+                                              ),
+                                            ),
+                                            const SizedBox(width: 8),
                                             Image.network(
                                                 Constants.onboaringData[
                                                     itemIndex]["image"],
                                                 width: 100,
                                                 fit: BoxFit.cover),
-                                            const SizedBox(width: 8),
-                                            Expanded(
-                                              child: Text(
-                                                  Constants.onboaringData[
-                                                      itemIndex]["text"],
-                                                  style: const TextStyle(
-                                                      color: Colors.white)),
-                                            )
                                           ],
                                         )
                                         // Text(itemIndex.toString()),
@@ -149,25 +152,35 @@ class HomePage extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 16, vertical: 32),
                             color: Colors.white,
-                            child: ListView.builder(
+                            child: ListView.separated(
                               // controller: scrollController,
+                              separatorBuilder: (context, index) => Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 15, bottom: 15, left: 70, right: 15),
+                                child: Divider(
+                                  height: 1.6,
+                                  thickness: 1.5,
+                                  color: Colors.grey.shade200,
+                                ),
+                              ),
                               itemCount: arrowss.length,
                               itemBuilder: (BuildContext context, int index) {
-                                return defaultCard(context,
-                                    isFollow: true,
-                                    arrowModle: arrowss[index],
-                                    onDismissed: (DismissDirection direction) =>
-                                        appCubit.deleteFollowingArrow(
-                                            id: arrowss[index].id),
-                                    onTap: () {
-                                      // appCubit.getStockApiData(
-                                      //     context, arrowss[index].ramz);
-                                      Navigator.of(context,
-                                              rootNavigator: false)
-                                          .pushNamed(
-                                              AppRoutes.detailsStockRoute,
-                                              arguments: arrowss[index].ramz);
-                                    });
+                                StockAtSectorModel stockAtSector =
+                                    StockAtSectorModel(
+                                        symbol: arrowss[index].ramz,
+                                        price: arrowss[index].price,
+                                        change: arrowss[index].price,
+                                        change100: arrowss[index].price);
+                                return InkWell(
+                                  onTap: () {
+                                    debugPrint("onTap");
+                                    Navigator.pushNamed(
+                                        context, AppRoutes.detailsStockRoute,
+                                        arguments: 'Fwry');
+                                  },
+                                  child: stockCard(context,
+                                      stockAtSector: stockAtSector),
+                                );
                               },
                             ),
                           ),
