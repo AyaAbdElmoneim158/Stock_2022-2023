@@ -34,7 +34,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
     {
       'image':
           // 'https://cdn3d.iconscout.com/3d/premium/thumb/stock-market-growth-8268827-6594787.png',
-          'https://cdn3d.iconscout.com/3d/premium/thumb/stock-market-investment-5768786-4833583.png', //'https://ouch-cdn2.icons8.com/oEXWmNUZgj3vd_T5XSJe2dTB1GFWIBeJ1QEqRWw76O8/rs:fit:784:748/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvMzM1/L2Q3MjMyYzJlLTk0/NTMtNDUzMC1iZTEx/LWQ2MDZiN2RjYmFm/Yy5wbmc.png',
+          'https://cdn3d.iconscout.com/3d/premium/thumb/stock-exchange-6020107-4974984.png', //'https://ouch-cdn2.icons8.com/oEXWmNUZgj3vd_T5XSJe2dTB1GFWIBeJ1QEqRWw76O8/rs:fit:784:748/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvMzM1/L2Q3MjMyYzJlLTk0/NTMtNDUzMC1iZTEx/LWQ2MDZiN2RjYmFm/Yy5wbmc.png',
       'text': Constants.onboardingText2,
       'textColor': whiteColor,
       'btnColor': whiteColor //,
@@ -42,7 +42,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
     {
       'image':
           // 'https://cdn3d.iconscout.com/3d/premium/thumb/trade-graph-6780336-5580788.png',
-          'https://cdn3d.iconscout.com/3d/premium/thumb/stock-exchange-6020107-4974984.png', //'https://ouch-cdn2.icons8.com/g8bZd-d4qiYuomOBWh3x61II6HlK8Ir2zp_a2cFTcCA/rs:fit:784:784/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvNDI4/LzdjMjEyYjgzLTg0/NjQtNDQzMS04NzAz/LTNkNzk1YmUyMzli/MC5wbmc.png',
+          'https://cdn3d.iconscout.com/3d/premium/thumb/stock-market-investment-5768786-4833583.png', //'https://ouch-cdn2.icons8.com/g8bZd-d4qiYuomOBWh3x61II6HlK8Ir2zp_a2cFTcCA/rs:fit:784:784/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvNDI4/LzdjMjEyYjgzLTg0/NjQtNDQzMS04NzAz/LTNkNzk1YmUyMzli/MC5wbmc.png',
       'text': Constants.onboardingText3,
       'textColor': whiteColor,
       'btnColor': firstColor,
@@ -87,7 +87,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
                         child: defaultButton(
                             textColor: index % 3 == 0
                                 ? Colors.white
-                                : pages[pageIndex]['textColor'],
+                                : index % 3 == 1
+                                    ? firstColor
+                                    : pages[pageIndex]['textColor'],
                             text: "Get Started",
                             color: pages[pageIndex]['btnColor'],
                             context: context,

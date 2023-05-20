@@ -23,7 +23,7 @@ class DetailsStock extends StatelessWidget {
 
     return BlocProvider(
       create: (context) => AppCubit()
-        ..getStockApiData(context, ramz)
+        // ..getStockApiData(context, ramz)
         // ..stocksAtFavStream(ramz: ramz),
         ..stocksAtFollowStream(ramz: ramz),
       child: BlocConsumer<AppCubit, AppStates>(
@@ -88,11 +88,11 @@ class DetailsStock extends StatelessWidget {
         },
         builder: (context, state) {
           final appCubit = AppCubit.get(context);
-          Map<String, dynamic> stockApiDataMap = appCubit.stockApiDataMap;
+          // Map<String, dynamic> stockApiDataMap = appCubit.stockApiDataMap;
           final size = MediaQuery.of(context).size;
 
           return ConditionalBuilder(
-            condition: state is! GetStockApiDatawLoadingState,
+            condition: true, // state is! GetStockApiDatawLoadingState,
             builder: (context) => Scaffold(
               backgroundColor: Colors.white,
               appBar: AppBar(
@@ -107,7 +107,7 @@ class DetailsStock extends StatelessWidget {
                 actions: [
                   StreamBuilder<List<StockModle>>(
                       stream: appCubit.stocksAtFavStream(
-                          ramz: stockApiDataMap["ramz"]),
+                          ramz: 'stockApiDataMap["ramz"]'),
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.active) {
@@ -118,10 +118,10 @@ class DetailsStock extends StatelessWidget {
                                 onPressed: () {
                                   StockModle stockModle = StockModle(
                                     id: docmentIdFormLocationData(),
-                                    logo: stockApiDataMap["logo"],
-                                    name: stockApiDataMap["name"],
-                                    price: stockApiDataMap["price"],
-                                    ramz: stockApiDataMap["ramz"],
+                                    logo: 'stockApiDataMap["logo"]',
+                                    name: 'stockApiDataMap["name"]',
+                                    price: 'stockApiDataMap["price"]',
+                                    ramz: 'stockApiDataMap["ramz"]',
                                     stocksNo: "0",
                                   );
                                   appCubit.addArrowToFavoriteArrow(stockModle);
@@ -153,7 +153,7 @@ class DetailsStock extends StatelessWidget {
                       }),
                   StreamBuilder<List<StockModle>>(
                       stream: appCubit.stocksAtFollowStream(
-                          ramz: stockApiDataMap["ramz"]),
+                          ramz: 'stockApiDataMap["ramz"]'),
                       builder: (context, snapshot) {
                         if (snapshot.connectionState ==
                             ConnectionState.active) {
@@ -225,17 +225,14 @@ class DetailsStock extends StatelessWidget {
                                                               StockModle(
                                                             id: docmentIdFormLocationData(),
                                                             logo:
-                                                                stockApiDataMap[
-                                                                    "logo"],
+                                                                'stockApiDataMap["logo"]',
                                                             name:
-                                                                stockApiDataMap[
-                                                                    "name"],
+                                                                'stockApiDataMap["name"]',
                                                             price:
                                                                 stockPriceController
                                                                     .text,
                                                             ramz:
-                                                                stockApiDataMap[
-                                                                    "ramz"],
+                                                                ' stockApiDataMap["ramz"]',
                                                             stocksNo:
                                                                 stockNoController
                                                                     .text,
@@ -300,13 +297,13 @@ class DetailsStock extends StatelessWidget {
                         children: [
                           Text(
                             // data["ramz"]
-                            "${stockApiDataMap["name"]}",
+                            r"${stockApiDataMap['name']}",
                             style: Theme.of(context)
                                 .textTheme
                                 .headlineMedium!
                                 .copyWith(color: firstColor),
                           ),
-                          Text('${stockApiDataMap["ramz"]}',
+                          Text(r'${stockApiDataMap["ramz"]}',
                               style: Theme.of(context)
                                   .textTheme
                                   .labelLarge!
@@ -342,7 +339,7 @@ class DetailsStock extends StatelessWidget {
                               style:
                                   Theme.of(context).textTheme.headlineMedium),
                           SizedBox(height: size.height * 0.01),
-                          Text('${stockApiDataMap["about"]}',
+                          Text(r'${stockApiDataMap["about"]}',
                               style: Theme.of(context)
                                   .textTheme
                                   .titleMedium!
@@ -366,7 +363,7 @@ class DetailsStock extends StatelessWidget {
                                       // onTap: () => WebView(),
                                       child: NewsCard(
                                           index: index,
-                                          stockApiDataMap: stockApiDataMap,
+                                          stockApiDataMap: {}, // stockApiDataMap,
                                           size: size),
                                     ),
                                 separatorBuilder: (context, index) =>

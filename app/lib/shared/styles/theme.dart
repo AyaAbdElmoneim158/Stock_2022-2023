@@ -7,7 +7,7 @@ ThemeData lightTheme = ThemeData(
     appBarTheme: const AppBarTheme(
       color: Colors.transparent,
       elevation: 0,
-      brightness: Brightness.light,
+      // brightness: Brightness.light,
     ),
     visualDensity: VisualDensity.adaptivePlatformDensity,
     scaffoldBackgroundColor: whiteColor,

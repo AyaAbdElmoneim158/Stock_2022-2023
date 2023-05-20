@@ -22,46 +22,33 @@ class LoginPage extends StatelessWidget {
 
     return BlocConsumer<AppCubit, AppStates>(
       listener: (context, state) {
-        if (state is AuthLoginWithEmailAppSuccessState) {
+        if (state is AuthLoginWithEmailAppSuccessState ||
+            state is AuthWithGoogleAppSuccessState ||
+            state is AuthWithFacebookAppSuccessState) {
           debugPrint("AuthLoginWithEmailAppSuccessState");
-          Navigator.popAndPushNamed(context, AppRoutes.navbarRoute);
+          Navigator.popAndPushNamed(context, AppRoutes.successRoute);
         }
         if (state is AuthLoginWithEmailAppErrorState) {
           debugPrint("AuthLoginWithEmailAppErrorState");
-          final snackBar = SnackBar(
-            elevation: 0,
-            behavior: SnackBarBehavior.floating,
-            backgroundColor: Colors.transparent,
-            content: AwesomeSnackbarContent(
-              title: 'Error..!',
-              message: state.err,
-              contentType: ContentType.failure,
-            ),
-          );
 
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
-            ..showSnackBar(snackBar);
+            ..showSnackBar(snackbarErr(state, message: state.err));
         }
         if (state is AuthLoginWithEmailApploadingState) {
           debugPrint("AuthLoginWithEmailApploadingState");
         }
         if (state is AuthWithGoogleAppErrorState) {
           debugPrint("AuthWithGoogleAppErrorState");
-          final snackBar = SnackBar(
-            elevation: 0,
-            behavior: SnackBarBehavior.floating,
-            backgroundColor: Colors.transparent,
-            content: AwesomeSnackbarContent(
-              title: 'Error..!',
-              message: state.err,
-              contentType: ContentType.failure,
-            ),
-          );
-
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
-            ..showSnackBar(snackBar);
+            ..showSnackBar(snackbarErr(state, message: state.err));
+        }
+        if (state is AuthWithFacebookAppErrorState) {
+          debugPrint("AuthWithGoogleAppErrorState");
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(snackbarErr(state, message: state.err));
         }
       },
       builder: (context, state) {
@@ -89,7 +76,7 @@ class LoginPage extends StatelessWidget {
                         ZoomIn(
                           duration: const Duration(milliseconds: 500),
                           child: defaultField(
-                              hintText: Constants.loginTitle,
+                              hintText: Constants.emailFeild,
                               labelText: Constants.emailFeild,
                               controller: emailController,
                               validator: (val) => val!.isEmpty
@@ -99,7 +86,7 @@ class LoginPage extends StatelessWidget {
                         ),
                         SizedBox(height: size.height * 0.03),
                         ZoomIn(
-                          duration: const Duration(milliseconds: 700),
+                          duration: const Duration(milliseconds: 1000),
                           child: defaultField(
                               hintText: Constants.passwordFeild,
                               labelText: Constants.passwordFeild,
@@ -111,7 +98,7 @@ class LoginPage extends StatelessWidget {
                         ),
                         SizedBox(height: size.height * 0.01),
                         ZoomIn(
-                          duration: const Duration(milliseconds: 900),
+                          duration: const Duration(milliseconds: 1500),
                           child: Align(
                             alignment: Alignment.centerRight,
                             child: InkWell(
@@ -134,7 +121,7 @@ class LoginPage extends StatelessWidget {
                         ),
                         SizedBox(height: size.height * 0.02),
                         ZoomIn(
-                          duration: const Duration(milliseconds: 1100),
+                          duration: const Duration(milliseconds: 2000),
                           child: defaultButton(
                             text: Constants.loginBtn,
                             color: firstColor,
@@ -152,7 +139,7 @@ class LoginPage extends StatelessWidget {
                         ),
                         SizedBox(height: size.height * 0.01),
                         ZoomIn(
-                          duration: const Duration(milliseconds: 1250),
+                          duration: const Duration(milliseconds: 2500),
                           child: Align(
                             alignment: Alignment.center,
                             child: InkWell(
@@ -167,7 +154,7 @@ class LoginPage extends StatelessWidget {
                                             color: textColor,
                                           )),
                                   TextSpan(
-                                    text: "register",
+                                    text: Constants.register,
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodySmall!
@@ -186,40 +173,27 @@ class LoginPage extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: size.height * 0.04),
-                        ZoomIn(
-                          duration: const Duration(milliseconds: 1500),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 24),
-                            child: SizedBox(
-                              width: double.infinity,
-                              child: Card(
-                                color: whiteColor.withOpacity(0.9),
-                                child: IconButton(
-                                    // ToDo :: google signIn
-                                    onPressed: () => appCubit.loginWithGoogle(),
-                                    icon: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        SvgPicture.network(
-                                          'https://raw.githubusercontent.com/TarekAlabd/flutter-ecommerce-live-coding/d297f8e673e54a8ba11d2305db22d29f214960c8/assets/google-svgrepo-com.svg',
-                                          width: 30,
-                                        ),
-                                        Text(
-                                          Constants.googleText,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodySmall!
-                                              .copyWith(
-                                                  color: firstColor,
-                                                  fontSize: 15,
-                                                  fontWeight: FontWeight.bold),
-                                        )
-                                      ],
-                                    )),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            FadeInRight(
+                              duration: const Duration(milliseconds: 3000),
+                              child: SocailCArd(
+                                icon:
+                                    'https://raw.githubusercontent.com/abuanwar072/E-commerce-Complete-Flutter-UI/0fa7a49a5168accec5b55f0e12a689715cdb2683/assets/icons/google-icon.svg',
+                                press: () => appCubit.loginWithGoogle(),
                               ),
                             ),
-                          ),
+                            const SizedBox(width: 20),
+                            FadeInLeft(
+                              duration: const Duration(milliseconds: 3000),
+                              child: SocailCArd(
+                                icon:
+                                    'https://raw.githubusercontent.com/abuanwar072/E-commerce-Complete-Flutter-UI/0fa7a49a5168accec5b55f0e12a689715cdb2683/assets/icons/facebook-2.svg',
+                                press: () => appCubit.loginWithFacebook(),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),

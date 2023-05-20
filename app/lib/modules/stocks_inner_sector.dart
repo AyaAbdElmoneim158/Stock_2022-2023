@@ -39,17 +39,17 @@ class StocksInnerSectot extends StatelessWidget {
             ),
             floatingActionButton: FloatingActionButton(
                 onPressed: () {
-                  appCubit.fetchStockInnerSector();
+                  // appCubit.fetchStockInnerSector();
                 },
                 child: const Icon(Icons.search)),
-            body: appCubit.allStockInnerSector.isEmpty
+            body: false //appCubit.allStockInnerSector.isEmpty
                 ? Container(
                     color: Colors.white,
                     child: Center(child: Image.asset('assets/ripple.gif')))
                 : SizedBox(
                     height: 800,
                     child: ListView.builder(
-                        itemCount: appCubit.allStockInnerSector.length,
+                        itemCount: 33, //appCubit.allStockInnerSector.length,
                         itemBuilder: (context, index) => Container(
                               height: 100,
                               padding: const EdgeInsets.all(16),
@@ -57,13 +57,13 @@ class StocksInnerSectot extends StatelessWidget {
                               decoration:
                                   BoxDecoration(color: Colors.red.shade300),
                               child: Column(
-                                children: [
-                                  Text(appCubit
-                                      .allStockInnerSector[index].symbol),
-                                  Text(appCubit
-                                      .allStockInnerSector[index].price),
-                                  Text(appCubit
-                                      .allStockInnerSector[index].change),
+                                children: const [
+                                  Text(
+                                      'appCubit.allStockInnerSector[index].symbol'),
+                                  Text(
+                                      'appCubit.allStockInnerSector[index].price'),
+                                  Text(
+                                      'appCubit.allStockInnerSector[index].change'),
                                 ],
                               ),
                             )

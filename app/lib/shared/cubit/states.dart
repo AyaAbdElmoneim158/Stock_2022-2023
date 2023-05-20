@@ -52,6 +52,18 @@ class AuthWithGoogleAppErrorState extends AppStates {
 
 class AuthWithGoogleApploadingState extends AppStates {}
 
+//?~> LoginWithFacebook_states.....................................................
+class AuthWithFacebookApploadingState implements AppStates {}
+
+class AuthWithFacebookAppSuccessState implements AppStates {}
+
+class AuthWithFacebookAppErrorState implements AppStates {
+  final String err;
+  AuthWithFacebookAppErrorState({
+    required this.err,
+  });
+}
+
 //!X~> AuthWithEmail Regisster =============================================================<
 class AuthRegisterAppSuccessState extends AppStates {}
 
@@ -68,15 +80,15 @@ class AuthNoPhoneErrorState extends AppStates {}
 
 class AuthcheckPasswordsErrorState extends AppStates {}
 
-//! StockApi .......................................
-class GetStockApiDatawSuccessState extends AppStates {}
+// //! StockApi .......................................
+// class GetStockApiDatawSuccessState extends AppStates {}
 
-class GetStockApiDatawErrorState extends AppStates {
-  final String err;
-  GetStockApiDatawErrorState(this.err);
-}
+// class GetStockApiDatawErrorState extends AppStates {
+//   final String err;
+//   GetStockApiDatawErrorState(this.err);
+// }
 
-class GetStockApiDatawLoadingState extends AppStates {}
+// class GetStockApiDatawLoadingState extends AppStates {}
 
 //!~> Add Arrow to fav
 class AddArrowToFavSuccessState extends AppStates {}
@@ -89,27 +101,27 @@ class RemoveArrowToFollowSuccessState extends AppStates {}
 
 class AddArrowToFavExistState extends AppStates {}
 
-//? !Income chart StockApi .......................................
-class GetIncomeChartApiDatawSuccessState extends AppStates {}
+// //? !Income chart StockApi .......................................
+// class GetIncomeChartApiDatawSuccessState extends AppStates {}
 
-class GetBalanceSheetChartApiDatawSuccessState extends AppStates {}
+// class GetBalanceSheetChartApiDatawSuccessState extends AppStates {}
 
-class GetCashFlowChartApiDatawSuccessState extends AppStates {}
+// class GetCashFlowChartApiDatawSuccessState extends AppStates {}
 
-//
-class GetIncomeChartApiDatawErrorState extends AppStates {
-  final String err;
-  GetIncomeChartApiDatawErrorState(this.err);
-}
+// //
+// class GetIncomeChartApiDatawErrorState extends AppStates {
+//   final String err;
+//   GetIncomeChartApiDatawErrorState(this.err);
+// }
 
-class GetIncomeChartApiDatawLoadingState extends AppStates {}
+// class GetIncomeChartApiDatawLoadingState extends AppStates {}
 
-//? !  Stock inner sectors Api .......................................
-class GetStockInnerSectorSuccessState extends AppStates {}
+// //? !  Stock inner sectors Api .......................................
+// class GetStockInnerSectorSuccessState extends AppStates {}
 
-class GetStockInnerSectorErrorState extends AppStates {
-  final String err;
-  GetStockInnerSectorErrorState(this.err);
-}
+// class GetStockInnerSectorErrorState extends AppStates {
+//   final String err;
+//   GetStockInnerSectorErrorState(this.err);
+// }
 
-class GetStockInnerSectorLoadingState extends AppStates {}
+// class GetStockInnerSectorLoadingState extends AppStates {}

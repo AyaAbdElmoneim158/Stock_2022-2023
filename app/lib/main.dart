@@ -1,4 +1,5 @@
 import 'package:app/firebase_options.dart';
+import 'package:app/shared/components/constants.dart';
 import 'package:app/shared/cubit/bloc_observer.dart';
 import 'package:app/shared/cubit/cubit.dart';
 import 'package:app/shared/network/local/cache_helper.dart';
@@ -9,9 +10,8 @@ import 'package:app/shared/styles/theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:app/shared/components/constants.dart';
+// ignore: depend_on_referenced_packages
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:app/modules/profile_page2.dart';
 
 // import 'package:flutter_localization/flutter_localization.dart';
 

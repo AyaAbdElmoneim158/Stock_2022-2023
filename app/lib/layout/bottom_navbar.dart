@@ -1,10 +1,10 @@
-import 'package:app/modules/fav_page.dart';
+import 'package:app/modules/Navbar_pages/fav_page.dart';
 import 'package:app/modules/profile_page.dart';
 import 'package:app/shared/styles/colors.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:app/modules/home_page.dart';
-import 'package:app/modules/expore.dart';
+import 'package:app/modules/Navbar_pages/home_page.dart';
+import 'package:app/modules/Navbar_pages/expore.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({Key? key}) : super(key: key);

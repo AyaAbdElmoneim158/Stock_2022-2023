@@ -1,5 +1,3 @@
-// import 'package:app/models/salesData_model.dart';
-
 class SalesData {
   final String month;
   final double sales;

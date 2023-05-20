@@ -23,9 +23,8 @@ class AppCubit extends Cubit<AppStates> {
   String email = "";
   String emailForget = "";
 
-  String phone = "";
   String password = "";
-  String confirmPassword = "";
+
   String uid_ = "";
   bool saving = false;
   String stockNo = "0";
@@ -58,22 +57,10 @@ class AppCubit extends Cubit<AppStates> {
     emit(AuthAppChangeUserNameState());
   }
 
-//!~> changePhone ===========================================<
-  void changePhone(String phoneValue) {
-    phone = phoneValue;
-    emit(AuthAppChangePhoneState());
-  }
-
 //!~> changePassword ===========================================<
   void changePassword(String passwordValue) {
     password = passwordValue;
     emit(AuthAppChangePasswordState());
-  }
-
-//!~> changePasswordC ===========================================<
-  void changePasswordC(String passwordCValue) {
-    confirmPassword = passwordCValue;
-    emit(AuthAppChangePasswordCState());
   }
 
 //!~> forgetPassword ===========================================<
@@ -95,13 +82,26 @@ class AppCubit extends Cubit<AppStates> {
     emit(AuthLoginWithEmailApploadingState());
     AuthHelper.instance
         .loginWithEmailAndPassword(email, password)
-        .then((value) {
+        .then((value) async {
       debugPrint(
           "login Success ....! :: $value"); // dfviIWpMuJPgz4eDoFmgFxTFnnP2
       emit(AuthLoginWithEmailAppSuccessState()); //value.uid)
     }).catchError((err) {
       debugPrint("login Error ....!");
       emit(AuthLoginWithEmailAppErrorState(err));
+    });
+  }
+
+  void signinWithEmail() {
+    emit(AuthLoginWithEmailApploadingState());
+
+    AuthHelper.instance
+        .loginWithEmailAndPassword(email, password)
+        .then((value) async {
+      emit(AuthRegisterAppSuccessState());
+    }).catchError((err) {
+      debugPrint("Register Email Error ....! $err");
+      emit(AuthRegisterAppErrorState(err.toString()));
     });
   }
 
@@ -117,42 +117,43 @@ class AppCubit extends Cubit<AppStates> {
     });
   }
 
+//!~> MyBlocObserver_loginWithFacebook..............................................
+  void loginWithFacebook() {
+    emit(AuthWithFacebookApploadingState());
+    AuthHelper.instance.signInWithFacebook().then((value) {
+      debugPrint("signInWithFacebook Success ....!");
+      emit(AuthWithFacebookAppSuccessState());
+    }).catchError((err) {
+      debugPrint("signInWithFacebook Error ....!");
+      emit(AuthWithFacebookAppErrorState(err: err));
+    });
+  }
+
 //!X~> registerWithEmail ===========================================<
   void registerWithEmail() {
     //! ToDo:: auth + firebase ...
     emit(AuthRegisterApploadingState());
-    if (phone.length != 11) {
-      emit(AuthNoPhoneErrorState());
-    } else {
-      password == confirmPassword
-          ? AuthHelper.instance
-              .signUpWithEmailAndPassword(email, password)
-              .then((value) async {
-              uid_ = value!.uid;
-              UserModle userData = UserModle(
-                email: email,
-                name: userName,
-                phone: phone,
-                uId: value
-                    .uid, //?? docmentIdFormLocationData(),// password: password
-              );
 
-              await _service.setData(
-                path: 'users/$uid_',
-                data: userData.toMap(),
-              );
-              //  final user =
-              await FirebaseAuth.instance.currentUser
-                  ?.updateDisplayName(userName);
-              debugPrint(
-                  "Register Email Success ....! ${value.email} :: ${value.uid} :: ${value.displayName}");
-              emit(AuthRegisterAppSuccessState());
-            }).catchError((err) {
-              debugPrint("Register Email Error ....! $err");
-              emit(AuthRegisterAppErrorState(err.toString()));
-            })
-          : emit(AuthcheckPasswordsErrorState());
-    }
+    AuthHelper.instance
+        .signUpWithEmailAndPassword(email, password)
+        .then((value) async {
+      await _service.setData(
+        path: 'users/${value!.uid}',
+        data: UserModle(
+          email: email,
+          name: userName,
+          uId: value.uid,
+        ).toMap(),
+      );
+      await FirebaseAuth.instance.currentUser?.updateDisplayName(userName);
+
+      debugPrint(
+          "Register Email Success ....! ${value.email} :: ${value.uid} :: ${value.displayName}");
+      emit(AuthRegisterAppSuccessState());
+    }).catchError((err) {
+      debugPrint("Register Email Error ....! $err");
+      emit(AuthRegisterAppErrorState(err.toString()));
+    });
   }
 
 //---------------------------------------------------------------------------------------------------------
@@ -216,50 +217,50 @@ class AppCubit extends Cubit<AppStates> {
     emit(RemoveArrowToFavSuccessState());
   }
 
-//! getStockDetails ============================================<
-  var stockDetails;
-  dynamic getStockDetails(String stockName) async {
-    emit(GetStockApiDatawLoadingState());
-    DioHelper.getData(
-      path: "test/",
-      queryParameters: {
-        "stock": "abuk-0"
-        // "$stockName-0"
-      },
-    ).then((value) {
-      stockDetails = value.data;
-      debugPrint("getAllStock sucess:: ${value.data}");
-    }).catchError((err) {
-      debugPrint("getAllStock error ::$err");
-    });
-  }
+// //! getStockDetails ============================================<
+//   var stockDetails;
+//   dynamic getStockDetails(String stockName) async {
+//     emit(GetStockApiDatawLoadingState());
+//     DioHelper.getData(
+//       path: "test/",
+//       queryParameters: {
+//         "stock": "abuk-0"
+//         // "$stockName-0"
+//       },
+//     ).then((value) {
+//       stockDetails = value.data;
+//       debugPrint("getAllStock sucess:: ${value.data}");
+//     }).catchError((err) {
+//       debugPrint("getAllStock error ::$err");
+//     });
+//   }
 
-  Map<String, dynamic> stockApiDataMap = {};
-  void getStockApiData(BuildContext context, String ramz) {
-    emit(GetStockApiDatawLoadingState());
-    // stockApiDataMap ={};
-    print("Before $stockApiDataMap");
-    DioHelper.getData(
-      path: "test/",
-      queryParameters: {
-        //"abuk-0"
-        "stock": "$ramz-0"
-      },
-    ).then((value) {
-      // stockApiDataMap["id"] = docmentIdFormLocationData();
-      stockApiDataMap["about"] = value.data["about"];
-      stockApiDataMap["logo"] = value.data["logo"];
-      stockApiDataMap["name"] = value.data["name"];
-      stockApiDataMap["price"] = value.data["price"];
-      stockApiDataMap["ramz"] = value.data["ramz"];
-      stockApiDataMap["news"] = value.data["news"];
-      print("After $stockApiDataMap");
-      emit(GetStockApiDatawSuccessState());
-    }).catchError((err) {
-      debugPrint("getStockApiData error ::$err");
-      emit(GetStockApiDatawErrorState(err));
-    });
-  }
+//   Map<String, dynamic> stockApiDataMap = {};
+//   void getStockApiData(BuildContext context, String ramz) {
+//     emit(GetStockApiDatawLoadingState());
+//     // stockApiDataMap ={};
+//     print("Before $stockApiDataMap");
+//     DioHelper.getData(
+//       path: "test/",
+//       queryParameters: {
+//         //"abuk-0"
+//         "stock": "$ramz-0"
+//       },
+//     ).then((value) {
+//       // stockApiDataMap["id"] = docmentIdFormLocationData();
+//       stockApiDataMap["about"] = value.data["about"];
+//       stockApiDataMap["logo"] = value.data["logo"];
+//       stockApiDataMap["name"] = value.data["name"];
+//       stockApiDataMap["price"] = value.data["price"];
+//       stockApiDataMap["ramz"] = value.data["ramz"];
+//       stockApiDataMap["news"] = value.data["news"];
+//       print("After $stockApiDataMap");
+//       emit(GetStockApiDatawSuccessState());
+//     }).catchError((err) {
+//       debugPrint("getStockApiData error ::$err");
+//       emit(GetStockApiDatawErrorState(err));
+//     });
+//   }
 
 //!~> priceStream ...................................
 // var EndPrice ;
@@ -380,156 +381,156 @@ class AppCubit extends Cubit<AppStates> {
 //https://20mccck65d.execute-api.ap-northeast-1.amazonaws.com/?stock=ABUK-1
   // Map<dynamic, dynamic> incomeChartApiDataMap = {};
   // List<SalesData> salesData1 = [];
-  void fetchChartApiData(BuildContext context) {
-    //?, String ramz
-    emit(GetIncomeChartApiDatawLoadingState());
-    DioHelper.getData(
-      path: "/",
-      queryParameters: {"stock": "ABUK-1"},
-    ).then((value) {
-      Map valueMap = jsonDecode(value.data);
-      // [2018, 2019, 2020, 2021, 2022, TTM]
-      // [7.55B, 8.58B, 7.88B, 8.84B, 16.33B, —]
-//? Data of income_statement============================================
-      //!  header..........................................................................
-      List<dynamic> headerIncome = valueMap["income_statement"]["header"];
-      headerIncome.removeAt(headerIncome.length - 1);
-      debugPrint(headerIncome.toString());
-      //!  total_revenue.....................................................................
-      List<dynamic> totalRevenue =
-          valueMap["income_statement"]["total_revenue"];
-      totalRevenue.removeAt(totalRevenue.length - 1);
-      debugPrint(totalRevenue.toString());
-      List<dynamic> newTotalRevenue = editText(totalRevenue);
-      debugPrint(newTotalRevenue.toString());
-      //!  gross_profit..................................................................
-      List<dynamic> grossProfit = valueMap["income_statement"]["gross_profit"];
-      grossProfit.removeAt(grossProfit.length - 1);
-      debugPrint(grossProfit.toString());
-      List<dynamic> newGrossProfit = editText(grossProfit);
-      debugPrint(newGrossProfit.toString());
-      //!  operating_income.....................................................................
-      List<dynamic> operatingIncome =
-          valueMap["income_statement"]["operating_income"];
-      operatingIncome.removeAt(operatingIncome.length - 1);
-      debugPrint(operatingIncome.toString());
-      List<dynamic> newOperatingIncome = editText(operatingIncome);
-      debugPrint(newOperatingIncome.toString());
-      //!  pretax_income..................................................................
-      List<dynamic> pretaxIncome =
-          valueMap["income_statement"]["pretax_income"];
-      pretaxIncome.removeAt(pretaxIncome.length - 1);
-      debugPrint(pretaxIncome.toString());
-      List<dynamic> newPretaxIncome = editText(pretaxIncome);
-      debugPrint(newPretaxIncome.toString());
-      //!  net_income.....................................................................
-      List<dynamic> netIncome = valueMap["income_statement"]["net_income"];
-      netIncome.removeAt(netIncome.length - 1);
-      debugPrint(netIncome.toString());
-      List<dynamic> newNetIncome = editText(netIncome);
-      debugPrint(newNetIncome.toString());
-      /*
-//? Data of balance_sheet ============================================
-      //!  header.....................................................................
-      List<dynamic> headerBalanceSheet = valueMap["balance_sheet"]["header"];
-      debugPrint(headerBalanceSheet.toString());
-      //!  total_assets.....................................................................
-      List<dynamic> newTotalAssets = editText(valueMap["balance_sheet"]
-          ["total_assets"]); // debugPrint(newTotalAssets.toString());
-      //!  total_liabilities.....................................................................
-      List<dynamic> newTotalLiabilities = editText(valueMap["balance_sheet"]
-          ["total_liabilities"]); // debugPrint(newTotalAssets.toString());
-//? Data of cash_flow ============================================
-      //!header..........................................................................
-      List<dynamic> headercashFlow = valueMap["cash_flow"]["header"];
-      headercashFlow.removeAt(headercashFlow.length - 1);
-      debugPrint(headercashFlow.toString());
-      //!cash_from_operating_activity..........................................................................
-      List<dynamic> cashFromOperatingActivity =
-          valueMap["cash_flow"]["cash_from_operating_activity"];
-      cashFromOperatingActivity.removeAt(cashFromOperatingActivity.length - 1);
-      debugPrint(cashFromOperatingActivity.toString());
-      List<dynamic> newcashFromOperatingActivity =
-          editText(cashFromOperatingActivity);
-      debugPrint(newcashFromOperatingActivity.toString());
-      //!cash_from_investing_activity..........................................................................
-      List<dynamic> cashFromInvestingActivity =
-          valueMap["cash_flow"]["cash_from_investing_activity"];
-      cashFromInvestingActivity.removeAt(cashFromInvestingActivity.length - 1);
-      debugPrint(cashFromInvestingActivity.toString());
-      List<dynamic> newcashFromInvestingActivity =
-          editText(cashFromInvestingActivity);
-      debugPrint(newcashFromInvestingActivity.toString());
-      //!cash_from_financing_activity..........................................................................
-      List<dynamic> cashFromFinancingActivity =
-          valueMap["cash_flow"]["cash_from_financing_activity"];
-      cashFromFinancingActivity.removeAt(cashFromFinancingActivity.length - 1);
-      debugPrint(cashFromFinancingActivity.toString());
-      List<dynamic> newcashFromFinancingActivity =
-          editText(cashFromFinancingActivity);
-      debugPrint(newcashFromFinancingActivity.toString());
-*/
-//******************************************************************************************
-      //? full_Chart_IncomeChart.....................................................................
-      salesDataIncomeChart1 =
-          fullSalesData(salesDataIncomeChart1, headerIncome, newTotalRevenue);
-      salesDataIncomeChart2 =
-          fullSalesData(salesDataIncomeChart2, headerIncome, newGrossProfit);
-      salesDataIncomeChart3 = fullSalesData(
-          salesDataIncomeChart3, headerIncome, newOperatingIncome);
-      salesDataIncomeChart4 =
-          fullSalesData(salesDataIncomeChart4, headerIncome, newPretaxIncome);
-      salesDataIncomeChart5 =
-          fullSalesData(salesDataIncomeChart5, headerIncome, newNetIncome);
+//   void fetchChartApiData(BuildContext context) {
+//     //?, String ramz
+//     emit(GetIncomeChartApiDatawLoadingState());
+//     DioHelper.getData(
+//       path: "/",
+//       queryParameters: {"stock": "ABUK-1"},
+//     ).then((value) {
+//       Map valueMap = jsonDecode(value.data);
+//       // [2018, 2019, 2020, 2021, 2022, TTM]
+//       // [7.55B, 8.58B, 7.88B, 8.84B, 16.33B, —]
+// //? Data of income_statement============================================
+//       //!  header..........................................................................
+//       List<dynamic> headerIncome = valueMap["income_statement"]["header"];
+//       headerIncome.removeAt(headerIncome.length - 1);
+//       debugPrint(headerIncome.toString());
+//       //!  total_revenue.....................................................................
+//       List<dynamic> totalRevenue =
+//           valueMap["income_statement"]["total_revenue"];
+//       totalRevenue.removeAt(totalRevenue.length - 1);
+//       debugPrint(totalRevenue.toString());
+//       List<dynamic> newTotalRevenue = editText(totalRevenue);
+//       debugPrint(newTotalRevenue.toString());
+//       //!  gross_profit..................................................................
+//       List<dynamic> grossProfit = valueMap["income_statement"]["gross_profit"];
+//       grossProfit.removeAt(grossProfit.length - 1);
+//       debugPrint(grossProfit.toString());
+//       List<dynamic> newGrossProfit = editText(grossProfit);
+//       debugPrint(newGrossProfit.toString());
+//       //!  operating_income.....................................................................
+//       List<dynamic> operatingIncome =
+//           valueMap["income_statement"]["operating_income"];
+//       operatingIncome.removeAt(operatingIncome.length - 1);
+//       debugPrint(operatingIncome.toString());
+//       List<dynamic> newOperatingIncome = editText(operatingIncome);
+//       debugPrint(newOperatingIncome.toString());
+//       //!  pretax_income..................................................................
+//       List<dynamic> pretaxIncome =
+//           valueMap["income_statement"]["pretax_income"];
+//       pretaxIncome.removeAt(pretaxIncome.length - 1);
+//       debugPrint(pretaxIncome.toString());
+//       List<dynamic> newPretaxIncome = editText(pretaxIncome);
+//       debugPrint(newPretaxIncome.toString());
+//       //!  net_income.....................................................................
+//       List<dynamic> netIncome = valueMap["income_statement"]["net_income"];
+//       netIncome.removeAt(netIncome.length - 1);
+//       debugPrint(netIncome.toString());
+//       List<dynamic> newNetIncome = editText(netIncome);
+//       debugPrint(newNetIncome.toString());
+//       /*
+// //? Data of balance_sheet ============================================
+//       //!  header.....................................................................
+//       List<dynamic> headerBalanceSheet = valueMap["balance_sheet"]["header"];
+//       debugPrint(headerBalanceSheet.toString());
+//       //!  total_assets.....................................................................
+//       List<dynamic> newTotalAssets = editText(valueMap["balance_sheet"]
+//           ["total_assets"]); // debugPrint(newTotalAssets.toString());
+//       //!  total_liabilities.....................................................................
+//       List<dynamic> newTotalLiabilities = editText(valueMap["balance_sheet"]
+//           ["total_liabilities"]); // debugPrint(newTotalAssets.toString());
+// //? Data of cash_flow ============================================
+//       //!header..........................................................................
+//       List<dynamic> headercashFlow = valueMap["cash_flow"]["header"];
+//       headercashFlow.removeAt(headercashFlow.length - 1);
+//       debugPrint(headercashFlow.toString());
+//       //!cash_from_operating_activity..........................................................................
+//       List<dynamic> cashFromOperatingActivity =
+//           valueMap["cash_flow"]["cash_from_operating_activity"];
+//       cashFromOperatingActivity.removeAt(cashFromOperatingActivity.length - 1);
+//       debugPrint(cashFromOperatingActivity.toString());
+//       List<dynamic> newcashFromOperatingActivity =
+//           editText(cashFromOperatingActivity);
+//       debugPrint(newcashFromOperatingActivity.toString());
+//       //!cash_from_investing_activity..........................................................................
+//       List<dynamic> cashFromInvestingActivity =
+//           valueMap["cash_flow"]["cash_from_investing_activity"];
+//       cashFromInvestingActivity.removeAt(cashFromInvestingActivity.length - 1);
+//       debugPrint(cashFromInvestingActivity.toString());
+//       List<dynamic> newcashFromInvestingActivity =
+//           editText(cashFromInvestingActivity);
+//       debugPrint(newcashFromInvestingActivity.toString());
+//       //!cash_from_financing_activity..........................................................................
+//       List<dynamic> cashFromFinancingActivity =
+//           valueMap["cash_flow"]["cash_from_financing_activity"];
+//       cashFromFinancingActivity.removeAt(cashFromFinancingActivity.length - 1);
+//       debugPrint(cashFromFinancingActivity.toString());
+//       List<dynamic> newcashFromFinancingActivity =
+//           editText(cashFromFinancingActivity);
+//       debugPrint(newcashFromFinancingActivity.toString());
+// */
+// //******************************************************************************************
+//       //? full_Chart_IncomeChart.....................................................................
+//       salesDataIncomeChart1 =
+//           fullSalesData(salesDataIncomeChart1, headerIncome, newTotalRevenue);
+//       salesDataIncomeChart2 =
+//           fullSalesData(salesDataIncomeChart2, headerIncome, newGrossProfit);
+//       salesDataIncomeChart3 = fullSalesData(
+//           salesDataIncomeChart3, headerIncome, newOperatingIncome);
+//       salesDataIncomeChart4 =
+//           fullSalesData(salesDataIncomeChart4, headerIncome, newPretaxIncome);
+//       salesDataIncomeChart5 =
+//           fullSalesData(salesDataIncomeChart5, headerIncome, newNetIncome);
 
-      groupSalesDataIncomeChart = [
-        BarChart1('Total revenue', salesDataIncomeChart1),
-        BarChart1('gross_profit', salesDataIncomeChart2),
-        BarChart1('operating_income', salesDataIncomeChart3),
-        BarChart1('pretax_income', salesDataIncomeChart4),
-        BarChart1('new_net_income', salesDataIncomeChart5),
-      ];
-      emit(GetIncomeChartApiDatawSuccessState());
-      /*     //? full_Chart_BalanceSheet.....................................................................
-      salesDataBalanceSheetChart1 = fullSalesData(
-          salesDataBalanceSheetChart1, headerBalanceSheet, newTotalAssets);
-      salesDataBalanceSheetChart2 = fullSalesData(
-          salesDataBalanceSheetChart2, headerBalanceSheet, newTotalLiabilities);
-      groupSalesDataBalanceSheetChart = [
-        BarChart1('Total assets', salesDataBalanceSheetChart1),
-        BarChart1('Total liabilities', salesDataBalanceSheetChart2),
-      ];
-      emit(GetBalanceSheetChartApiDatawSuccessState());
+//       groupSalesDataIncomeChart = [
+//         BarChart1('Total revenue', salesDataIncomeChart1),
+//         BarChart1('gross_profit', salesDataIncomeChart2),
+//         BarChart1('operating_income', salesDataIncomeChart3),
+//         BarChart1('pretax_income', salesDataIncomeChart4),
+//         BarChart1('new_net_income', salesDataIncomeChart5),
+//       ];
+//       emit(GetIncomeChartApiDatawSuccessState());
+//       /*     //? full_Chart_BalanceSheet.....................................................................
+//       salesDataBalanceSheetChart1 = fullSalesData(
+//           salesDataBalanceSheetChart1, headerBalanceSheet, newTotalAssets);
+//       salesDataBalanceSheetChart2 = fullSalesData(
+//           salesDataBalanceSheetChart2, headerBalanceSheet, newTotalLiabilities);
+//       groupSalesDataBalanceSheetChart = [
+//         BarChart1('Total assets', salesDataBalanceSheetChart1),
+//         BarChart1('Total liabilities', salesDataBalanceSheetChart2),
+//       ];
+//       emit(GetBalanceSheetChartApiDatawSuccessState());
 
-      //? full_cash_flow.....................................................................
-      // salesDataCashFlowChart1 = fullSalesData(
-      //     salesDataCashFlowChart1, headercashFlow, cashFromOperatingActivity);
-      // salesDataCashFlowChart2 = fullSalesData(
-      //     salesDataCashFlowChart2, headercashFlow, cashFromInvestingActivity);
-      // salesDataCashFlowChart3 = fullSalesData(
-      //     salesDataCashFlowChart3, headercashFlow, cashFromFinancingActivity);
+//       //? full_cash_flow.....................................................................
+//       // salesDataCashFlowChart1 = fullSalesData(
+//       //     salesDataCashFlowChart1, headercashFlow, cashFromOperatingActivity);
+//       // salesDataCashFlowChart2 = fullSalesData(
+//       //     salesDataCashFlowChart2, headercashFlow, cashFromInvestingActivity);
+//       // salesDataCashFlowChart3 = fullSalesData(
+//       //     salesDataCashFlowChart3, headercashFlow, cashFromFinancingActivity);
 
-      groupSalesDataCashFlowChart = [
-        BarChart1('Cash from operating activities', salesDataCashFlowChart1),
-        BarChart1('Cash from investing activities', salesDataCashFlowChart2),
-        BarChart1('Cash from financing activities', salesDataCashFlowChart2),
-      ];
-      emit(GetCashFlowChartApiDatawSuccessState());*/
-    }).catchError((err) {
-      debugPrint("getIncomeChartApiData error ::$err");
-      emit(GetIncomeChartApiDatawErrorState(err));
-    });
+//       groupSalesDataCashFlowChart = [
+//         BarChart1('Cash from operating activities', salesDataCashFlowChart1),
+//         BarChart1('Cash from investing activities', salesDataCashFlowChart2),
+//         BarChart1('Cash from financing activities', salesDataCashFlowChart2),
+//       ];
+//       emit(GetCashFlowChartApiDatawSuccessState());*/
+//     }).catchError((err) {
+//       debugPrint("getIncomeChartApiData error ::$err");
+//       emit(GetIncomeChartApiDatawErrorState(err));
+//     });
 
-    // stockApiDataMap ={};
-    // print("Before $incomeChartApiDataMap");//"$ramz-1"//"abuk-0"
-    /**/
-    // print("After $valueMap.... ${valueMap.runtimeType}");
-    /*incomeChartApiDataMap = valueMap;*/
-    // debugPrint(
-    //     incomeChartApiDataMap["income_statement"]["headerIncome"].toString());
-    // debugPrint(incomeChartApiDataMap["income_statement"]["total_revenue"]
-    //     .toString());
-    /* List<dynamic> header =
+  // stockApiDataMap ={};
+  // print("Before $incomeChartApiDataMap");//"$ramz-1"//"abuk-0"
+  /**/
+  // print("After $valueMap.... ${valueMap.runtimeType}");
+  /*incomeChartApiDataMap = valueMap;*/
+  // debugPrint(
+  //     incomeChartApiDataMap["income_statement"]["headerIncome"].toString());
+  // debugPrint(incomeChartApiDataMap["income_statement"]["total_revenue"]
+  //     .toString());
+  /* List<dynamic> header =
           incomeChartApiDataMap["income_statement"]["header"];
       header.removeAt(header.length - 1);
       debugPrint(header.toString());
@@ -540,8 +541,8 @@ class AppCubit extends Cubit<AppStates> {
 
 // [2018, 2019, 2020, 2021, 2022, TTM]
 // [7.55B, 8.58B, 7.88B, 8.84B, 16.33B, —]
-    //
-    /* List<dynamic> new_total_revenue = [];
+  //
+  /* List<dynamic> new_total_revenue = [];
       for (var e in total_revenue) {
         // debugPrint(e);
         List<String> c = e.split("");
@@ -559,8 +560,8 @@ class AppCubit extends Cubit<AppStates> {
       // ); replaceAll(houseNumber, '')
       debugPrint(new_total_revenue.toString());*/
 
-    // debugPrint(total_revenue.toString());
-    /*  for (var i = 0; i < header.length - 1; i++) {
+  // debugPrint(total_revenue.toString());
+  /*  for (var i = 0; i < header.length - 1; i++) {
         salesData1.add(SalesData(header[i], new_total_revenue[i]));
       }
       debugPrint(salesData1.toString());
@@ -569,7 +570,7 @@ class AppCubit extends Cubit<AppStates> {
       debugPrint("getIncomeChartApiData error ::$err");
       emit(GetIncomeChartApiDatawErrorState(err));
     });*/
-  }
+}
 
 // //! Fetch   "balance_sheet_Chart ....................................................................................
 //   void fetchBalanceSheetChartApiData(BuildContext context) {
@@ -597,41 +598,41 @@ class AppCubit extends Cubit<AppStates> {
 //! Fetch StockInnerSector ..........................................................................................
 //https://ou8m3oozn4.execute-api.ap-northeast-1.amazonaws.com/default/test?stock=Finance-2
 
-  List<StockModleSmall> allStockInnerSector = [];
-  void fetchStockInnerSector() {
-    emit(GetStockInnerSectorLoadingState());
-    DioHelper.getData(path: "/", queryParameters: {"stock": "Finance-2"})
-        .then((value) {
-      // debugPrint(value.data.toString());
-      // debugPrint(value.data.runtimeType.toString());
-      Map valueMap = jsonDecode(value.data);
-      debugPrint(valueMap.runtimeType.toString());
-      // debugPrint(valueMap.keys.last.toString()); //76
+//   List<StockModleSmall> allStockInnerSector = [];
+//   void fetchStockInnerSector() {
+//     emit(GetStockInnerSectorLoadingState());
+//     DioHelper.getData(path: "/", queryParameters: {"stock": "Finance-2"})
+//         .then((value) {
+//       // debugPrint(value.data.toString());
+//       // debugPrint(value.data.runtimeType.toString());
+//       Map valueMap = jsonDecode(value.data);
+//       debugPrint(valueMap.runtimeType.toString());
+//       // debugPrint(valueMap.keys.last.toString()); //76
 
-      debugPrint(valueMap["1"][0]); //Symbol
-      debugPrint(valueMap["1"][2]); //Price
-      debugPrint(valueMap["1"][3]); //Change % 1D
+//       debugPrint(valueMap["1"][0]); //Symbol
+//       debugPrint(valueMap["1"][2]); //Price
+//       debugPrint(valueMap["1"][3]); //Change % 1D
 
-      for (var i = 1; i < 76; i++) {
-        //int.parse(valueMap.keys.last)
-        // valueMap["$i"][0]; //Symbol
-        // valueMap["$i"][2]; //Price
-        // valueMap["$i"][3]; //Change % 1D
-        StockModleSmall stockSmall = StockModleSmall(
-            symbol: valueMap[i.toString()][0],
-            price: valueMap[i.toString()][2],
-            change: valueMap[i.toString()][3]);
-        allStockInnerSector.add(stockSmall);
-        debugPrint("$i");
-      }
-      debugPrint(allStockInnerSector.length.toString());
+//       for (var i = 1; i < 76; i++) {
+//         //int.parse(valueMap.keys.last)
+//         // valueMap["$i"][0]; //Symbol
+//         // valueMap["$i"][2]; //Price
+//         // valueMap["$i"][3]; //Change % 1D
+//         StockModleSmall stockSmall = StockModleSmall(
+//             symbol: valueMap[i.toString()][0],
+//             price: valueMap[i.toString()][2],
+//             change: valueMap[i.toString()][3]);
+//         allStockInnerSector.add(stockSmall);
+//         debugPrint("$i");
+//       }
+//       debugPrint(allStockInnerSector.length.toString());
 
-      emit(GetStockInnerSectorSuccessState());
-    }).catchError((err) {
-      emit(GetStockInnerSectorErrorState(err));
-    });
-  }
-}
+//       emit(GetStockInnerSectorSuccessState());
+//     }).catchError((err) {
+//       emit(GetStockInnerSectorErrorState(err));
+//     });
+//   }
+// }
 /*
 ignore: unnecessary_string_interpolations
       DioHelper.getData(url: '${arrowModle.ramz}', query: {}).then((value) {

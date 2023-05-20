@@ -2,9 +2,28 @@
 import 'package:app/models/sector_model.dart';
 import 'package:app/models/stock_model.dart';
 import 'package:app/modules/coin.dart';
+import 'package:app/shared/cubit/states.dart';
 import 'package:app/shared/router/routes.dart';
 import 'package:app/shared/styles/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+
+//!~> Navigator.................................................................
+void navigatorTo(
+        {required BuildContext context,
+        required String routeName,
+        Object? arguments,
+        bool rootNavigator = true}) =>
+    Navigator.of(context, rootNavigator: rootNavigator)
+        .pushNamed(routeName, arguments: arguments);
+void navigatorRep(
+        {required BuildContext context,
+        required String routeName,
+        Object? arguments,
+        bool rootNavigator = true}) =>
+    Navigator.of(context, rootNavigator: rootNavigator)
+        .pushReplacementNamed(routeName, arguments: arguments);
 
 Widget defaultButton(
         {required String text,
@@ -248,129 +267,6 @@ Widget defaultCard(context,
     ),
   );
 }
-/*Widget defaultCard(context, ArrowModle arrowModle, void Function()? onPressed1,
-    void Function()? onPressed2,
-    {bool isheart = false, bool home = false}) {
-//  static
-// var  hear = isheart;
-  return InkWell(
-    onTap:() {
-      // ignore: unnecessary_string_interpolations
-      // DioHelper.getData(url: '${arrowModle.ramz}', query: {}).then((value) {
-        // print(value.data.runtimeType);
-        // print(json.decode(value.data).runtimeType);
-// Navigator.of(context, rootNavigator: false).pushNamed(AppRoutes.arrowsDetailsRoute, arguments: value.data);
-      }).catchError((err) {
-        print("err getData");
-      });
-    },
-    child: 
-    SizedBox(
-      width: double.infinity,
-      child: Padding(
-        padding: const EdgeInsets.only(top: 15, bottom: 3),
-        child: Stack(
-          clipBehavior: Clip.none,
-          children: [
-            Card(
-              color: Theme.of(context).scaffoldBackgroundColor,
-
-              // ColorsApp.green,
-
-              elevation: 20,
-
-              shadowColor: Theme.of(context).dividerColor,
-
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // Text(
-                          //   r"${arrowModle.price} USE",
-                          //   overflow: TextOverflow.ellipsis,
-                          //   style: Theme.of(context).textTheme.bodySmall,
-                          // ),
-                          // Text(
-                          //   r"${arrowModle.price} USE",
-                          //   overflow: TextOverflow.ellipsis,
-                          //   style: Theme.of(context)
-                          //       .textTheme
-                          //       .bodySmall!
-                          //       .copyWith(color: Colors.green),
-                          // ),
-                        ]),
-                    Row(children: [
-                      Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                              arrowModle.name,
-                              style: Theme.of(context).textTheme.headline6,
-                            ),
-                          ]),
-
-                      /*Text(
-  
-                                "Image",
-  
-                                overflow:TextOverflow.ellipsis,
-  
-                                style: Theme.of(context).textTheme.bodyText1,
-  
-                              ),*/
-                    ]),
-                  ],
-                ),
-              ),
-            ),
-            Positioned(
-              right: 15,
-              bottom: 75,
-              child: /*Image.network('',fit: BoxFit.cover,),*/
-
-                  ClipRRect(
-                borderRadius: const BorderRadius.all(Radius.circular(20)),
-                child: Image.network(
-                  arrowModle.logo,
-                ),
-              ),
-            ),
-            /*Positioned(
-              left: 15,
-              bottom: 65,
-              child: home
-                  ? Row(
-                      children: [
-                        IconButton(
-                            icon: const Icon(
-                              Icons.favorite,
-                              color: Colors.red,
-                            ),
-                            onPressed: onPressed1),
-                        IconButton(
-                            icon: const Icon(Icons.add), onPressed: onPressed2),
-                      ],
-                    )
-                  : isheart
-                      ? IconButton(
-                          icon: const Icon(
-                            Icons.heart_broken,
-                            color: Colors.red,
-                          ),
-                          onPressed: onPressed1)
-                      : IconButton(
-                          icon: const Icon(Icons.add), onPressed: onPressed2),
-            ),*/
-          ],
-        ),
-      ),
-    ),
-  );
-}*/
 
 //!~> defaultSector >===========================<
 Widget defaultSector(context, SectorModle sectorModle, {int index = 0}) =>
@@ -408,3 +304,47 @@ Widget defaultSector(context, SectorModle sectorModle, {int index = 0}) =>
         ),
       ),
     );
+
+//!~> SocailCArd................................................................
+class SocailCArd extends StatelessWidget {
+  const SocailCArd({
+    super.key,
+    required this.icon,
+    required this.press,
+  });
+
+  final String icon;
+  final void Function()? press;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: press,
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 10),
+        padding: const EdgeInsets.all(12),
+        height: 40,
+        width: 40,
+        decoration: const BoxDecoration(
+          color: Color(0xFFF5F6F9),
+          shape: BoxShape.circle,
+        ),
+        child: SvgPicture.network(icon),
+      ),
+    );
+  }
+}
+
+//!~> snackbarErr........................................................
+SnackBar snackbarErr(AppStates state, {required String message}) {
+  return SnackBar(
+    elevation: 0,
+    behavior: SnackBarBehavior.floating,
+    backgroundColor: Colors.transparent,
+    content: AwesomeSnackbarContent(
+      title: 'Error..!',
+      message: message,
+      contentType: ContentType.failure,
+    ),
+  );
+}

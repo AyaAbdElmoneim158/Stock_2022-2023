@@ -33,7 +33,8 @@ class ProfilePage extends StatelessWidget {
     return BlocConsumer<AppCubit, AppStates>(
         listener: (context, state) {},
         builder: (context, state) {
-          final appCubit = AppCubit.get(context)..fetchChartApiData(context);
+          final appCubit = AppCubit.get(context);
+          // ..fetchChartApiData(context);
           // List<SalesData> salesData2 = [];
           // salesData2 = appCubit.salesData1.cast<SalesData>();
           return
@@ -44,7 +45,7 @@ class ProfilePage extends StatelessWidget {
             backgroundColor: Colors.white,
             floatingActionButton: FloatingActionButton(
                 onPressed: () {
-                  appCubit.fetchChartApiData(context);
+                  // appCubit.fetchChartApiData(context);
                 },
                 child: const Icon(Icons.search)),
             body: SingleChildScrollView(

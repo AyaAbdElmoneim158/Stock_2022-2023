@@ -1,15 +1,16 @@
 import 'package:app/layout/bottom_navbar.dart';
 import 'package:app/models/sector_model.dart';
+import 'package:app/modules/Auth_pages/successful_page.dart';
 import 'package:app/modules/details_page.dart';
-import 'package:app/modules/forgetpasssword/with_email.dart';
+import 'package:app/modules/Auth_pages/forgetpasssword/with_email.dart';
 import 'package:app/modules/landing_page.dart';
 import 'package:app/modules/more_charts.dart';
 import 'package:app/modules/news_url.dart';
 import 'package:app/modules/stocks_inner_sector.dart';
 
-import 'package:app/modules/login_page.dart';
+import 'package:app/modules/Auth_pages/login_page.dart';
 // import 'package:app/modules/onboarding_page.dart';
-import 'package:app/modules/register_page.dart';
+import 'package:app/modules/Auth_pages/register_page.dart';
 import 'package:app/shared/router/routes.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -42,6 +43,9 @@ Route<dynamic> onGenerate(RouteSettings settings) {
     case AppRoutes.navbarRoute:
       return CupertinoPageRoute(
           builder: (_) => const BottomNavBar(), settings: settings);
+    case AppRoutes.successRoute:
+      return CupertinoPageRoute(
+          builder: (_) => const SuccessfulLogin(), settings: settings);
     case AppRoutes.resetPasswordRoute:
       return CupertinoPageRoute(
           builder: (_) => const ForgetPasswordWithEmail(), settings: settings);

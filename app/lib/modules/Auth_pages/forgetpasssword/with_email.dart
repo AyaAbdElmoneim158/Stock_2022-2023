@@ -1,6 +1,7 @@
 import 'package:app/shared/components/components.dart';
 import 'package:app/shared/cubit/cubit.dart';
 import 'package:app/shared/cubit/states.dart';
+import 'package:app/shared/router/routes.dart';
 import 'package:app/shared/styles/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,13 +23,18 @@ class ForgetPasswordWithEmail extends StatelessWidget {
           content: AwesomeSnackbarContent(
             title: 'ESuccess..!',
             message: "Check your Email ",
-            contentType: ContentType.failure,
+            contentType: ContentType.success,
           ),
         );
 
         ScaffoldMessenger.of(context)
           ..hideCurrentSnackBar()
           ..showSnackBar(snackBar);
+        //Nav
+        // Navigator.pushNamed(context, AppRoutes.loginRoute);
+        Future.delayed(const Duration(seconds: 5), () {
+          navigatorRep(context: context, routeName: AppRoutes.loginRoute);
+        });
       }
 
       if (state is AuthforgetPasswordAppErrorState) {
@@ -74,22 +80,25 @@ class ForgetPasswordWithEmail extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 // crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  // Image.asset(
-                  //   'assets/password.png',
-                  //   width: 200,
-                  //   fit: BoxFit.cover,
-                  // ),
-                  Text(
-                    "new ceredention".toUpperCase(),
-                    style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                        color: secondColor, fontWeight: FontWeight.w700),
+                  Image.network(
+                    // 'https://cdn-icons-png.flaticon.com/128/3826/3826483.png',
+                    'https://cdn-icons-png.flaticon.com/128/3826/3826570.png',
+                    // 'https://cdn-icons-png.flaticon.com/128/6159/6159382.png',
+                    // 'https://cdn-icons-png.flaticon.com/128/3064/3064478.png',
+                    // 'https://cdn-icons-png.flaticon.com/128/6357/6357048.png',
+                    width: 200,
+                    fit: BoxFit.cover,
                   ),
-                  Text(
-                    "your identity has been verified! Set your new password",
-                    style: Theme.of(context)
-                        .textTheme
-                        .labelLarge!
-                        .copyWith(color: Colors.grey.shade600),
+                  const SizedBox(height: 30),
+                  Align(
+                    child: Text(
+                      "reset your password".toUpperCase(),
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineSmall!
+                          .copyWith(
+                              color: secondColor, fontWeight: FontWeight.w700),
+                    ),
                   ),
                   const SizedBox(height: 30),
                   defaultField(
@@ -101,7 +110,7 @@ class ForgetPasswordWithEmail extends StatelessWidget {
                       onChanged: (val) => appCubit.changeEmailForget(val)),
                   const SizedBox(height: 15),
                   defaultButton(
-                      text: "update".toUpperCase(),
+                      text: "Reset".toUpperCase(),
                       color: firstColor,
                       onPressed: () {
                         appCubit.forgetPassword();
