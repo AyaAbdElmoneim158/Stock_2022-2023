@@ -1,4 +1,5 @@
 import 'package:app/layout/bottom_navbar.dart';
+import 'package:app/layout/bottom_navbar_new.dart';
 import 'package:app/models/sector_model.dart';
 import 'package:app/modules/Auth_pages/successful_page.dart';
 import 'package:app/modules/details_page.dart';
@@ -42,7 +43,7 @@ Route<dynamic> onGenerate(RouteSettings settings) {
           builder: (_) => DetailsStock(ramz: ramz), settings: settings);
     case AppRoutes.navbarRoute:
       return CupertinoPageRoute(
-          builder: (_) => const BottomNavBar(), settings: settings);
+          builder: (_) => const BottomNavbarNew(), settings: settings);
     case AppRoutes.successRoute:
       return CupertinoPageRoute(
           builder: (_) => const SuccessfulLogin(), settings: settings);

@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 
-class FavoritePage extends StatelessWidget {
-  const FavoritePage({super.key});
+class BookmarkPage extends StatelessWidget {
+  const BookmarkPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,10 +23,10 @@ class FavoritePage extends StatelessWidget {
               backgroundColor: Colors.transparent,
               elevation: 0,
               excludeHeaderSemantics: true,
-              centerTitle: true,
+              // centerTitle: true,
               title: Text(
-                "مفضلاتك 🔥",
-                style: Theme.of(context).textTheme.headline6,
+                "مفضلاتك ",
+                style: Theme.of(context).textTheme.headlineSmall,
               ),
             ),
             body: Container(
@@ -86,16 +86,21 @@ class FavoritePage extends StatelessWidget {
                                           MainAxisAlignment.center,
                                       children: [
                                         const SizedBox(height: 50),
-                                        const CircleAvatar(
-                                          radius: 90.0,
-                                          backgroundImage: NetworkImage(
-                                              // "https://img.freepik.com/premium-vector/like-thumb-up-symbol-finger-up-vector-stock-illustration_100456-10995.jpg"
-                                              "https://cdn3d.iconscout.com/3d/premium/thumb/hands-with-heart-4883949-4073132.png"
-                                              // "https://cdn3d.iconscout.com/3d/premium/thumb/stock-analytics-5233669-4379879.png"
-                                              ),
-                                          backgroundColor: Colors.transparent,
+                                        // const CircleAvatar(
+                                        //   radius: 90.0, backgroundColor: Colors.transparent,backgroundImage:
+                                        //NetworkImage(
+                                        // "https://img.freepik.com/premium-vector/like-thumb-up-symbol-finger-up-vector-stock-illustration_100456-10995.jpg"
+                                        // "https://cdn3d.iconscout.com/3d/premium/thumb/hands-with-heart-4883949-4073132.png"
+                                        // "https://cdn3d.iconscout.com/3d/premium/thumb/stock-analytics-5233669-4379879.png"
+                                        // ), ),
+                                        Image.network(
+                                          'https://cdn-icons-png.flaticon.com/128/3208/3208709.png',
+                                          // 'https://cdn-icons-png.flaticon.com/128/7222/7222088.png',
+                                          // 'https://cdn-icons-png.flaticon.com/128/2899/2899445.png',
+                                          width: 150, fit: BoxFit.cover,
                                         ),
-                                        const SizedBox(height: 5),
+
+                                        const SizedBox(height: 15),
                                         InkWell(
                                             onTap:
                                                 () {}, //=>appCubit.changeCurrentIndex(2), // {}, //=> Navigator.pushNamed(context, AppRoutes.arrowsSectorRoute),

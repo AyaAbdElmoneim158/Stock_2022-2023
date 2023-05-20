@@ -3,6 +3,7 @@ import 'package:app/shared/components/components.dart';
 import 'package:app/shared/components/constants.dart';
 import 'package:app/shared/cubit/cubit.dart';
 import 'package:app/shared/cubit/states.dart';
+import 'package:app/shared/network/remote/auth_helper.dart';
 import 'package:app/shared/router/routes.dart';
 import 'package:app/shared/styles/colors.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
@@ -21,6 +22,9 @@ class HomePage extends StatelessWidget {
         builder: (context, state) {
           final appCubit = AppCubit.get(context);
           return Scaffold(
+            floatingActionButton: FloatingActionButton.small(
+                child: const Icon(Icons.logout),
+                onPressed: () => AuthHelper.instance.logout()),
             body: NestedScrollView(
                 headerSliverBuilder: (context, innerBoxIsScrolled) => [
                       SliverAppBar(
@@ -68,11 +72,14 @@ class HomePage extends StatelessWidget {
                                   child: Row(
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: [
-                                        Row(children: const [
-                                          Icon(Icons.search),
-                                          SizedBox(width: 8),
-                                          Icon(Icons.notifications),
-                                        ])
+                                        Expanded(
+                                          child: Row(children: const [
+                                            Icon(Icons.search),
+                                            // SizedBox(width: 8),
+                                            Spacer(),
+                                            Icon(Icons.notifications),
+                                          ]),
+                                        )
                                       ]),
                                 ),
                               ),
