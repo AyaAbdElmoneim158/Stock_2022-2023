@@ -126,6 +126,17 @@ class AddArrowToFavExistState extends AppStates {}
 
 // class GetStockInnerSectorLoadingState extends AppStates {}
 
+//! StockApi .......................................
+class GetStockApiDataSuccessState extends AppStates {}
+
+class GetStockApiDataErrorState extends AppStates {
+  final String err;
+  GetStockApiDataErrorState(this.err);
+}
+
+class GetStockApiDataLoadingState extends AppStates {}
+
+//****************************************************************************** */
 //! fetchStocksAtSector ---------------------------------------------------
 class FetchStocksAtSectorSuccessState extends AppStates {}
 
@@ -136,12 +147,33 @@ class FetchStocksAtSectorErrorState extends AppStates {
   FetchStocksAtSectorErrorState(this.err);
 }
 
-//! StockApi .......................................
-class GetStockApiDataSuccessState extends AppStates {}
+//! fetchDetails ---------------------------------------------------
+class FetchDetailsSuccessState extends AppStates {}
 
-class GetStockApiDataErrorState extends AppStates {
+class FetchDetailsLoadingState extends AppStates {}
+
+class FetchDetailsErrorState extends AppStates {
   final String err;
-  GetStockApiDataErrorState(this.err);
+  FetchDetailsErrorState(this.err);
 }
 
-class GetStockApiDataLoadingState extends AppStates {}
+//fetchStockTimeline
+//! fetchStockTimeline ---------------------------------------------------
+class FetchStockTimelineSuccessState extends AppStates {}
+
+class FetchStockTimelineLoadingState extends AppStates {}
+
+class FetchStockTimelineErrorState extends AppStates {
+  final String err;
+  FetchStockTimelineErrorState(this.err);
+}
+
+//! fetchIncomeChart ---------------------------------------------------
+class FetchIncomeChartSuccessState extends AppStates {}
+
+class FetchIncomeChartLoadingState extends AppStates {}
+
+class FetchIncomeChartErrorState extends AppStates {
+  final String err;
+  FetchIncomeChartErrorState(this.err);
+}

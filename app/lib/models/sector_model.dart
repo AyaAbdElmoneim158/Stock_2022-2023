@@ -56,7 +56,7 @@ List<SectorModle> sectors = [
   ),
 ];*/
 
-const String image_url =
+const String imageUrl =
     'https://t4.ftcdn.net/jpg/01/37/57/81/240_F_137578103_ulK9MbD9IfKACx9RZe6Rx7PAyBA9aN2K.jpg';
 
 // ignore_for_file: public_member_api_docs, sort_constructors_first
@@ -79,7 +79,7 @@ List<SectorModel> fackSector = [
   SectorModel(
       image: 'https://cdn-icons-png.flaticon.com/128/2760/2760970.png',
       name: 'Consumer Durables'),
-  SectorModel(image: image_url, name: 'Consumer Non-Durables'),
+  SectorModel(image: imageUrl, name: 'Consumer Non-Durables'),
   SectorModel(
       image: 'https://cdn-icons-png.flaticon.com/128/8890/8890251.png',
       name: 'Consumer Services'),
@@ -89,17 +89,17 @@ List<SectorModel> fackSector = [
   SectorModel(
       image: 'https://cdn-icons-png.flaticon.com/128/4257/4257824.png',
       name: 'Electronic Technology'),
-  SectorModel(image: image_url, name: 'Energy Minerals'),
-  SectorModel(image: image_url, name: 'Finance'),
-  SectorModel(image: image_url, name: 'Health Services'),
-  SectorModel(image: image_url, name: 'Health Technology'),
-  SectorModel(image: image_url, name: 'Industrial Services'),
-  SectorModel(image: image_url, name: 'Miscellaneous'),
-  SectorModel(image: image_url, name: 'Non-Energy Minerals'),
-  SectorModel(image: image_url, name: 'Process Industries'),
-  SectorModel(image: image_url, name: 'Producer Manufacturing'),
-  SectorModel(image: image_url, name: 'Retail Trade'),
-  SectorModel(image: image_url, name: 'Technology Services'),
-  SectorModel(image: image_url, name: 'Transportation'),
-  SectorModel(image: image_url, name: 'Utilities')
+  SectorModel(image: imageUrl, name: 'Energy Minerals'),
+  SectorModel(image: imageUrl, name: 'Finance'),
+  SectorModel(image: imageUrl, name: 'Health Services'),
+  SectorModel(image: imageUrl, name: 'Health Technology'),
+  SectorModel(image: imageUrl, name: 'Industrial Services'),
+  SectorModel(image: imageUrl, name: 'Miscellaneous'),
+  SectorModel(image: imageUrl, name: 'Non-Energy Minerals'),
+  SectorModel(image: imageUrl, name: 'Process Industries'),
+  SectorModel(image: imageUrl, name: 'Producer Manufacturing'),
+  SectorModel(image: imageUrl, name: 'Retail Trade'),
+  SectorModel(image: imageUrl, name: 'Technology Services'),
+  SectorModel(image: imageUrl, name: 'Transportation'),
+  SectorModel(image: imageUrl, name: 'Utilities')
 ];

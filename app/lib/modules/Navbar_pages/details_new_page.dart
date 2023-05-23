@@ -9,7 +9,10 @@
 // }
 //
 // import 'package:covid_19/constants.dart';
-import 'package:app/models/salesData_model.dart';
+import 'package:app/models/sales_data_model.dart';
+import 'package:app/modules/Navbar_pages/my_chart.dart';
+
+import 'package:app/models/stock_model.dart';
 import 'package:app/shared/components/components.dart';
 import 'package:app/shared/cubit/cubit.dart';
 import 'package:app/shared/cubit/states.dart';
@@ -41,21 +44,23 @@ class DetailNewsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AppCubit()..getStockApiData(ramz: ramz),
+      create: (context) => AppCubit()..fetchDetsils(ramz: ramz),
+      //..fetchStockTimeline(ramz: ramz), //..getStockApiData(ramz: ramz),
       child: BlocConsumer<AppCubit, AppStates>(
           listener: (context, state) {},
           builder: (context, state) {
             final appCubit = AppCubit.get(context);
+            final StockModelApi details = appCubit.details;
             final size = MediaQuery.of(context).size;
 
             return ConditionalBuilder(
-              condition: state is! GetStockApiDataLoadingState,
+              condition: state is! FetchDetailsLoadingState,
               builder: (context) => Scaffold(
                 // resizeToAvoidBottomPadding: false,
                 backgroundColor: kBackgroundColor,
                 appBar: AppBar(
                   backgroundColor: kBackgroundColor,
-                  title: Text('${appCubit.stockApiDataMap["ramz"]}stock'),
+                  title: Text(r'${details.ramz}stock'),
                   titleTextStyle: kBodyText2,
                   leading: IconButton(
                     onPressed: () => Navigator.pop(context),
@@ -65,7 +70,11 @@ class DetailNewsScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                body: Padding(
+
+                body:
+                    //  MyChart(ramz: ramz),
+
+                    Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: SingleChildScrollView(
                     child: Column(
@@ -89,12 +98,32 @@ class DetailNewsScreen extends StatelessWidget {
                             children: <Widget>[
                               buildTitleWithMoreIcon(),
                               const SizedBox(height: 15),
-                              buildCaseNumber(context),
+                              // buildCaseNumber(context),
+                              Row(
+                                children: <Widget>[
+                                  Text(
+                                    details.stockMainApi!.stockPrice.toString(),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineLarge!
+                                        .copyWith(
+                                            color: kPrimaryColor, height: 1.2),
+                                  ),
+                                  Text(
+                                    details.stockMainApi!.incPercentage
+                                        .toString(),
+                                    style:
+                                        const TextStyle(color: kPrimaryColor),
+                                  ),
+                                  // SvgPicture.asset("assets/icons/increase.svg")
+                                ],
+                              ),
                               const SizedBox(height: 15),
                             ],
                           ),
                         ),
-                        const SizedBox(height: 20),
+                        MyChart(ramz: ramz),
+                        // const SizedBox(height: 20),
                         Container(
                           padding: const EdgeInsets.all(20),
                           decoration: BoxDecoration(
@@ -118,18 +147,18 @@ class DetailNewsScreen extends StatelessWidget {
                                     "About ",
                                     style: Theme.of(context)
                                         .textTheme
-                                        .headline5!
+                                        .headlineMedium!
                                         .copyWith(
                                             color: kPrimaryColor, height: 1.2),
                                   ),
-                                  const Icon(Iconsax.location)
+                                  const Icon(Icons.location_city)
                                 ],
                               ),
                               const SizedBox(height: 10),
                               // SvgPicture.asset("assets/icons/map.svg"),
-                              const Text(
-                                "Nowadays, making printed materials have become fast, easy and simple. If you want your promotional material to be an eye-catching object, you should make it colored. By way of using inkjet printer this is not hard to make. An inkjet printer is any printer that places extremely small droplets of ink onto paper to create an image.",
-                                style: TextStyle(
+                              Text(
+                                details.about.toString(),
+                                style: const TextStyle(
                                   height: 1.5,
                                 ),
                               ),
@@ -144,13 +173,13 @@ class DetailNewsScreen extends StatelessWidget {
                               "News",
                               style: Theme.of(context)
                                   .textTheme
-                                  .headline5!
+                                  .headlineMedium!
                                   .copyWith(color: kPrimaryColor, height: 1.2),
                             ),
                             const Icon(Iconsax.location)
                           ],
                         ),
-                        const ItemList(),
+                        NewsList(news: details.news!),
                       ],
                     ),
                   ),
@@ -203,7 +232,7 @@ class DetailNewsScreen extends StatelessWidget {
           "5.9% ",
           style: TextStyle(color: kPrimaryColor),
         ),
-        SvgPicture.asset("assets/icons/increase.svg")
+        // SvgPicture.asset("assets/icons/increase.svg")
       ],
     );
   }
@@ -223,7 +252,7 @@ class DetailNewsScreen extends StatelessWidget {
             ),
           ),
         ),
-        SvgPicture.asset("assets/icons/more.svg")
+        // SvgPicture.asset("assets/icons/more.svg")
       ],
     );
   }

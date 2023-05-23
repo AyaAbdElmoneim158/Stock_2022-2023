@@ -178,7 +178,7 @@ class HomePage extends StatelessWidget {
                                     debugPrint("onTap");
                                     Navigator.pushNamed(
                                         context, AppRoutes.detailsStockRoute,
-                                        arguments: 'Fwry');
+                                        arguments: arrowss[index].ramz);
                                   },
                                   child: stockCard(context,
                                       stockAtSector: stockAtSector),

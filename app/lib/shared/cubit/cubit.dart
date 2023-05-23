@@ -1,9 +1,8 @@
-import 'package:app/models/salesData_model.dart';
-import 'package:app/models/sector_model.dart';
+import 'package:app/models/sales_data_model.dart';
 import 'package:app/models/stock_at_sector_model.dart';
+import 'package:app/models/stock_chart_model.dart';
 import 'package:app/models/stock_model.dart';
 import 'package:app/models/user_model.dart';
-import 'package:app/shared/components/constants.dart';
 import 'package:app/shared/cubit/states.dart';
 import 'package:app/shared/network/remote/auth_helper.dart';
 import 'package:app/shared/network/remote/dio_helper.dart';
@@ -12,6 +11,18 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:convert';
+
+class SalesDataYear {
+  SalesDataYear(this.year, this.sales);
+  final DateTime year;
+  final double sales;
+}
+
+class BarChart1 {
+  final String name;
+  final List<SalesData> data;
+  BarChart1(this.name, this.data);
+}
 
 class AppCubit extends Cubit<AppStates> {
   AppCubit() : super(AppInitState());
@@ -89,7 +100,7 @@ class AppCubit extends Cubit<AppStates> {
       emit(AuthLoginWithEmailAppSuccessState()); //value.uid)
     }).catchError((err) {
       debugPrint("login Error ....!");
-      emit(AuthLoginWithEmailAppErrorState(err));
+      emit(AuthLoginWithEmailAppErrorState(err.toString()));
     });
   }
 
@@ -382,7 +393,7 @@ class AppCubit extends Cubit<AppStates> {
   //! getStockDetails ============================================<
 
   // late StockModelApi
-  late Map<String, dynamic> stockApiDataMap;
+  // late Map<String, dynamic> stockApiDataMap;
   void getStockApiData({required String ramz}) {
     emit(GetStockApiDataLoadingState());
     // stockApiDataMap ={};
@@ -395,11 +406,11 @@ class AppCubit extends Cubit<AppStates> {
         "stock": "$ramz-0"
       },
     ).then((value) {
-      stockApiDataMap = {"ramz": value.data['ramz']};
+      // stockApiDataMap = {"ramz": value.data['ramz']};
       // stockApiDataMap = StockModelApi.fromJson(value.data);
       // StockModelApi
 
-      print("After ${value.data}");
+      debugPrint("After ${value.data}");
       emit(GetStockApiDataSuccessState());
     }).catchError((err) {
       debugPrint("getStockApiData error ::$err");
@@ -576,7 +587,7 @@ class AppCubit extends Cubit<AppStates> {
 
   // stockApiDataMap ={};
   // print("Before $incomeChartApiDataMap");//"$ramz-1"//"abuk-0"
-  /**/
+  /// /
   // print("After $valueMap.... ${valueMap.runtimeType}");
   /*incomeChartApiDataMap = valueMap;*/
   // debugPrint(
@@ -623,6 +634,195 @@ class AppCubit extends Cubit<AppStates> {
       debugPrint("getIncomeChartApiData error ::$err");
       emit(GetIncomeChartApiDatawErrorState(err));
     });*/
+// *******************************************************************************************************
+//--------------------------------------------------------------------------------------------------------
+// *******************************************************************************************************
+  List<SalesData> incomeSalesData1 = [];
+  List<SalesData> incomeSalesData2 = [];
+  List<SalesData> incomeSalesData3 = [];
+  List<SalesData> incomeSalesData4 = [];
+  List<SalesData> incomeSalesData5 = [];
+  late List<BarChart1> incomeBarChartData1 = [];
+
+  List<SalesData> balanceSheetSalesData1 = [];
+  List<SalesData> balanceSheetSalesData2 = [];
+  late List<BarChart1> balanceSheetBarChartData1 = [];
+
+  List<SalesData> cashFlowSalesData1 = [];
+  List<SalesData> cashFlowSalesData2 = [];
+  List<SalesData> cashFlowSalesData3 = [];
+  late List<BarChart1> cashFlowBarChartData1 = [];
+
+  List<SalesDataYear> chartData = [];
+  void fetchStockTimeline({required String ramz}) {
+    emit(FetchStockTimelineLoadingState());
+    DioHelper.getData(path: '$ramz/30').then((value) {
+      debugPrint(value.data.runtimeType.toString());
+      debugPrint(value.data["data"].toString());
+      for (int i = 0; i < 30; i++) {
+        chartData.add(SalesDataYear(DateTime.parse(value.data["data"][i][0]),
+            value.data["data"][i][5]));
+      }
+
+// data
+      emit(FetchStockTimelineSuccessState());
+    }).catchError((err) {
+      emit(FetchStockTimelineErrorState(err.toString()));
+    });
+  }
+
+//!~> Fetch stock Details..................................................................
+  StockModelApi details = StockModelApi();
+  void fetchDetsils({required String ramz}) {
+    emit(FetchDetailsLoadingState());
+    //https://20mccck65d.execute-api.ap-northeast-1.amazonaws.com/?stock=ABUK-0
+    DioHelper.getData(
+            path: '/', queryParameters: {'stock': '$ramz-0'}) //'ABUK-0'
+        .then((value) {
+      // debugPrint(value.data);
+      details = StockModelApi.fromJson(json.decode(value.data));
+      debugPrint('details... ${details.ramz} ');
+      // debugPrint(value.data.runtimeType.toString());
+      // debugPrint(json.decode(value.data).runtimeType.toString());
+      emit(FetchDetailsSuccessState());
+    }).catchError((err) {
+      debugPrint('error fetchDetsils ... $err ');
+      emit(FetchDetailsErrorState(err.toString()));
+    });
+  }
+
+  //! ~> Fetch Chart one by one (income_statement, balance_sheet, cash_flow, dividends, dividened_payout_history, revenue, earning)
+  //  https://ou8m3oozn4.execute-api.ap-northeast-1.amazonaws.com/default/test?stock=abuk-1
+  void fetchIncomeChart() {
+    emit(FetchIncomeChartLoadingState());
+    // income_statement
+    DioHelper.getData(path: '/test', queryParameters: {"stock": "abuk-1"})
+        .then((value) {
+      debugPrint(value.data.toString());
+      debugPrint(value.data.runtimeType.toString());
+      var allData = StockChartModel.fromJson(value.data);
+      debugPrint(allData.incomeStatement!.header.toString());
+//********************************************************************************************
+      // allData.incomeStatement.afterTaxOtherIncomeExpense.toString();
+      // header.............["2018","2019","2020","2021","2022","TTM"],
+      // Total revenue......["7.55B","8.58B","7.88B","8.84B","16.33B","—"],
+      // Gross profit.......["2.67B","3.43B","2.85B","3.90B","10.62B","—"],
+      // Operating income...["2.16B","2.81B","2.29B","3.30B","9.75B","—"],
+      // Pretax income......["2.99B","4.04B","3.38B","4.28B","11.52B","—"],
+      // Net income.........["2.03B","2.64B","2.25B","2.94B","7.57B","—"],
+      for (int i = 0; i < allData.incomeStatement!.header!.length - 1; i++) {
+        final endIndexIncomeStatementtotalRevenue =
+            allData.incomeStatement!.totalRevenue![i].indexOf("B", 0);
+        var valTotalRevenue = double.parse(allData
+            .incomeStatement!.totalRevenue![i]
+            .substring(0, endIndexIncomeStatementtotalRevenue));
+        final endIndexIncomeStatementgrossProfit =
+            allData.incomeStatement!.grossProfit![i].indexOf("B", 0);
+        var valgrossProfit = double.parse(allData
+            .incomeStatement!.grossProfit![i]
+            .substring(0, endIndexIncomeStatementgrossProfit));
+        final endIndexIncomeStatementoperatingIncome =
+            allData.incomeStatement!.operatingIncome![i].indexOf("B", 0);
+        var valoperatingIncome = double.parse(allData
+            .incomeStatement!.operatingIncome![i]
+            .substring(0, endIndexIncomeStatementoperatingIncome));
+        final endIndexIncomeStatementpretaxIncome =
+            allData.incomeStatement!.pretaxIncome![i].indexOf("B", 0);
+        var valpretaxIncome = double.parse(allData
+            .incomeStatement!.pretaxIncome![i]
+            .substring(0, endIndexIncomeStatementpretaxIncome));
+        final endIndexIncomeStatementnetIncome =
+            allData.incomeStatement!.netIncome![i].indexOf("B", 0);
+        var valnetIncome = double.parse(allData.incomeStatement!.netIncome![i]
+            .substring(0, endIndexIncomeStatementnetIncome));
+
+        incomeSalesData1.add(
+            SalesData(allData.incomeStatement!.header![i], valTotalRevenue));
+        incomeSalesData2.add(
+            SalesData(allData.incomeStatement!.header![i], valgrossProfit));
+        incomeSalesData3.add(
+            SalesData(allData.incomeStatement!.header![i], valoperatingIncome));
+        incomeSalesData4.add(
+            SalesData(allData.incomeStatement!.header![i], valpretaxIncome));
+        incomeSalesData5
+            .add(SalesData(allData.incomeStatement!.header![i], valnetIncome));
+
+        debugPrint("${allData.incomeStatement!.header![i]} : $valTotalRevenue");
+      }
+      incomeBarChartData1 = [
+        BarChart1('Total revenue', incomeSalesData1),
+        BarChart1('Gross profit', incomeSalesData2),
+        BarChart1('Operating income', incomeSalesData3),
+        BarChart1('Pretax income', incomeSalesData4),
+        BarChart1('Net income', incomeSalesData5),
+      ];
+//********************************************************************************************
+      // "header":....................["2018","2019","2020","2021","2022"],
+      // Total assets.................["7.87B","9.06B","9.31B","10.85B","22.37B"],
+      // Total liabilities............["2.93B","2.74B","2.46B","2.49B","4.57B"]
+      for (int i = 0; i < allData.balanceSheet!.header!.length; i++) {
+        final endIndexBalanceSheettotalAssets =
+            allData.balanceSheet!.totalAssets![i].indexOf("B", 0);
+        var valtotalAssets = double.parse(allData.balanceSheet!.totalAssets![i]
+            .substring(0, endIndexBalanceSheettotalAssets));
+        final endIndexBalanceSheettotalLiabilities =
+            allData.balanceSheet!.totalLiabilities![i].indexOf("B", 0);
+        var valtotalLiabilities = double.parse(allData
+            .balanceSheet!.totalLiabilities![i]
+            .substring(0, endIndexBalanceSheettotalLiabilities));
+
+        balanceSheetSalesData1
+            .add(SalesData(allData.balanceSheet!.header![i], valtotalAssets));
+        balanceSheetSalesData2.add(
+            SalesData(allData.balanceSheet!.header![i], valtotalLiabilities));
+      }
+      balanceSheetBarChartData1 = [
+        BarChart1('Total assets', balanceSheetSalesData1),
+        BarChart1('Total liabilities', balanceSheetSalesData2),
+      ];
+//********************************************************************************************
+      // "header":........................["2018","2019","2020","2021","2022","TTM"],
+      // Cash from operating activities....["2.40B","2.79B","2.42B","2.58B","9.85B","—"],CashOperating
+      // Cash from investing activities....["−1.13B","−1.56B","−260.53M","−701.23M","−4.65B","—"],CashInvesting
+      // Cash from financing activities....["−1.59B","−1.66B","−1.98B","−1.84B","−3.24B","—"],CashFinancing
+      for (int i = 0; i < allData.cashFlow!.header!.length - 1; i++) {
+        final endIndecCashFlowtoCashOperating =
+            allData.cashFlow!.cashFromOperatingActivity![i].indexOf("B", 0);
+        var valToCashOperating = double.parse(allData
+            .cashFlow!.cashFromOperatingActivity![i]
+            .substring(0, endIndecCashFlowtoCashOperating));
+
+        final endIndecCashFlowCashInvesting =
+            allData.cashFlow!.cashFromInvestingActivity![i].indexOf("B", 0);
+        var valCashInvesting = double.parse(allData
+            .cashFlow!.cashFromInvestingActivity![i]
+            .substring(0, endIndecCashFlowCashInvesting));
+
+        final endIndecCashFlowCashFinancing =
+            allData.cashFlow!.cashFromFinancingActivity![i].indexOf("B", 0);
+        var valoperatingIncome = double.parse(allData
+            .cashFlow!.cashFromFinancingActivity![i]
+            .substring(0, endIndecCashFlowCashFinancing));
+
+        cashFlowSalesData1
+            .add(SalesData(allData.cashFlow!.header![i], valToCashOperating));
+        cashFlowSalesData2
+            .add(SalesData(allData.cashFlow!.header![i], valCashInvesting));
+        cashFlowSalesData3
+            .add(SalesData(allData.cashFlow!.header![i], valoperatingIncome));
+      }
+      cashFlowBarChartData1 = [
+        BarChart1('Cash from operating activities', cashFlowSalesData1),
+        BarChart1('Cash from investing activities', cashFlowSalesData2),
+        BarChart1('Cash from financing activities', cashFlowSalesData3),
+      ];
+
+      emit(FetchIncomeChartSuccessState());
+    }).catchError((err) {
+      debugPrint("error at fetchIncomeChart: $err");
+      emit(FetchIncomeChartErrorState(err));
+    });
+  }
 }
 
 // //! Fetch   "balance_sheet_Chart ....................................................................................

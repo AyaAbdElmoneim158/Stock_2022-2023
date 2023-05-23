@@ -127,7 +127,7 @@ class StockModelApi {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     if (stockMainApi != null) {
       data['stock_main'] = stockMainApi!.toJson();
     }
@@ -156,10 +156,10 @@ class StockMainApi {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['stock_price'] = this.stockPrice;
-    data['stock_m_rate'] = this.stockMRate;
-    data['inc_percentage'] = this.incPercentage;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['stock_price'] = stockPrice;
+    data['stock_m_rate'] = stockMRate;
+    data['inc_percentage'] = incPercentage;
     return data;
   }
 }
@@ -180,11 +180,11 @@ class News {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['title'] = this.title;
-    data['des'] = this.des;
-    data['date'] = this.date;
-    data['link'] = this.link;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['title'] = title;
+    data['des'] = des;
+    data['date'] = date;
+    data['link'] = link;
     return data;
   }
 }

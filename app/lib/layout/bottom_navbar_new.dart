@@ -156,5 +156,5 @@ List<Widget> _listOfWidget = <Widget>[
   //     ),
   //   ),
   // ),
-  BookmarkPage(),
+  const BookmarkPage(),
 ];

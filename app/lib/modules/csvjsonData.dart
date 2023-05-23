@@ -1,4 +1,4 @@
-import 'package:app/models/salesData_model.dart';
+import 'package:app/models/sales_data_model.dart';
 
 /*
 List<SalesData> getLineBarChartData1() {

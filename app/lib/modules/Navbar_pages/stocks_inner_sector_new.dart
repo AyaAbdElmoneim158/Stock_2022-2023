@@ -21,7 +21,7 @@ class StockAtSectorNew extends StatelessWidget {
         listener: (context, state) {},
         builder: (context, state) {
           final appCubit = AppCubit.get(context);
-          final size = MediaQuery.of(context).size;
+          // final size = MediaQuery.of(context).size;
 
           return ConditionalBuilder(
             condition: state is! FetchStocksAtSectorLoadingState,
@@ -49,7 +49,7 @@ class StockAtSectorNew extends StatelessWidget {
                             color: Colors.grey.shade200,
                           ),
                         ),
-                    itemCount: appCubit.stocksAtSectors!.length,
+                    itemCount: appCubit.stocksAtSectors.length,
                     itemBuilder: (context, index) => InkWell(
                           onTap: () {
                             debugPrint("onTap");

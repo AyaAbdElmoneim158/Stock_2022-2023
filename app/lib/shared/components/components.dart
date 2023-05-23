@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
-import 'package:iconsax/iconsax.dart';
+// import 'package:iconsax/iconsax.dart';
 
 //!~> Navigator.................................................................
 void navigatorTo(
@@ -509,7 +509,7 @@ class CategoryItem extends StatelessWidget {
         listener: (context, state) {},
         builder: (context, state) {
           final appCubit = AppCubit.get(context);
-          final size = MediaQuery.of(context).size;
+          // final size = MediaQuery.of(context).size;
 
           return GestureDetector(
             onTap: () => appCubit.fetchStocksAtSectors(setcorName: title),
@@ -649,7 +649,7 @@ class NewsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // This size provide you the total height and width of the screen
-    Size size = MediaQuery.of(context).size;
+    // Size size = MediaQuery.of(context).size;
     return Container(
       width: 250,
       margin: const EdgeInsets.only(left: 10, right: 10, top: 20, bottom: 20),
@@ -701,19 +701,18 @@ class NewsCard extends StatelessWidget {
 
 //?~> News list...................................................................
 class NewsList extends StatelessWidget {
-  const NewsList({super.key});
-
+  const NewsList({super.key, required this.news});
+  final List<News> news;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 200,
       child: ListView.builder(
           scrollDirection: Axis.horizontal,
-          itemCount: fackSector.length,
+          itemCount: news.length,
           itemBuilder: (context, index) => NewsCard(
-              title: fackSector[index].name,
-              des:
-                  "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Reprehenderit beatae unde minus perferendis modi id nostrum! Maiores consectetur totam recusandae eveniet veritatis autem enim suscipit expedita! Quibusdam, quasi sint! A, architecto eos. Eius ea eligendi aut qui possimus! Nobis placeat dolores id assumenda iste similique? Dolores autem vitae modi sed!",
+              title: news[index].title.toString(),
+              des: news[index].des.toString(),
               press: () {})),
     );
   }
@@ -724,7 +723,7 @@ AppBar buildDetailsAppBar(BuildContext context, {required String title}) {
   return AppBar(
     backgroundColor: kBackgroundColor,
     elevation: 0,
-    title: Text(title, style: kBodyText!.copyWith(color: kPrimaryColor)),
+    title: Text(title, style: kBodyText.copyWith(color: kPrimaryColor)),
     leading: IconButton(
       icon: const Icon(
         Icons.arrow_back_ios,
