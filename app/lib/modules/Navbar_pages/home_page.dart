@@ -24,10 +24,11 @@ class HomePage extends StatelessWidget {
           final appCubit = AppCubit.get(context);
           return Scaffold(
             floatingActionButton: FloatingActionButton.small(
-                child: const Icon(Icons.logout),
-                onPressed: () => appCubit.getStockApiData(ramz: 'FWRY')
-                //  => AuthHelper.instance.logout()
-                ),
+              child: const Icon(Icons.logout),
+              onPressed: () => appCubit.fetchIncomeChart(),
+              //appCubit.getStockApiData(ramz: 'FWRY')
+              //  => AuthHelper.instance.logout()
+            ),
             body: NestedScrollView(
                 headerSliverBuilder: (context, innerBoxIsScrolled) => [
                       SliverAppBar(
@@ -177,7 +178,7 @@ class HomePage extends StatelessWidget {
                                   onTap: () {
                                     debugPrint("onTap");
                                     Navigator.pushNamed(
-                                        context, AppRoutes.detailsStockRoute,
+                                        context, AppRoutes.dashStockRoute,
                                         arguments: arrowss[index].ramz);
                                   },
                                   child: stockCard(context,

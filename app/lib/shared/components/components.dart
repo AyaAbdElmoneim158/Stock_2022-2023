@@ -679,7 +679,7 @@ class NewsCard extends StatelessWidget {
                 Text(
                   title,
                   style: kBodyText.copyWith(
-                      color: secondColor, fontWeight: FontWeight.w700),
+                      color: firstColor, fontWeight: FontWeight.w700),
                 ),
                 const SizedBox(height: 16),
                 Expanded(
@@ -690,6 +690,13 @@ class NewsCard extends StatelessWidget {
                     style: kBodyText.copyWith(color: kTextColor),
                   ),
                 ),
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: Text(
+                    '20 May 2023',
+                    style: Theme.of(context).textTheme.labelSmall,
+                  ),
+                )
               ],
             ),
           ),

@@ -188,3 +188,66 @@ class News {
     return data;
   }
 }
+
+List<News> fakeNews = [
+  News(
+      date: "23 may 2023",
+      link: 'https://google.com',
+      title: 'Title1',
+      des:
+          'Lorem ipsum dolor sit amet consectetur adipisicing elit. Id obcaecati velit eaque magnam illum, dolor quis assumenda autem itaque ullam. Impedit unde amet exercitationem, ducimus perferendis minus soluta voluptate ratione'),
+  News(
+      date: "23 may 2023",
+      link: 'https://google.com',
+      title: 'Title2',
+      des:
+          'Lorem ipsum dolor sit amet consectetur adipisicing elit. Id obcaecati velit eaque magnam illum, dolor quis assumenda autem itaque ullam. Impedit unde amet exercitationem, ducimus perferendis minus soluta voluptate ratione.'),
+  News(
+      date: "23 may 2023",
+      link: 'https://google.com',
+      title: 'Title3',
+      des:
+          'Lorem ipsum dolor sit amet consectetur adipisicing elit. Id obcaecati velit eaque magnam illum, dolor quis assumenda autem itaque ullam. Impedit unde amet exercitationem, ducimus perferendis minus soluta voluptate ratione.'),
+  News(
+      date: "23 may 2023",
+      link: 'https://google.com',
+      title: 'Title4',
+      des:
+          'Lorem ipsum dolor sit amet consectetur adipisicing elit. Id obcaecati velit eaque magnam illum, dolor quis assumenda autem itaque ullam. Impedit unde amet exercitationem, ducimus perferendis minus soluta voluptate ratione.'),
+  News(
+      date: "23 may 2023",
+      link: 'https://google.com',
+      title: 'Title5',
+      des:
+          'Lorem ipsum dolor sit amet consectetur adipisicing elit. Id obcaecati velit eaque magnam illum, dolor quis assumenda autem itaque ullam. Impedit unde amet exercitationem, ducimus perferendis minus soluta voluptate ratione.'),
+  News(
+      date: "23 may 2023",
+      link: 'https://google.com',
+      title: 'Title6',
+      des:
+          'Lorem ipsum dolor sit amet consectetur adipisicing elit. Id obcaecati velit eaque magnam illum, dolor quis assumenda autem itaque ullam. Impedit unde amet exercitationem, ducimus perferendis minus soluta voluptate ratione.'),
+  News(
+      date: "23 may 2023",
+      link: 'https://google.com',
+      title: 'Title7',
+      des:
+          'Lorem ipsum dolor sit amet consectetur adipisicing elit. Id obcaecati velit eaque magnam illum, dolor quis assumenda autem itaque ullam. Impedit unde amet exercitationem, ducimus perferendis minus soluta voluptate ratione.'),
+  News(
+      date: "23 may 2023",
+      link: 'https://google.com',
+      title: 'Title8',
+      des:
+          'Lorem ipsum dolor sit amet consectetur adipisicing elit. Id obcaecati velit eaque magnam illum, dolor quis assumenda autem itaque ullam. Impedit unde amet exercitationem, ducimus perferendis minus soluta voluptate ratione.'),
+  News(
+      date: "23 may 2023",
+      link: 'https://google.com',
+      title: 'Title9',
+      des:
+          'Lorem ipsum dolor sit amet consectetur adipisicing elit. Id obcaecati velit eaque magnam illum, dolor quis assumenda autem itaque ullam. Impedit unde amet exercitationem, ducimus perferendis minus soluta voluptate ratione.'),
+  News(
+      date: "23 may 2023",
+      link: 'https://google.com',
+      title: 'Title10',
+      des:
+          'Lorem ipsum dolor sit amet consectetur adipisicing elit. Id obcaecati velit eaque magnam illum, dolor quis assumenda autem itaque ullam. Impedit unde amet exercitationem, ducimus perferendis minus soluta voluptate ratione.'),
+];

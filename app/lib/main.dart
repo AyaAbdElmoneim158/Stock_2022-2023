@@ -1,4 +1,5 @@
 import 'package:app/firebase_options.dart';
+import 'package:app/modules/Design/Details/design_details.dart';
 import 'package:app/shared/components/constants.dart';
 import 'package:app/shared/cubit/bloc_observer.dart';
 import 'package:app/shared/cubit/cubit.dart';
@@ -18,12 +19,12 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   //ToDo:~> Add Firebase ------------------------------------------------------>
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  /* await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   //ToDo:~> Add Services.... Dio, cache,Bloc --------------------------------------->
   DioHelper.init();
   await CacheHelper.init();
-  Bloc.observer = MyBlocObserver();
+  Bloc.observer = MyBlocObserver();*/
 
   runApp(const MyApp());
 }
@@ -42,23 +43,23 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
         //ToDo: localizations ---------------------------------------------->
-        localizationsDelegates: const [
+        /*localizationsDelegates: const [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
         ],
         supportedLocales: [
           lang ? const Locale('ar', "AE") : const Locale('en'),
-        ],
+        ],*/
         //ToDo:~> Add Theme ----------------------------------------------------->
         theme: lightTheme,
         darkTheme: darkTheme,
         themeMode: ThemeMode.light,
 
         //ToDo:~> Add Routes ---------------------------------------------------->
-        onGenerateRoute: onGenerate,
-        initialRoute: AppRoutes.landingRoute,
-        // home: const ProfilePage(),
+        // onGenerateRoute: onGenerate,
+        // initialRoute: AppRoutes.landingRoute,
+        home: const DesignDetails(),
       ),
     );
   }

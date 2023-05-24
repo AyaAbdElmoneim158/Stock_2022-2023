@@ -42,18 +42,18 @@ List<Color> cardColors = const [
 // const Color greenColor = Colors.green;
 // const Color googleColor = Color(0XFF4285f4);
 
-const Color firstColor = Color(0XFF12192C);
+const Color firstColor = Color(0XFF0c1946); //? Color(0XFF12192C);
 const Color secondColor = Color(0XFFF5A623);
 const Color whiteColor = Color(0XFFEDEDED);
 const Color textColor = Color(0XFF000000);
 // kPrimaryColor
 // const kPrimaryColor = Color(0xFFFFC61F);
-const ksecondaryColor = Color(0xFFB5BFD0);
+const ksecondaryColor = Color(0xFF98a8c2); //? Color(0xFFB5BFD0);
 const kTextColor = Color(0xFF50505D);
 // const kTextLightColor = Color(0xFF6A727D);
 // const kTextColor = Color(0xFF1E2432);
 const kTextMediumColor = Color(0xFF53627C);
 const kTextLightColor = Color(0xFFACB1C0);
 const kPrimaryColor = Color(0xFF0D8E53);
-const kBackgroundColor = Color(0xFFFCFCFC);
+const kBackgroundColor = Color(0xFFFfFfFf);
 const kInactiveChartColor = Color(0xFFEAECEF);

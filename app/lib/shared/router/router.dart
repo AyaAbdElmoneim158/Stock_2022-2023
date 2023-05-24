@@ -3,8 +3,9 @@ import 'package:app/layout/bottom_navbar_new.dart';
 import 'package:app/models/sector_model.dart';
 import 'package:app/modules/Auth_pages/successful_page.dart';
 import 'package:app/modules/Navbar_pages/details_new_page.dart';
+import 'package:app/modules/Navbar_pages/new_dash.dart';
 import 'package:app/modules/Navbar_pages/stocks_inner_sector_new.dart';
-import 'package:app/modules/details_page.dart';
+import 'package:app/modules/Navbar_pages/old_dash.dart';
 import 'package:app/modules/Auth_pages/forgetpasssword/with_email.dart';
 import 'package:app/modules/landing_page.dart';
 import 'package:app/modules/more_charts.dart';
@@ -19,11 +20,11 @@ import 'package:flutter/cupertino.dart';
 
 Route<dynamic> onGenerate(RouteSettings settings) {
   switch (settings.name) {
-    case AppRoutes.moreChatsRoute:
-      // final url = settings.arguments as String;
+    // case AppRoutes.moreChatsRoute:
+    //   // final url = settings.arguments as String;
 
-      return CupertinoPageRoute(
-          builder: (_) => const DashBoardScreen(), settings: settings);
+    //   return CupertinoPageRoute(
+    //       builder: (_) => const DashBoardScreen(), settings: settings);
     case AppRoutes.newsUrlRoute:
       final url = settings.arguments as String;
 
@@ -46,6 +47,17 @@ Route<dynamic> onGenerate(RouteSettings settings) {
           builder: (_) => DetailNewsScreen(ramz: ramz),
           // DetailsStock(ramz: ramz),
           settings: settings);
+
+// dashStockRoute
+
+    // case AppRoutes.dashStockRoute:
+    //   final ramz = settings.arguments as String;
+    //   return CupertinoPageRoute(
+    //       builder: (_) => NewDash(),
+    //       //  OldDash(ramz: ramz),
+    //       // DetailsStock(ramz: ramz),
+    //       settings: settings);
+
     case AppRoutes.navbarRoute:
       return CupertinoPageRoute(
           builder: (_) => const BottomNavbarNew(), settings: settings);

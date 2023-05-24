@@ -58,6 +58,10 @@ class DetailNewsScreen extends StatelessWidget {
               builder: (context) => Scaffold(
                 // resizeToAvoidBottomPadding: false,
                 backgroundColor: kBackgroundColor,
+                floatingActionButton: FloatingActionButton(
+                  onPressed: () {},
+                  child: const Text("See more"),
+                ),
                 appBar: AppBar(
                   backgroundColor: kBackgroundColor,
                   title: Text(r'${details.ramz}stock'),

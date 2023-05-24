@@ -693,16 +693,19 @@ class AppCubit extends Cubit<AppStates> {
 
   //! ~> Fetch Chart one by one (income_statement, balance_sheet, cash_flow, dividends, dividened_payout_history, revenue, earning)
   //  https://ou8m3oozn4.execute-api.ap-northeast-1.amazonaws.com/default/test?stock=abuk-1
+  // https://20mccck65d.execute-api.ap-northeast-1.amazonaws.com/?stock=ABUK-1
   void fetchIncomeChart() {
     emit(FetchIncomeChartLoadingState());
     // income_statement
-    DioHelper.getData(path: '/test', queryParameters: {"stock": "abuk-1"})
+    DioHelper.getData(path: '/', queryParameters: {"stock": "abuk-1"})
         .then((value) {
-      debugPrint(value.data.toString());
+      // debugPrint(value.data.toString());
       debugPrint(value.data.runtimeType.toString());
-      var allData = StockChartModel.fromJson(value.data);
+      debugPrint(jsonDecode(value.data).runtimeType.toString());
+
+      var allData = StockChartModel.fromJson(jsonDecode(value.data));
       debugPrint(allData.incomeStatement!.header.toString());
-//********************************************************************************************
+      //********************************************************************************************
       // allData.incomeStatement.afterTaxOtherIncomeExpense.toString();
       // header.............["2018","2019","2020","2021","2022","TTM"],
       // Total revenue......["7.55B","8.58B","7.88B","8.84B","16.33B","—"],
@@ -756,10 +759,10 @@ class AppCubit extends Cubit<AppStates> {
         BarChart1('Pretax income', incomeSalesData4),
         BarChart1('Net income', incomeSalesData5),
       ];
-//********************************************************************************************
-      // "header":....................["2018","2019","2020","2021","2022"],
-      // Total assets.................["7.87B","9.06B","9.31B","10.85B","22.37B"],
-      // Total liabilities............["2.93B","2.74B","2.46B","2.49B","4.57B"]
+// //********************************************************************************************
+//       // "header":....................["2018","2019","2020","2021","2022"],
+//       // Total assets.................["7.87B","9.06B","9.31B","10.85B","22.37B"],
+//       // Total liabilities............["2.93B","2.74B","2.46B","2.49B","4.57B"]
       for (int i = 0; i < allData.balanceSheet!.header!.length; i++) {
         final endIndexBalanceSheettotalAssets =
             allData.balanceSheet!.totalAssets![i].indexOf("B", 0);
@@ -780,12 +783,12 @@ class AppCubit extends Cubit<AppStates> {
         BarChart1('Total assets', balanceSheetSalesData1),
         BarChart1('Total liabilities', balanceSheetSalesData2),
       ];
-//********************************************************************************************
-      // "header":........................["2018","2019","2020","2021","2022","TTM"],
-      // Cash from operating activities....["2.40B","2.79B","2.42B","2.58B","9.85B","—"],CashOperating
-      // Cash from investing activities....["−1.13B","−1.56B","−260.53M","−701.23M","−4.65B","—"],CashInvesting
-      // Cash from financing activities....["−1.59B","−1.66B","−1.98B","−1.84B","−3.24B","—"],CashFinancing
-      for (int i = 0; i < allData.cashFlow!.header!.length - 1; i++) {
+// //********************************************************************************************
+//       // "header":........................["2018","2019","2020","2021","2022","TTM"],
+//       // Cash from operating activities....["2.40B","2.79B","2.42B","2.58B","9.85B","—"],CashOperating
+//       // Cash from investing activities....["−1.13B","−1.56B","−260.53M","−701.23M","−4.65B","—"],CashInvesting
+//       // Cash from financing activities....["−1.59B","−1.66B","−1.98B","−1.84B","−3.24B","—"],CashFinancing
+      /* for (int i = 0; i < allData.cashFlow!.header!.length - 1; i++) {
         final endIndecCashFlowtoCashOperating =
             allData.cashFlow!.cashFromOperatingActivity![i].indexOf("B", 0);
         var valToCashOperating = double.parse(allData
@@ -815,7 +818,7 @@ class AppCubit extends Cubit<AppStates> {
         BarChart1('Cash from operating activities', cashFlowSalesData1),
         BarChart1('Cash from investing activities', cashFlowSalesData2),
         BarChart1('Cash from financing activities', cashFlowSalesData3),
-      ];
+      ];*/
 
       emit(FetchIncomeChartSuccessState());
     }).catchError((err) {

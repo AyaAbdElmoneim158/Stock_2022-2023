@@ -45,33 +45,36 @@ class _BottomNavbarNewState extends State<BottomNavbarNew> {
             ),
           ],
         ),
-        bottomNavigationBar: ClipRRect(
-          borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(16), topRight: Radius.circular(16)),
-          child: SlidingClippedNavBar(
-            backgroundColor: const Color(0XFF12192C),
-            onButtonPressed: onButtonPressed,
-            iconSize: 30,
-            activeColor: const Color(0xFFffffff),
-            selectedIndex: selectedIndex,
-            barItems: <BarItem>[
-              BarItem(
-                icon: Icons.home,
-                title: 'Home',
-              ),
-              BarItem(
-                icon: Icons.search_rounded,
-                title: 'Search',
-              ),
-              BarItem(
-                icon: Icons.bolt_rounded,
-                title: 'Recommend',
-              ),
-              BarItem(
-                icon: Icons.bookmark,
-                title: 'Bookmark',
-              ),
-            ],
+        bottomNavigationBar: SizedBox(
+          height: 80,
+          child: ClipRRect(
+            borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(16), topRight: Radius.circular(16)),
+            child: SlidingClippedNavBar(
+              backgroundColor: const Color(0XFF12192C),
+              onButtonPressed: onButtonPressed,
+              iconSize: 30,
+              activeColor: const Color(0xFFffffff),
+              selectedIndex: selectedIndex,
+              barItems: <BarItem>[
+                BarItem(
+                  icon: Icons.home,
+                  title: 'Home',
+                ),
+                BarItem(
+                  icon: Icons.search_rounded,
+                  title: 'Search',
+                ),
+                BarItem(
+                  icon: Icons.bolt_rounded,
+                  title: 'Recommend',
+                ),
+                BarItem(
+                  icon: Icons.bookmark,
+                  title: 'Bookmark',
+                ),
+              ],
+            ),
           ),
         ));
   }
