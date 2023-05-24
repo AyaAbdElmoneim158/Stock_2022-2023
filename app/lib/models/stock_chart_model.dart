@@ -1,4 +1,9 @@
 //----------------------------------------------------------------------------
+// import 'package:app/models/sales_data_model.dart';
+
+// import 'package:app/modules/more_charts.dart';
+import 'package:app/models/stock_model.dart';
+
 class StockChartModel {
   IncomeStatement? incomeStatement;
   BalanceSheet? balanceSheet;

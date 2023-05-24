@@ -50,13 +50,13 @@ Route<dynamic> onGenerate(RouteSettings settings) {
 
 // dashStockRoute
 
-    // case AppRoutes.dashStockRoute:
-    //   final ramz = settings.arguments as String;
-    //   return CupertinoPageRoute(
-    //       builder: (_) => NewDash(),
-    //       //  OldDash(ramz: ramz),
-    //       // DetailsStock(ramz: ramz),
-    //       settings: settings);
+    case AppRoutes.dashStockRoute:
+      final ramz = settings.arguments as String;
+      return CupertinoPageRoute(
+          builder: (_) => NewDash(ramz: ramz),
+          //  OldDash(ramz: ramz),
+          // DetailsStock(ramz: ramz),
+          settings: settings);
 
     case AppRoutes.navbarRoute:
       return CupertinoPageRoute(

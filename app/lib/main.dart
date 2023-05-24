@@ -19,12 +19,12 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   //ToDo:~> Add Firebase ------------------------------------------------------>
-  /* await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   //ToDo:~> Add Services.... Dio, cache,Bloc --------------------------------------->
   DioHelper.init();
   await CacheHelper.init();
-  Bloc.observer = MyBlocObserver();*/
+  Bloc.observer = MyBlocObserver();
 
   runApp(const MyApp());
 }
@@ -57,9 +57,9 @@ class MyApp extends StatelessWidget {
         themeMode: ThemeMode.light,
 
         //ToDo:~> Add Routes ---------------------------------------------------->
-        // onGenerateRoute: onGenerate,
-        // initialRoute: AppRoutes.landingRoute,
-        home: const DesignDetails(),
+        onGenerateRoute: onGenerate,
+        initialRoute: AppRoutes.landingRoute,
+        // home: const DesignDetails(),
       ),
     );
   }

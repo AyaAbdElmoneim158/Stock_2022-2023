@@ -49,7 +49,6 @@ List<SalesData> salesData1 = [
   SalesData("2021", 28),
   SalesData("2022", 34),
 ];
-
 List<SalesData> salesData2 = [
   SalesData("2018", 20),
   SalesData("2019", 32),
@@ -64,7 +63,6 @@ List<SalesData> salesData3 = [
   SalesData("2021", 48),
   SalesData("2022", 44),
 ];
-
 List<SalesData> salesData4 = [
   SalesData("2018", 60),
   SalesData("2019", 20),
@@ -143,42 +141,41 @@ class DetailsBody extends StatelessWidget {
       child: SingleChildScrollView(
         child: Column(children: [
 //! Container_1*********************************************
-          // Container(
-          //   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
-          //   decoration: BoxDecoration(
-          //     color: Colors.white,
-          //     borderRadius: BorderRadius.circular(20),
-          //     boxShadow: [
-          //       BoxShadow(
-          //         offset: const Offset(0, 21),
-          //         blurRadius: 53,
-          //         color: Colors.black.withOpacity(0.05),
-          //       ),
-          //     ],
-          //   ),
-          //   child: Column(
-          //     crossAxisAlignment: CrossAxisAlignment.start,
-          //     children: <Widget>[
-          //       nameLogo(ramz: 'ramz', logo: 'assets/ripple.gif'),
-          //       const SizedBox(height: 15),
-          //       const StockPrice(price: '4.53 Eg', change: '0.43%'),
-          //       const SizedBox(height: 15),
-          //       const DetailsChart(),
-          //       const SizedBox(height: 15),
-
-          //     ],
-          //   ),
-          // ),
-          // const SizedBox(height: 15),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  offset: const Offset(0, 21),
+                  blurRadius: 53,
+                  color: Colors.black.withOpacity(0.05),
+                ),
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                nameLogo(ramz: 'ramz', logo: 'assets/ripple.gif'),
+                const SizedBox(height: 15),
+                const StockPrice(price: '4.53 Eg', change: '0.43%'),
+                const SizedBox(height: 15),
+                const DetailsChart(),
+                const SizedBox(height: 15),
+              ],
+            ),
+          ),
+          const SizedBox(height: 15),
 //! Container_2 (About) ********************************************
-          // aboutContainer(
-          //   context,
-          //   about:
-          //       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Id obcaecati velit eaque magnam illum, dolor quis assumenda autem itaque ullam. Impedit unde amet exercitationem, ducimus perferendis minus soluta voluptate ratione.',
-          // ),
-          // const SizedBox(height: 15),
+          aboutContainer(
+            context,
+            about:
+                'Lorem ipsum dolor sit amet consectetur adipisicing elit. Id obcaecati velit eaque magnam illum, dolor quis assumenda autem itaque ullam. Impedit unde amet exercitationem, ducimus perferendis minus soluta voluptate ratione.',
+          ),
+          const SizedBox(height: 15),
 //! Container_3 (News) ********************************************
-          // newsContainer(context, news: fakeNews),
+          newsContainer(context, news: fakeNews),
 //! Container_4 (AllCharts) ********************************************
           columnsChart(
               groupsData: incomeStatementData, chartName: 'Income Statement'),
@@ -194,108 +191,6 @@ class DetailsBody extends StatelessWidget {
           columnsChart(groupsData: earningData, chartName: 'Earning'),
         ]),
       ),
-    );
-  }
-
-  Column revenue() {
-    return Column(
-      children: [
-        Row(
-          children: [
-            const Text(
-              'سنوي',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 20,
-                // fontFamily: FontWeight.w600
-              ),
-            ),
-            const Spacer(),
-            TextButton(
-                onPressed: () {},
-                child: const Text(
-                  'العوائد',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
-                  ),
-                )),
-          ],
-        ),
-        SfCartesianChart(
-          borderWidth: 0,
-          borderColor: Colors.transparent,
-          plotAreaBorderWidth: 0,
-          //!
-          legend: Legend(isVisible: true, position: LegendPosition.bottom),
-          tooltipBehavior: TooltipBehavior(enable: true),
-          series: <ScatterSeries>[
-            ScatterSeries<SalesData, String>(
-              dataSource: salesData1,
-              xValueMapper: (SalesData sales, _) => sales.month,
-              yValueMapper: (SalesData sales, _) => sales.sales,
-              name: 'الحقيقي',
-              enableTooltip: true,
-            ),
-            ScatterSeries<SalesData, String>(
-              dataSource: salesData2,
-              xValueMapper: (SalesData sales, _) => sales.month,
-              yValueMapper: (SalesData sales, _) => sales.sales,
-              name: 'المتوقع',
-              enableTooltip: true,
-            ),
-          ],
-          primaryXAxis: CategoryAxis(
-            isVisible: false,
-          ),
-          primaryYAxis: NumericAxis(
-              isVisible: false,
-              edgeLabelPlacement: EdgeLabelPlacement.shift,
-              numberFormat:
-                  NumberFormat.simpleCurrency(decimalDigits: 1, name: '')),
-        ),
-        const Divider(
-          height: 20,
-        ),
-      ],
-    );
-  }
-
-  Column dividends({required List<SalesData>? dataSource}) {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            TextButton(
-                onPressed: () {},
-                child: const Text(
-                  'أرباح',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
-                    // fontFamily: FontWeight.w600
-                  ),
-                )),
-          ],
-        ),
-        SfCircularChart(
-          borderWidth: 0,
-          borderColor: Colors.transparent,
-          // plotAreaBorderWidth: 0,
-          //!
-          legend: Legend(isVisible: true, position: LegendPosition.top),
-          tooltipBehavior: TooltipBehavior(enable: true),
-          series: <CircularSeries>[
-            DoughnutSeries<SalesData, String>(
-                dataSource: salesData1,
-                xValueMapper: (SalesData sales, _) => sales.month,
-                yValueMapper: (SalesData sales, _) => sales.sales,
-                enableTooltip: true,
-                dataLabelSettings: const DataLabelSettings(isVisible: true)),
-          ],
-        ),
-      ],
     );
   }
 
@@ -499,66 +394,6 @@ class DetailsBody extends StatelessWidget {
     );
   }
 
-  SizedBox balanceSheetChart({required List<BarChart1> groupSalesData}) {
-    return SizedBox(
-      height: 400,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Row(
-            children: [
-              TextButton(
-                  onPressed: () {},
-                  child: const Text(
-                    'Balance Sheet',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      // fontFamily: FontWeight.w600
-                    ),
-                  )),
-              const Spacer(),
-              const Text('سنوي',
-                  style: TextStyle(
-                    color: Colors.orangeAccent,
-                    fontSize: 20,
-                    // fontFamily: FontWeight.w600
-                  )),
-            ],
-          ),
-          // Text(appCubit.page),
-          SfCartesianChart(
-            borderWidth: 0,
-            borderColor: Colors.transparent,
-            plotAreaBorderWidth: 0,
-            //! --------------------------SfCartesianChart
-            legend: Legend(isVisible: true, position: LegendPosition.bottom),
-            tooltipBehavior: TooltipBehavior(enable: true),
-            series: <CartesianSeries>[
-              for (var group in groupSalesData
-                  // appCubit.balanceSheetBarChartData1
-                  )
-                ColumnSeries<SalesData, String>(
-                    dataSource: group.data,
-                    xValueMapper: (SalesData sales, _) => sales.month,
-                    yValueMapper: (SalesData sales, _) => sales.sales,
-                    // borderRadius: BorderRadius.circular(8.0),
-                    name: group.name,
-                    enableTooltip: true,
-                    spacing: 0.3),
-            ],
-            primaryXAxis: CategoryAxis(isVisible: false),
-            primaryYAxis: NumericAxis(
-                isVisible: false,
-                edgeLabelPlacement: EdgeLabelPlacement.shift,
-                numberFormat:
-                    NumberFormat.simpleCurrency(decimalDigits: 2, name: 'B')),
-          )
-        ],
-      ),
-    );
-  }
-
   Container newsContainer(BuildContext context, {required List<News> news}) {
     return Container(
       padding: const EdgeInsets.all(20),
@@ -724,22 +559,37 @@ class StockPrice extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: <Widget>[
-        Text(
-          // details.stockMainApi!.stockPrice.toString(),
-          price,
-          style: Theme.of(context)
-              .textTheme
-              .displaySmall!
-              .copyWith(color: kPrimaryColor, height: 1.2),
+        //EGP
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: RichText(
+              text: TextSpan(children: [
+            TextSpan(
+              text: price,
+              style: Theme.of(context)
+                  .textTheme
+                  .displaySmall!
+                  .copyWith(color: kPrimaryColor, height: 1.2),
+            ),
+            TextSpan(
+              text: 'EGP',
+              style: Theme.of(context)
+                  .textTheme
+                  .bodySmall!
+                  .copyWith(color: kPrimaryColor, height: 1.2),
+            ),
+          ])),
         ),
+
         const SizedBox(width: 16),
         Text(
           // details.stockMainApi!.incPercentage.toString(),
           change,
-          style: Theme.of(context)
-              .textTheme
-              .bodyLarge!
-              .copyWith(color: kPrimaryColor, height: 1.2),
+          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+              color: double.parse(change.substring(0, 3)) > 0
+                  ? kPrimaryColor
+                  : Colors.green,
+              height: 1.2),
         ),
         // SvgPicture.asset("assets/icons/increase.svg")
       ],

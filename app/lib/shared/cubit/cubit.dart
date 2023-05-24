@@ -389,42 +389,12 @@ class AppCubit extends Cubit<AppStates> {
     return salesData;
   }
 
-  //----------------------------------------------------------------------------
-  //! getStockDetails ============================================<
-
-  // late StockModelApi
-  // late Map<String, dynamic> stockApiDataMap;
-  void getStockApiData({required String ramz}) {
-    emit(GetStockApiDataLoadingState());
-    // stockApiDataMap ={};
-    //https://20mccck65d.execute-api.ap-northeast-1.amazonaws.com/?stock=ABUK-0
-    // print("Before $stockApiDataMap");
-    DioHelper.getData(
-      path: "/",
-      queryParameters: {
-        //"abuk-0"
-        "stock": "$ramz-0"
-      },
-    ).then((value) {
-      // stockApiDataMap = {"ramz": value.data['ramz']};
-      // stockApiDataMap = StockModelApi.fromJson(value.data);
-      // StockModelApi
-
-      debugPrint("After ${value.data}");
-      emit(GetStockApiDataSuccessState());
-    }).catchError((err) {
-      debugPrint("getStockApiData error ::$err");
-      emit(GetStockApiDataErrorState(err));
-    });
-  }
-
-//--------------------------------------------------------
+//*~> fetchStocksAtSectors --------------------------------------------------------
   List<StockAtSectorModel> stocksAtSectors = [];
-  void fetchStocksAtSectors({required String setcorName}) {
+  void fetchStocksAtSectors({required String sectorName}) {
     emit(FetchStocksAtSectorLoadingState());
-    DioHelper.getData(
-        path: '/test',
-        queryParameters: {"stock": "$setcorName-2"}).then((value) {
+    DioHelper.getData(path: '/', queryParameters: {"stock": "$sectorName-2"})
+        .then((value) {
       var allData = value.data; //jsonDecode(value.data); length
 
       for (int i = 1; i < allData.length; i++) {
@@ -441,218 +411,8 @@ class AppCubit extends Cubit<AppStates> {
       emit(FetchStocksAtSectorErrorState(err));
     });
   }
-//! Fetch Chart ....................................................................................
-//https://20mccck65d.execute-api.ap-northeast-1.amazonaws.com/?stock=ABUK-1
-  // Map<dynamic, dynamic> incomeChartApiDataMap = {};
-  // List<SalesData> salesData1 = [];
-//   void fetchChartApiData(BuildContext context) {
-//     //?, String ramz
-//     emit(GetIncomeChartApiDatawLoadingState());
-//     DioHelper.getData(
-//       path: "/",
-//       queryParameters: {"stock": "ABUK-1"},
-//     ).then((value) {
-//       Map valueMap = jsonDecode(value.data);
-//       // [2018, 2019, 2020, 2021, 2022, TTM]
-//       // [7.55B, 8.58B, 7.88B, 8.84B, 16.33B, —]
-// //? Data of income_statement============================================
-//       //!  header..........................................................................
-//       List<dynamic> headerIncome = valueMap["income_statement"]["header"];
-//       headerIncome.removeAt(headerIncome.length - 1);
-//       debugPrint(headerIncome.toString());
-//       //!  total_revenue.....................................................................
-//       List<dynamic> totalRevenue =
-//           valueMap["income_statement"]["total_revenue"];
-//       totalRevenue.removeAt(totalRevenue.length - 1);
-//       debugPrint(totalRevenue.toString());
-//       List<dynamic> newTotalRevenue = editText(totalRevenue);
-//       debugPrint(newTotalRevenue.toString());
-//       //!  gross_profit..................................................................
-//       List<dynamic> grossProfit = valueMap["income_statement"]["gross_profit"];
-//       grossProfit.removeAt(grossProfit.length - 1);
-//       debugPrint(grossProfit.toString());
-//       List<dynamic> newGrossProfit = editText(grossProfit);
-//       debugPrint(newGrossProfit.toString());
-//       //!  operating_income.....................................................................
-//       List<dynamic> operatingIncome =
-//           valueMap["income_statement"]["operating_income"];
-//       operatingIncome.removeAt(operatingIncome.length - 1);
-//       debugPrint(operatingIncome.toString());
-//       List<dynamic> newOperatingIncome = editText(operatingIncome);
-//       debugPrint(newOperatingIncome.toString());
-//       //!  pretax_income..................................................................
-//       List<dynamic> pretaxIncome =
-//           valueMap["income_statement"]["pretax_income"];
-//       pretaxIncome.removeAt(pretaxIncome.length - 1);
-//       debugPrint(pretaxIncome.toString());
-//       List<dynamic> newPretaxIncome = editText(pretaxIncome);
-//       debugPrint(newPretaxIncome.toString());
-//       //!  net_income.....................................................................
-//       List<dynamic> netIncome = valueMap["income_statement"]["net_income"];
-//       netIncome.removeAt(netIncome.length - 1);
-//       debugPrint(netIncome.toString());
-//       List<dynamic> newNetIncome = editText(netIncome);
-//       debugPrint(newNetIncome.toString());
-//       /*
-// //? Data of balance_sheet ============================================
-//       //!  header.....................................................................
-//       List<dynamic> headerBalanceSheet = valueMap["balance_sheet"]["header"];
-//       debugPrint(headerBalanceSheet.toString());
-//       //!  total_assets.....................................................................
-//       List<dynamic> newTotalAssets = editText(valueMap["balance_sheet"]
-//           ["total_assets"]); // debugPrint(newTotalAssets.toString());
-//       //!  total_liabilities.....................................................................
-//       List<dynamic> newTotalLiabilities = editText(valueMap["balance_sheet"]
-//           ["total_liabilities"]); // debugPrint(newTotalAssets.toString());
-// //? Data of cash_flow ============================================
-//       //!header..........................................................................
-//       List<dynamic> headercashFlow = valueMap["cash_flow"]["header"];
-//       headercashFlow.removeAt(headercashFlow.length - 1);
-//       debugPrint(headercashFlow.toString());
-//       //!cash_from_operating_activity..........................................................................
-//       List<dynamic> cashFromOperatingActivity =
-//           valueMap["cash_flow"]["cash_from_operating_activity"];
-//       cashFromOperatingActivity.removeAt(cashFromOperatingActivity.length - 1);
-//       debugPrint(cashFromOperatingActivity.toString());
-//       List<dynamic> newcashFromOperatingActivity =
-//           editText(cashFromOperatingActivity);
-//       debugPrint(newcashFromOperatingActivity.toString());
-//       //!cash_from_investing_activity..........................................................................
-//       List<dynamic> cashFromInvestingActivity =
-//           valueMap["cash_flow"]["cash_from_investing_activity"];
-//       cashFromInvestingActivity.removeAt(cashFromInvestingActivity.length - 1);
-//       debugPrint(cashFromInvestingActivity.toString());
-//       List<dynamic> newcashFromInvestingActivity =
-//           editText(cashFromInvestingActivity);
-//       debugPrint(newcashFromInvestingActivity.toString());
-//       //!cash_from_financing_activity..........................................................................
-//       List<dynamic> cashFromFinancingActivity =
-//           valueMap["cash_flow"]["cash_from_financing_activity"];
-//       cashFromFinancingActivity.removeAt(cashFromFinancingActivity.length - 1);
-//       debugPrint(cashFromFinancingActivity.toString());
-//       List<dynamic> newcashFromFinancingActivity =
-//           editText(cashFromFinancingActivity);
-//       debugPrint(newcashFromFinancingActivity.toString());
-// */
-// //******************************************************************************************
-//       //? full_Chart_IncomeChart.....................................................................
-//       salesDataIncomeChart1 =
-//           fullSalesData(salesDataIncomeChart1, headerIncome, newTotalRevenue);
-//       salesDataIncomeChart2 =
-//           fullSalesData(salesDataIncomeChart2, headerIncome, newGrossProfit);
-//       salesDataIncomeChart3 = fullSalesData(
-//           salesDataIncomeChart3, headerIncome, newOperatingIncome);
-//       salesDataIncomeChart4 =
-//           fullSalesData(salesDataIncomeChart4, headerIncome, newPretaxIncome);
-//       salesDataIncomeChart5 =
-//           fullSalesData(salesDataIncomeChart5, headerIncome, newNetIncome);
 
-//       groupSalesDataIncomeChart = [
-//         BarChart1('Total revenue', salesDataIncomeChart1),
-//         BarChart1('gross_profit', salesDataIncomeChart2),
-//         BarChart1('operating_income', salesDataIncomeChart3),
-//         BarChart1('pretax_income', salesDataIncomeChart4),
-//         BarChart1('new_net_income', salesDataIncomeChart5),
-//       ];
-//       emit(GetIncomeChartApiDatawSuccessState());
-//       /*     //? full_Chart_BalanceSheet.....................................................................
-//       salesDataBalanceSheetChart1 = fullSalesData(
-//           salesDataBalanceSheetChart1, headerBalanceSheet, newTotalAssets);
-//       salesDataBalanceSheetChart2 = fullSalesData(
-//           salesDataBalanceSheetChart2, headerBalanceSheet, newTotalLiabilities);
-//       groupSalesDataBalanceSheetChart = [
-//         BarChart1('Total assets', salesDataBalanceSheetChart1),
-//         BarChart1('Total liabilities', salesDataBalanceSheetChart2),
-//       ];
-//       emit(GetBalanceSheetChartApiDatawSuccessState());
-
-//       //? full_cash_flow.....................................................................
-//       // salesDataCashFlowChart1 = fullSalesData(
-//       //     salesDataCashFlowChart1, headercashFlow, cashFromOperatingActivity);
-//       // salesDataCashFlowChart2 = fullSalesData(
-//       //     salesDataCashFlowChart2, headercashFlow, cashFromInvestingActivity);
-//       // salesDataCashFlowChart3 = fullSalesData(
-//       //     salesDataCashFlowChart3, headercashFlow, cashFromFinancingActivity);
-
-//       groupSalesDataCashFlowChart = [
-//         BarChart1('Cash from operating activities', salesDataCashFlowChart1),
-//         BarChart1('Cash from investing activities', salesDataCashFlowChart2),
-//         BarChart1('Cash from financing activities', salesDataCashFlowChart2),
-//       ];
-//       emit(GetCashFlowChartApiDatawSuccessState());*/
-//     }).catchError((err) {
-//       debugPrint("getIncomeChartApiData error ::$err");
-//       emit(GetIncomeChartApiDatawErrorState(err));
-//     });
-
-  // stockApiDataMap ={};
-  // print("Before $incomeChartApiDataMap");//"$ramz-1"//"abuk-0"
-  /// /
-  // print("After $valueMap.... ${valueMap.runtimeType}");
-  /*incomeChartApiDataMap = valueMap;*/
-  // debugPrint(
-  //     incomeChartApiDataMap["income_statement"]["headerIncome"].toString());
-  // debugPrint(incomeChartApiDataMap["income_statement"]["total_revenue"]
-  //     .toString());
-  /* List<dynamic> header =
-          incomeChartApiDataMap["income_statement"]["header"];
-      header.removeAt(header.length - 1);
-      debugPrint(header.toString());
-      List<dynamic> total_revenue =
-          incomeChartApiDataMap["income_statement"]["total_revenue"];
-      total_revenue.removeAt(total_revenue.length - 1);
-      debugPrint(total_revenue.toString());*/
-
-// [2018, 2019, 2020, 2021, 2022, TTM]
-// [7.55B, 8.58B, 7.88B, 8.84B, 16.33B, —]
-  //
-  /* List<dynamic> new_total_revenue = [];
-      for (var e in total_revenue) {
-        // debugPrint(e);
-        List<String> c = e.split("");
-        c.removeLast();
-        debugPrint(c.join());
-        // e = ;
-        new_total_revenue.add(double.parse(c.join()));
-        // e.last()
-        // double.parse(e.replaceAll("B", ""));
-        // c.toString());
-      }
-      // .map((e) => );
-      // e = double.parse(e.replace("B", "")));
-      // e.substring(0, 2)
-      // ); replaceAll(houseNumber, '')
-      debugPrint(new_total_revenue.toString());*/
-
-  // debugPrint(total_revenue.toString());
-  /*  for (var i = 0; i < header.length - 1; i++) {
-        salesData1.add(SalesData(header[i], new_total_revenue[i]));
-      }
-      debugPrint(salesData1.toString());
-      emit(GetIncomeChartApiDatawSuccessState());
-    }).catchError((err) {
-      debugPrint("getIncomeChartApiData error ::$err");
-      emit(GetIncomeChartApiDatawErrorState(err));
-    });*/
-// *******************************************************************************************************
-//--------------------------------------------------------------------------------------------------------
-// *******************************************************************************************************
-  List<SalesData> incomeSalesData1 = [];
-  List<SalesData> incomeSalesData2 = [];
-  List<SalesData> incomeSalesData3 = [];
-  List<SalesData> incomeSalesData4 = [];
-  List<SalesData> incomeSalesData5 = [];
-  late List<BarChart1> incomeBarChartData1 = [];
-
-  List<SalesData> balanceSheetSalesData1 = [];
-  List<SalesData> balanceSheetSalesData2 = [];
-  late List<BarChart1> balanceSheetBarChartData1 = [];
-
-  List<SalesData> cashFlowSalesData1 = [];
-  List<SalesData> cashFlowSalesData2 = [];
-  List<SalesData> cashFlowSalesData3 = [];
-  late List<BarChart1> cashFlowBarChartData1 = [];
-
+//!~> fetchStocksAtSectors --------------------------------------------------------
   List<SalesDataYear> chartData = [];
   void fetchStockTimeline({required String ramz}) {
     emit(FetchStockTimelineLoadingState());
@@ -663,19 +423,16 @@ class AppCubit extends Cubit<AppStates> {
         chartData.add(SalesDataYear(DateTime.parse(value.data["data"][i][0]),
             value.data["data"][i][5]));
       }
-
-// data
       emit(FetchStockTimelineSuccessState());
     }).catchError((err) {
       emit(FetchStockTimelineErrorState(err.toString()));
     });
   }
 
-//!~> Fetch stock Details..................................................................
+//*~> Fetch stock Details..................................................................
   StockModelApi details = StockModelApi();
-  void fetchDetsils({required String ramz}) {
+  void fetchDetails({required String ramz}) {
     emit(FetchDetailsLoadingState());
-    //https://20mccck65d.execute-api.ap-northeast-1.amazonaws.com/?stock=ABUK-0
     DioHelper.getData(
             path: '/', queryParameters: {'stock': '$ramz-0'}) //'ABUK-0'
         .then((value) {
@@ -691,67 +448,73 @@ class AppCubit extends Cubit<AppStates> {
     });
   }
 
-  //! ~> Fetch Chart one by one (income_statement, balance_sheet, cash_flow, dividends, dividened_payout_history, revenue, earning)
-  //  https://ou8m3oozn4.execute-api.ap-northeast-1.amazonaws.com/default/test?stock=abuk-1
-  // https://20mccck65d.execute-api.ap-northeast-1.amazonaws.com/?stock=ABUK-1
-  void fetchIncomeChart() {
+//*~> Fetch Chart one by one (income_statement, balance_sheet, cash_flow, dividends, dividened_payout_history, revenue, earning)
+  List<SalesData> incomeSalesData1 = [],
+      incomeSalesData2 = [],
+      incomeSalesData3 = [],
+      incomeSalesData4 = [],
+      incomeSalesData5 = [],
+      balanceSheetSalesData1 = [],
+      balanceSheetSalesData2 = [],
+      cashFlowSalesData1 = [],
+      cashFlowSalesData2 = [],
+      cashFlowSalesData3 = [],
+      divideData1 = [],
+      divideData2 = [],
+      revenueData1 = [],
+      revenueData2 = [],
+      earningData1 = [],
+      earningData2 = [];
+
+  late List<BarChart1> incomeBarChartData1 = [],
+      balanceSheetBarChartData1 = [],
+      cashFlowBarChartData1 = [],
+      divideBarChartData1 = [],
+      revenueBarChartData1 = [],
+      earningBarChartData1 = [];
+
+  void fetchChartsData({required String ramz}) {
     emit(FetchIncomeChartLoadingState());
-    // income_statement
-    DioHelper.getData(path: '/', queryParameters: {"stock": "abuk-1"})
-        .then((value) {
-      // debugPrint(value.data.toString());
-      debugPrint(value.data.runtimeType.toString());
-      debugPrint(jsonDecode(value.data).runtimeType.toString());
+    DioHelper.getData(path: '/', queryParameters: {
+      "stock": "ABUK-1"
+      // "$ramz-1"
+    }).then((value) {
+      // debugPrint(value.data.runtimeType.toString());debugPrint(jsonDecode(value.data).runtimeType.toString());
 
       var allData = StockChartModel.fromJson(jsonDecode(value.data));
-      debugPrint(allData.incomeStatement!.header.toString());
-      //********************************************************************************************
-      // allData.incomeStatement.afterTaxOtherIncomeExpense.toString();
-      // header.............["2018","2019","2020","2021","2022","TTM"],
-      // Total revenue......["7.55B","8.58B","7.88B","8.84B","16.33B","—"],
-      // Gross profit.......["2.67B","3.43B","2.85B","3.90B","10.62B","—"],
-      // Operating income...["2.16B","2.81B","2.29B","3.30B","9.75B","—"],
-      // Pretax income......["2.99B","4.04B","3.38B","4.28B","11.52B","—"],
-      // Net income.........["2.03B","2.64B","2.25B","2.94B","7.57B","—"],
+      // debugPrint(allData.incomeStatement!.header.toString());
+      // final endIndexIncomeStatementtotalRevenue =allData.incomeStatement!.totalRevenue![i].indexOf("B", 0);
+//? Fetch Income Statement ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       for (int i = 0; i < allData.incomeStatement!.header!.length - 1; i++) {
-        final endIndexIncomeStatementtotalRevenue =
-            allData.incomeStatement!.totalRevenue![i].indexOf("B", 0);
-        var valTotalRevenue = double.parse(allData
-            .incomeStatement!.totalRevenue![i]
-            .substring(0, endIndexIncomeStatementtotalRevenue));
-        final endIndexIncomeStatementgrossProfit =
-            allData.incomeStatement!.grossProfit![i].indexOf("B", 0);
-        var valgrossProfit = double.parse(allData
-            .incomeStatement!.grossProfit![i]
-            .substring(0, endIndexIncomeStatementgrossProfit));
-        final endIndexIncomeStatementoperatingIncome =
-            allData.incomeStatement!.operatingIncome![i].indexOf("B", 0);
-        var valoperatingIncome = double.parse(allData
-            .incomeStatement!.operatingIncome![i]
-            .substring(0, endIndexIncomeStatementoperatingIncome));
-        final endIndexIncomeStatementpretaxIncome =
-            allData.incomeStatement!.pretaxIncome![i].indexOf("B", 0);
-        var valpretaxIncome = double.parse(allData
-            .incomeStatement!.pretaxIncome![i]
-            .substring(0, endIndexIncomeStatementpretaxIncome));
-        final endIndexIncomeStatementnetIncome =
-            allData.incomeStatement!.netIncome![i].indexOf("B", 0);
-        var valnetIncome = double.parse(allData.incomeStatement!.netIncome![i]
-            .substring(0, endIndexIncomeStatementnetIncome));
-
+        // Fetch arrays of data ...............................................................................................................................
+        var valTotalRevenue = double.parse(
+                allData.incomeStatement!.totalRevenue![i].substring(0,
+                    allData.incomeStatement!.totalRevenue![i].indexOf("B", 0))),
+            valGrossProfit = double.parse(allData.incomeStatement!.grossProfit![i].substring(
+                0, allData.incomeStatement!.grossProfit![i].indexOf("B", 0))),
+            valOperatingIncome = double.parse(
+                allData.incomeStatement!.operatingIncome![i].substring(
+                    0,
+                    allData.incomeStatement!.operatingIncome![i]
+                        .indexOf("B", 0))),
+            valPretaxIncome =
+                double.parse(allData.incomeStatement!.pretaxIncome![i].substring(0, allData.incomeStatement!.pretaxIncome![i].indexOf("B", 0))),
+            valNetIncome = double.parse(allData.incomeStatement!.netIncome![i].substring(0, allData.incomeStatement!.netIncome![i].indexOf("B", 0)));
+        // data arrays of data to SalesData...............................................................................................................................
         incomeSalesData1.add(
             SalesData(allData.incomeStatement!.header![i], valTotalRevenue));
         incomeSalesData2.add(
-            SalesData(allData.incomeStatement!.header![i], valgrossProfit));
+            SalesData(allData.incomeStatement!.header![i], valGrossProfit));
         incomeSalesData3.add(
-            SalesData(allData.incomeStatement!.header![i], valoperatingIncome));
+            SalesData(allData.incomeStatement!.header![i], valOperatingIncome));
         incomeSalesData4.add(
-            SalesData(allData.incomeStatement!.header![i], valpretaxIncome));
+            SalesData(allData.incomeStatement!.header![i], valPretaxIncome));
         incomeSalesData5
-            .add(SalesData(allData.incomeStatement!.header![i], valnetIncome));
+            .add(SalesData(allData.incomeStatement!.header![i], valNetIncome));
 
         debugPrint("${allData.incomeStatement!.header![i]} : $valTotalRevenue");
       }
+      // Add to group...............................................................................................................................
       incomeBarChartData1 = [
         BarChart1('Total revenue', incomeSalesData1),
         BarChart1('Gross profit', incomeSalesData2),
@@ -759,30 +522,133 @@ class AppCubit extends Cubit<AppStates> {
         BarChart1('Pretax income', incomeSalesData4),
         BarChart1('Net income', incomeSalesData5),
       ];
-// //********************************************************************************************
-//       // "header":....................["2018","2019","2020","2021","2022"],
-//       // Total assets.................["7.87B","9.06B","9.31B","10.85B","22.37B"],
-//       // Total liabilities............["2.93B","2.74B","2.46B","2.49B","4.57B"]
-      for (int i = 0; i < allData.balanceSheet!.header!.length; i++) {
-        final endIndexBalanceSheettotalAssets =
-            allData.balanceSheet!.totalAssets![i].indexOf("B", 0);
-        var valtotalAssets = double.parse(allData.balanceSheet!.totalAssets![i]
-            .substring(0, endIndexBalanceSheettotalAssets));
-        final endIndexBalanceSheettotalLiabilities =
-            allData.balanceSheet!.totalLiabilities![i].indexOf("B", 0);
-        var valtotalLiabilities = double.parse(allData
-            .balanceSheet!.totalLiabilities![i]
-            .substring(0, endIndexBalanceSheettotalLiabilities));
+      debugPrint("Income Statement.... Done!");
+//? Fetch BalanceSheet ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+      for (int i = 0; i < allData.balanceSheet!.header!.length; i++) {
+        // final endIndexBalanceSheettotalAssets =allData.balanceSheet!.totalAssets![i].indexOf("B", 0);
+        // Fetch arrays of data ...............................................................................................................................
+        var valTotalAssets = double.parse(allData.balanceSheet!.totalAssets![i]
+                .substring(
+                    0, allData.balanceSheet!.totalAssets![i].indexOf("B", 0))),
+            valTotalLiabilities = double.parse(
+                allData.balanceSheet!.totalLiabilities![i].substring(
+                    0,
+                    allData.balanceSheet!.totalLiabilities![i]
+                        .indexOf("B", 0)));
+        // data arrays of data to SalesData...............................................................................................................................
         balanceSheetSalesData1
-            .add(SalesData(allData.balanceSheet!.header![i], valtotalAssets));
+            .add(SalesData(allData.balanceSheet!.header![i], valTotalAssets));
         balanceSheetSalesData2.add(
-            SalesData(allData.balanceSheet!.header![i], valtotalLiabilities));
+            SalesData(allData.balanceSheet!.header![i], valTotalLiabilities));
       }
+      // Add to group...............................................................................................................................
       balanceSheetBarChartData1 = [
         BarChart1('Total assets', balanceSheetSalesData1),
         BarChart1('Total liabilities', balanceSheetSalesData2),
       ];
+      debugPrint("BalanceSheet.... Done!");
+
+//? Fetch dividends ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+      for (int i = 0; i < allData.dividends!.header!.length; i++) {
+        // Fetch arrays of data ...............................................................................................................................
+        var valDividensPerShare =
+                double.parse(allData.dividends!.dividensPerShare![i]),
+            valDividendYield =
+                double.parse(allData.dividends!.dividendYield![i]);
+
+        // data arrays of data to SalesData...............................................................................................................................
+        divideData1
+            .add(SalesData(allData.dividends!.header![i], valDividensPerShare));
+        divideData2
+            .add(SalesData(allData.dividends!.header![i], valDividendYield));
+      }
+      // Add to group...............................................................................................................................
+      divideBarChartData1 = [
+        BarChart1('Dividends per share', divideData1),
+        // BarChart1('Total liabilities', divideData2),
+      ];
+      debugPrint("dividends.... Done!");
+
+//? Fetch revenue ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+      /*    for (int i = 0; i < allData.revenue!.estimateR!.length; i++) {
+        List<String> header = [
+          "2015",
+          "2016",
+          "2017",
+          "2018",
+          "2019",
+          "2020",
+          "2021",
+          "2022",
+          "2023",
+          "2024",
+          "2025",
+          "2026",
+        ];
+        // Fetch arrays of data ...............................................................................................................................
+        var valReportedR = double.parse(allData.revenue!.estimateR![i] != "—"?
+        allData.revenue!.reportedR![i]
+                .substring(
+                    0,
+                    allData.balanceSheet!.totalLiabilities![i]
+                        .indexOf("B", 0)): '0'),
+            valEstimateR = double.parse(allData.revenue!.estimateR![i] != "—"
+                ? allData.revenue!.estimateR![i].substring(0,
+                    allData.balanceSheet!.totalLiabilities![i].indexOf("B", 0))
+                : '0');
+
+        // data arrays of data to SalesData...............................................................................................................................
+        revenueData1.add(SalesData(header[i], valReportedR));
+        revenueData2.add(SalesData(header[i], valEstimateR));
+      }
+      // Add to group...............................................................................................................................
+      revenueBarChartData1 = [
+        BarChart1('Reported', revenueData1),
+        BarChart1('Estimate', revenueData2),
+      ];
+
+      debugPrint("revenue.... Done!");*/
+
+//? Fetch estimateE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+      /*for (int i = 0; i < allData.earning!.estimateE!.length; i++) {
+        List<String> header = [
+          // 10 -> 12
+          "2015",
+          "2016",
+          "2017",
+          "2018",
+          "2019",
+          "2020",
+          "2021",
+          "2022",
+          "2023",
+          "2024",
+          // "2025",
+          // "2026",
+        ];
+        // Fetch arrays of data ...............................................................................................................................
+        var valReportedE = double.parse(allData.revenue!.estimateR![i] != "—"
+                ? allData.earning!.reportedE![i]
+                : '0'),
+            valEstimateE = double.parse(allData.revenue!.estimateR![i] != "—"
+                ? allData.earning!.estimateE![i]
+                : '0');
+
+        // data arrays of data to SalesData...............................................................................................................................
+        earningData1.add(SalesData(header[i], valReportedE));
+        earningData2.add(SalesData(header[i], valEstimateE));
+      }
+      // Add to group...............................................................................................................................
+      earningBarChartData1 = [
+        BarChart1('Reported', earningData1),
+        BarChart1('Estimate', earningData2),
+      ];
+      debugPrint("estimateE.... Done!");*/
+
 // //********************************************************************************************
 //       // "header":........................["2018","2019","2020","2021","2022","TTM"],
 //       // Cash from operating activities....["2.40B","2.79B","2.42B","2.58B","9.85B","—"],CashOperating

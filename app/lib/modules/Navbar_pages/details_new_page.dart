@@ -11,11 +11,12 @@
 // import 'package:covid_19/constants.dart';
 import 'package:app/models/sales_data_model.dart';
 import 'package:app/modules/Navbar_pages/my_chart.dart';
-
+import 'package:app/modules/Design/Details/componets_details.dart';
 import 'package:app/models/stock_model.dart';
 import 'package:app/shared/components/components.dart';
 import 'package:app/shared/cubit/cubit.dart';
 import 'package:app/shared/cubit/states.dart';
+import 'package:app/shared/router/routes.dart';
 import 'package:app/shared/styles/colors.dart';
 import 'package:app/shared/styles/style.dart';
 import 'package:flutter/material.dart';
@@ -44,7 +45,7 @@ class DetailNewsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AppCubit()..fetchDetsils(ramz: ramz),
+      create: (context) => AppCubit()..fetchDetails(ramz: ramz),
       //..fetchStockTimeline(ramz: ramz), //..getStockApiData(ramz: ramz),
       child: BlocConsumer<AppCubit, AppStates>(
           listener: (context, state) {},
@@ -59,12 +60,17 @@ class DetailNewsScreen extends StatelessWidget {
                 // resizeToAvoidBottomPadding: false,
                 backgroundColor: kBackgroundColor,
                 floatingActionButton: FloatingActionButton(
-                  onPressed: () {},
-                  child: const Text("See more"),
+                  onPressed: () {
+                    navigatorTo(
+                        context: context,
+                        routeName: AppRoutes.dashStockRoute,
+                        arguments: details.ramz);
+                  },
+                  child: const Align(child: Text("more")),
                 ),
                 appBar: AppBar(
                   backgroundColor: kBackgroundColor,
-                  title: Text(r'${details.ramz}stock'),
+                  title: Text(details.ramz.toString()),
                   titleTextStyle: kBodyText2,
                   leading: IconButton(
                     onPressed: () => Navigator.pop(context),
@@ -83,7 +89,47 @@ class DetailNewsScreen extends StatelessWidget {
                   child: SingleChildScrollView(
                     child: Column(
                       children: <Widget>[
+                        //! Container_1*********************************************
                         Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 25),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                offset: const Offset(0, 21),
+                                blurRadius: 53,
+                                color: Colors.black.withOpacity(0.05),
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              nameLogo(
+                                  ramz: details.ramz.toString(),
+                                  logo: 'assets/ripple.gif'),
+                              const SizedBox(height: 15),
+                              StockPrice(
+                                  price: details.stockMainApi!.stockPrice
+                                      .toString(),
+                                  change: details.stockMainApi!.incPercentage
+                                      .toString()),
+                              const SizedBox(height: 15),
+                              const DetailsChart(),
+                              const SizedBox(height: 15),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 15),
+//! Container_2 (About) ********************************************
+                        aboutContainer(context,
+                            about: details.about.toString()),
+                        const SizedBox(height: 15),
+//! Container_3 (News) ********************************************
+                        newsContainer(context, news: details.news!),
+                        /*?X Container(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 20, vertical: 25),
                           decoration: BoxDecoration(
@@ -184,6 +230,7 @@ class DetailNewsScreen extends StatelessWidget {
                           ],
                         ),
                         NewsList(news: details.news!),
+                      */
                       ],
                     ),
                   ),

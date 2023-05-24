@@ -14,7 +14,7 @@ class ExploreNew extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) =>
-          AppCubit()..fetchStocksAtSectors(setcorName: 'Commercial Services'),
+          AppCubit()..fetchStocksAtSectors(sectorName: 'Commercial Services'),
       child: BlocConsumer<AppCubit, AppStates>(
           listener: (context, state) {},
           builder: (context, state) {

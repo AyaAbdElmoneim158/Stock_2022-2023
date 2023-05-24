@@ -16,7 +16,7 @@ class StockAtSectorNew extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) =>
-          AppCubit()..fetchStocksAtSectors(setcorName: sectorName),
+          AppCubit()..fetchStocksAtSectors(sectorName: sectorName),
       child: BlocConsumer<AppCubit, AppStates>(
         listener: (context, state) {},
         builder: (context, state) {

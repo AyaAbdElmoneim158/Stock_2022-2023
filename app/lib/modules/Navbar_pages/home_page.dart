@@ -25,7 +25,7 @@ class HomePage extends StatelessWidget {
           return Scaffold(
             floatingActionButton: FloatingActionButton.small(
               child: const Icon(Icons.logout),
-              onPressed: () => appCubit.fetchIncomeChart(),
+              onPressed: () => appCubit.fetchChartsData(ramz: 'FWRY'),
               //appCubit.getStockApiData(ramz: 'FWRY')
               //  => AuthHelper.instance.logout()
             ),
@@ -178,7 +178,7 @@ class HomePage extends StatelessWidget {
                                   onTap: () {
                                     debugPrint("onTap");
                                     Navigator.pushNamed(
-                                        context, AppRoutes.dashStockRoute,
+                                        context, AppRoutes.detailsStockRoute,
                                         arguments: arrowss[index].ramz);
                                   },
                                   child: stockCard(context,

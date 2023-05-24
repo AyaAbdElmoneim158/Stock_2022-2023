@@ -512,7 +512,7 @@ class CategoryItem extends StatelessWidget {
           // final size = MediaQuery.of(context).size;
 
           return GestureDetector(
-            onTap: () => appCubit.fetchStocksAtSectors(setcorName: title),
+            onTap: () => appCubit.fetchStocksAtSectors(sectorName: title),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
               child: Column(
@@ -713,7 +713,7 @@ class NewsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 200,
+      height: 220,
       child: ListView.builder(
           scrollDirection: Axis.horizontal,
           itemCount: news.length,
@@ -1064,4 +1064,114 @@ GestureDetector stockCard(BuildContext context,
       ),
     ),
   );
+}
+
+Container newsContainer(BuildContext context, {required List<News> news}) {
+  return Container(
+    padding: const EdgeInsets.all(20),
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(20),
+      boxShadow: [
+        BoxShadow(
+          offset: const Offset(0, 21),
+          blurRadius: 54,
+          color: Colors.black.withOpacity(0.05),
+        ),
+      ],
+    ),
+    child: Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text(
+              "News",
+              style: Theme.of(context)
+                  .textTheme
+                  .headlineMedium!
+                  .copyWith(color: kPrimaryColor, height: 1.2),
+            ),
+            const Icon(Icons.newspaper)
+          ],
+        ),
+        NewsList(news: news // details.news!
+            ),
+      ],
+    ),
+  );
+}
+
+Container aboutContainer(BuildContext context, {required String about}) {
+  return Container(
+    padding: const EdgeInsets.all(20),
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(20),
+      boxShadow: [
+        BoxShadow(
+          offset: const Offset(0, 21),
+          blurRadius: 54,
+          color: Colors.black.withOpacity(0.05),
+        ),
+      ],
+    ),
+    child: Column(
+      children: <Widget>[
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text(
+              "About ",
+              style: Theme.of(context)
+                  .textTheme
+                  .headlineMedium!
+                  .copyWith(color: kPrimaryColor, height: 1.2),
+            ),
+            const Icon(Icons.location_city)
+          ],
+        ),
+        const SizedBox(height: 10),
+        // SvgPicture.asset("assets/icons/map.svg"),
+        Text(
+          // 'details.about.toString()',
+          // 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Id obcaecati velit eaque magnam illum, dolor quis assumenda autem itaque ullam. Impedit unde amet exercitationem, ducimus perferendis minus soluta voluptate ratione.',
+          about,
+          style: const TextStyle(
+            height: 1.5,
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+Row nameLogo({required String ramz, required String logo}) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      Align(
+        alignment: Alignment.centerRight,
+        child: Text(
+          ramz,
+          style: const TextStyle(
+            color: kTextMediumColor,
+            fontWeight: FontWeight.w600,
+            fontSize: 25,
+          ),
+        ),
+      ),
+      logoCircleAvatar(logo: logo),
+    ],
+  );
+}
+
+CircleAvatar logoCircleAvatar({required String logo}) {
+  return CircleAvatar(
+      radius: 30,
+      backgroundColor: kPrimaryColor.withOpacity(0.5),
+      child: Image.asset(
+        logo,
+        fit: BoxFit.cover,
+      ));
 }
