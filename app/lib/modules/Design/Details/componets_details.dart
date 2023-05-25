@@ -565,7 +565,7 @@ class StockPrice extends StatelessWidget {
           child: RichText(
               text: TextSpan(children: [
             TextSpan(
-              text: price,
+              text: price.toString(),
               style: Theme.of(context)
                   .textTheme
                   .displaySmall!
@@ -584,11 +584,11 @@ class StockPrice extends StatelessWidget {
         const SizedBox(width: 16),
         Text(
           // details.stockMainApi!.incPercentage.toString(),
-          change,
+          change.toString(),
           style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-              color: double.parse(change.substring(0, 3)) > 0
-                  ? kPrimaryColor
-                  : Colors.green,
+              color:
+                  // double.parse(change.substring(0, 3)) > 0? kPrimaryColor:
+                  Colors.green,
               height: 1.2),
         ),
         // SvgPicture.asset("assets/icons/increase.svg")

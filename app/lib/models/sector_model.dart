@@ -79,7 +79,9 @@ List<SectorModel> fackSector = [
   SectorModel(
       image: 'https://cdn-icons-png.flaticon.com/128/2760/2760970.png',
       name: 'Consumer Durables'),
-  SectorModel(image: imageUrl, name: 'Consumer Non-Durables'),
+  SectorModel(
+      image: 'https://cdn-icons-png.flaticon.com/128/2880/2880910.png',
+      name: 'Consumer Non-Durables'),
   SectorModel(
       image: 'https://cdn-icons-png.flaticon.com/128/8890/8890251.png',
       name: 'Consumer Services'),
@@ -89,17 +91,43 @@ List<SectorModel> fackSector = [
   SectorModel(
       image: 'https://cdn-icons-png.flaticon.com/128/4257/4257824.png',
       name: 'Electronic Technology'),
-  SectorModel(image: imageUrl, name: 'Energy Minerals'),
-  SectorModel(image: imageUrl, name: 'Finance'),
-  SectorModel(image: imageUrl, name: 'Health Services'),
-  SectorModel(image: imageUrl, name: 'Health Technology'),
-  SectorModel(image: imageUrl, name: 'Industrial Services'),
-  SectorModel(image: imageUrl, name: 'Miscellaneous'),
-  SectorModel(image: imageUrl, name: 'Non-Energy Minerals'),
-  SectorModel(image: imageUrl, name: 'Process Industries'),
-  SectorModel(image: imageUrl, name: 'Producer Manufacturing'),
-  SectorModel(image: imageUrl, name: 'Retail Trade'),
-  SectorModel(image: imageUrl, name: 'Technology Services'),
-  SectorModel(image: imageUrl, name: 'Transportation'),
-  SectorModel(image: imageUrl, name: 'Utilities')
+  SectorModel(
+      image: 'https://cdn-icons-png.flaticon.com/128/4491/4491259.png',
+      name: 'Energy Minerals'),
+  SectorModel(
+      image: 'https://cdn-icons-png.flaticon.com/128/781/781760.png',
+      name: 'Finance'),
+  SectorModel(
+      image: 'https://cdn-icons-png.flaticon.com/128/4646/4646577.png',
+      name: 'Health Services'),
+  SectorModel(
+      image: 'https://cdn-icons-png.flaticon.com/128/9711/9711022.png',
+      name: 'Health Technology'),
+  SectorModel(
+      image: 'https://cdn-icons-png.flaticon.com/128/2450/2450526.png',
+      name: 'Industrial Services'),
+  SectorModel(
+      image: 'https://cdn-icons-png.flaticon.com/128/2875/2875878.png',
+      name: 'Miscellaneous'),
+  SectorModel(
+      image: 'https://cdn-icons-png.flaticon.com/128/2990/2990917.png',
+      name: 'Non-Energy Minerals'),
+  SectorModel(
+      image: 'https://cdn-icons-png.flaticon.com/128/3690/3690098.png',
+      name: 'Process Industries'),
+  SectorModel(
+      image: 'https://cdn-icons-png.flaticon.com/128/9121/9121415.png',
+      name: 'Producer Manufacturing'),
+  SectorModel(
+      image: 'https://cdn-icons-png.flaticon.com/128/1198/1198348.png',
+      name: 'Retail Trade'),
+  SectorModel(
+      image: 'https://cdn-icons-png.flaticon.com/128/870/870175.png',
+      name: 'Technology Services'),
+  SectorModel(
+      image: 'https://cdn-icons-png.flaticon.com/128/3267/3267450.png',
+      name: 'Transportation'),
+  SectorModel(
+      image: 'https://cdn-icons-png.flaticon.com/128/6695/6695398.png',
+      name: 'Utilities')
 ];

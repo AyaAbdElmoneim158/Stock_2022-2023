@@ -52,7 +52,50 @@ class BookmarkPage extends StatelessWidget {
                         return ConditionalBuilder(
                             condition: arrowss
                                 .isNotEmpty, // true,// arrowss == null || arrowss.isEmpty,
-                            builder: (context) => ListView.builder(
+                            builder: (context) => ListView.separated(
+                                  // controller: scrollController,
+                                  separatorBuilder: (context, index) => Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 15,
+                                        bottom: 15,
+                                        left: 70,
+                                        right: 15),
+                                    child: Divider(
+                                      height: 1.6,
+                                      thickness: 1.5,
+                                      color: Colors.grey.shade200,
+                                    ),
+                                  ),
+                                  itemCount: arrowss.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    /* StockAtSectorModel stockAtSector =
+                                    StockAtSectorModel(
+                                        symbol: arrowss[index].ramz,
+                                        price: arrowss[index].price,
+                                        change: arrowss[index].price,
+                                        change100: arrowss[index].price);*/
+                                    StockModle stockModle = StockModle(
+                                      id: DateTime.now().toIso8601String(),
+                                      logo: arrowss[index].logo.toString(),
+                                      name: arrowss[index].name.toString(),
+                                      // price: stockPriceController.text,
+                                      ramz: arrowss[index].ramz.toString(),
+                                      // stocksNo: stockNoController.text,
+                                    );
+                                    return InkWell(
+                                      onTap: () {
+                                        debugPrint("onTap");
+                                        Navigator.pushNamed(context,
+                                            AppRoutes.detailsStockRoute,
+                                            arguments: arrowss[index].ramz);
+                                      },
+                                      child: stockCard(context,
+                                          stockAtSector: arrowss[index]),
+                                    );
+                                  },
+                                ),
+                            /* ListView.builder(
                                   itemCount: arrowss
                                       .length, // cubit.allTickers.length,
                                   itemBuilder: (context, index) => defaultCard(
@@ -79,7 +122,7 @@ class BookmarkPage extends StatelessWidget {
                                                 AppRoutes.detailsStockRoute,
                                                 arguments: arrowss[index].ramz);
                                       }), // index: index,
-                                ),
+                                ),*/
                             fallback: (context) => Center(
                                   child: Column(
                                       mainAxisAlignment:

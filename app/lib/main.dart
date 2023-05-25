@@ -43,14 +43,14 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         debugShowCheckedModeBanner: false,
         //ToDo: localizations ---------------------------------------------->
-        /*localizationsDelegates: const [
+        localizationsDelegates: const [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,
           GlobalCupertinoLocalizations.delegate,
         ],
         supportedLocales: [
           lang ? const Locale('ar', "AE") : const Locale('en'),
-        ],*/
+        ],
         //ToDo:~> Add Theme ----------------------------------------------------->
         theme: lightTheme,
         darkTheme: darkTheme,

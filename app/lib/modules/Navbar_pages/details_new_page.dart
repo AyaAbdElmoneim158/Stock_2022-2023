@@ -53,7 +53,8 @@ class DetailNewsScreen extends StatelessWidget {
             final appCubit = AppCubit.get(context);
             final StockModelApi details = appCubit.details;
             final size = MediaQuery.of(context).size;
-
+            var stockNoController = TextEditingController();
+            var stockPriceController = TextEditingController();
             return ConditionalBuilder(
               condition: state is! FetchDetailsLoadingState,
               builder: (context) => Scaffold(
@@ -79,6 +80,192 @@ class DetailNewsScreen extends StatelessWidget {
                       color: firstColor,
                     ),
                   ),
+                  actions: [
+                    StreamBuilder<List<StockModle>>(
+                        stream: appCubit.stocksAtFavStream(
+                            ramz: details.ramz.toString()),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.active) {
+                            final stock = snapshot.data;
+                            debugPrint(stock.runtimeType.toString());
+                            if (stock!.isEmpty) {
+                              return IconButton(
+                                  onPressed: () {
+                                    StockModle stockModle = StockModle(
+                                      id: DateTime.now().toIso8601String(),
+                                      logo: details.logo.toString(),
+                                      name: details.name.toString(),
+                                      price: stockPriceController.text,
+                                      ramz: details.ramz.toString(),
+                                      stocksNo: stockNoController.text,
+                                    );
+                                    appCubit
+                                        .addArrowToFavoriteArrow(stockModle);
+                                  },
+                                  icon: const Icon(
+                                    Icons.favorite,
+                                    color: firstColor,
+                                  ));
+                            } else {
+                              return IconButton(
+                                  onPressed: () {
+                                    appCubit.deleteFavoriteArrow(
+                                        id: stock[0]
+                                            .id); //! remove to fav with message
+                                  },
+                                  icon: const Icon(
+                                    Icons.favorite,
+                                    color: Colors.red,
+                                  ));
+                            }
+                          } else {
+                            return IconButton(
+                                onPressed: () {},
+                                icon: const Icon(
+                                  Icons.favorite,
+                                  color: firstColor,
+                                ));
+                          }
+                        }),
+                    StreamBuilder<List<StockModle>>(
+                        stream: appCubit.stocksAtFollowStream(
+                            ramz: details.ramz.toString()),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.active) {
+                            final stock = snapshot.data;
+                            // debugPrint(stock![0].id.toString());
+                            debugPrint(stock.runtimeType.toString());
+                            if (stock!.isEmpty) {
+                              return IconButton(
+                                  onPressed: () {
+                                    //! pop....
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            // title: Text("Success"),
+                                            content: SizedBox(
+                                              // color: Colors.blueGrey,
+                                              height: 250,
+                                              child: Form(
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Column(
+                                                    children: [
+                                                      defaultField(
+                                                          hintText:
+                                                              "Enter stock number....",
+                                                          labelText:
+                                                              "stock number",
+                                                          controller:
+                                                              stockNoController,
+                                                          validator: (val) => val!
+                                                                  .isEmpty
+                                                              ? "Enter stock number"
+                                                              : null,
+                                                          onChanged: (val) =>
+                                                              appCubit
+                                                                  .changeStockNo(
+                                                                      val)),
+                                                      SizedBox(
+                                                          height: size.height *
+                                                              0.03),
+                                                      defaultField(
+                                                          hintText:
+                                                              "Enter stock price....",
+                                                          labelText:
+                                                              "stock price",
+                                                          controller:
+                                                              stockPriceController,
+                                                          validator: (val) => val!
+                                                                  .isEmpty
+                                                              ? "Enter stock price"
+                                                              : null,
+                                                          onChanged: (val) =>
+                                                              appCubit
+                                                                  .changeStockPrice(
+                                                                      val)),
+                                                      SizedBox(
+                                                          height: size.height *
+                                                              0.03),
+                                                      defaultButton(
+                                                          text: "Follow",
+                                                          onPressed: () {
+                                                            //!.........................Added Here
+                                                            // debugPrint(stockPriceController.text);
+                                                            // debugPrint(stockNoController.text);
+                                                            StockModle
+                                                                stockModle =
+                                                                StockModle(
+                                                              id: DateTime.now()
+                                                                  .toIso8601String(),
+                                                              logo: details.logo
+                                                                  .toString(),
+                                                              name: details.name
+                                                                  .toString(),
+                                                              price:
+                                                                  stockPriceController
+                                                                      .text,
+                                                              ramz: details.ramz
+                                                                  .toString(),
+                                                              stocksNo:
+                                                                  stockNoController
+                                                                      .text,
+                                                            );
+                                                            appCubit
+                                                                .addArrowToFollowingArrow(
+                                                                    stockModle);
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop();
+                                                          },
+                                                          context: context)
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        });
+                                    // StockModle stockModle = StockModle(
+                                    //   id: docmentIdFormLocationData(),
+                                    //   logo: stockApiDataMap["logo"],
+                                    //   name: stockApiDataMap["name"],
+                                    //   price: stockApiDataMap["price"],
+                                    //   ramz: stockApiDataMap["ramz"],
+                                    //   stocksNo: "0",
+                                    // );
+                                    // appCubit.addArrowToFollowingArrow(stockModle);
+                                  },
+                                  icon: const Icon(
+                                    Icons.autorenew,
+                                    color: firstColor,
+                                  ));
+                            } else {
+                              return IconButton(
+                                  onPressed: () {
+                                    appCubit.deleteFollowingArrow(
+                                        id: stock[0]
+                                            .id); //! remove to fav with message
+                                  },
+                                  icon: const Icon(
+                                    Icons.autorenew,
+                                    color: Colors.green,
+                                  ));
+                            }
+                          } else {
+                            return IconButton(
+                                onPressed: () {},
+                                icon: const Icon(
+                                  Icons.autorenew,
+                                  color: firstColor,
+                                ));
+                          }
+                        }),
+                  ],
                 ),
 
                 body:
@@ -109,8 +296,13 @@ class DetailNewsScreen extends StatelessWidget {
                             children: <Widget>[
                               nameLogo(
                                   ramz: details.ramz.toString(),
-                                  logo: 'assets/ripple.gif'),
+                                  logo:
+                                      'https://s3-symbol-logo.tradingview.com/fawry-for-banking-technology-and-electronic-payment--big.svg'),
                               const SizedBox(height: 15),
+                              // Text(details.stockMainApi!.stockPrice.toString()),
+                              // Text(details.stockMainApi!.incPercentage
+                              //     .toString()),
+
                               StockPrice(
                                   price: details.stockMainApi!.stockPrice
                                       .toString(),

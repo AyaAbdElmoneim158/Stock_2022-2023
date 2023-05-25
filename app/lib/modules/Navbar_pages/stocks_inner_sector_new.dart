@@ -57,6 +57,10 @@ class StockAtSectorNew extends StatelessWidget {
                                 context, AppRoutes.detailsStockRoute,
                                 arguments: 'Fwry');
                           },
+                          // child: Text("kkkk")
+                          // ToDo: ..................
+                          // stockCard(context,
+                          // stockAtSector: appCubit.stocksAtSectors[index]),
                           child: stockCard(context,
                               stockAtSector: appCubit.stocksAtSectors[index]),
                         ))),

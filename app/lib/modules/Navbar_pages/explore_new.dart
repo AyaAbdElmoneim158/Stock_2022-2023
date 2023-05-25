@@ -1,3 +1,4 @@
+import 'package:app/models/stock_model.dart';
 import 'package:app/shared/components/components.dart';
 import 'package:app/shared/cubit/cubit.dart';
 import 'package:app/shared/cubit/states.dart';
@@ -13,8 +14,8 @@ class ExploreNew extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-          AppCubit()..fetchStocksAtSectors(sectorName: 'Commercial Services'),
+      create: (context) => AppCubit()..fetchChartsData(ramz: 'ABUK'),
+      // ..fetchStocksAtSectors(sectorName: 'Commercial Services'),
       child: BlocConsumer<AppCubit, AppStates>(
           listener: (context, state) {},
           builder: (context, state) {
@@ -24,6 +25,13 @@ class ExploreNew extends StatelessWidget {
             return Scaffold(
               backgroundColor: kBackgroundColor,
               appBar: homeAppBar(context),
+              floatingActionButton: FloatingActionButton.small(
+                  child: const Icon(Icons.logout),
+                  onPressed: () => appCubit.fetchChartsData(ramz: 'ABUK')
+                  // fetchStocksAtSectors(sectorName: 'Communications'),
+                  //appCubit.getStockApiData(ramz: 'FWRY')
+                  //  => AuthHelper.instance.logout()
+                  ),
               body: Column(
                 children: [
                   SearchBox(
@@ -51,9 +59,12 @@ class ExploreNew extends StatelessWidget {
                                   debugPrint("onTap");
                                   Navigator.pushNamed(
                                       context, AppRoutes.detailsStockRoute,
-                                      arguments: appCubit
-                                          .stocksAtSectors[index].symbol);
+                                      arguments:
+                                          appCubit.stocksAtSectors[index].logo);
                                 },
+                                // StockModle stockAtSector = StockModle(id: id);
+                                //  Text("kkkk")
+                                // ToDo: ..................
                                 child: stockCard(context,
                                     stockAtSector:
                                         appCubit.stocksAtSectors[index]),

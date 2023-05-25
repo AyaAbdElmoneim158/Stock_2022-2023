@@ -371,7 +371,7 @@ class SearchBox extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: secondColor.withOpacity(0.32),
+          color: firstColor.withOpacity(0.32),
         ),
       ),
       child: TextField(
@@ -403,6 +403,7 @@ class ItemCard extends StatelessWidget {
     // This size provide you the total height and width of the screen
     Size size = MediaQuery.of(context).size;
     return Container(
+      width: 200,
       margin: const EdgeInsets.only(left: 10, right: 10, top: 20, bottom: 20),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -438,10 +439,14 @@ class ItemCard extends StatelessWidget {
                     width: size.width * 0.1,
                   ),
                 ),
-                Text(
-                  title,
-                  style: kBodyText.copyWith(
-                      color: firstColor, fontWeight: FontWeight.w700),
+                Expanded(
+                  child: Text(
+                    title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: kBodyText.copyWith(
+                        color: firstColor, fontWeight: FontWeight.w700),
+                  ),
                 ),
               ],
             ),
@@ -579,18 +584,19 @@ class CategoryList extends StatelessWidget {
 //?~> StockList ...................................................................
 ListView stockList({required List<StockAtSectorModel> stocksAtSector}) {
   return ListView.separated(
-    separatorBuilder: (context, index) => Padding(
-      padding: const EdgeInsets.only(top: 15, bottom: 15, left: 70, right: 15),
-      child: Divider(
-        height: 1.6,
-        thickness: 1.5,
-        color: Colors.grey.shade200,
-      ),
-    ),
-    itemCount: stocksAtSector.length,
-    itemBuilder: (context, index) =>
-        stockCard(context, stockAtSector: stocksAtSector[index]),
-  );
+      separatorBuilder: (context, index) => Padding(
+            padding:
+                const EdgeInsets.only(top: 15, bottom: 15, left: 70, right: 15),
+            child: Divider(
+              height: 1.6,
+              thickness: 1.5,
+              color: Colors.grey.shade200,
+            ),
+          ),
+      itemCount: stocksAtSector.length,
+      itemBuilder: (context, index) => Text("kkkkk") // ToDo: ..................
+      // stockCard(context, stockAtSector: stocksAtSector[index]),
+      );
 }
 
 //?~> StockCard ...................................................................
@@ -1024,7 +1030,7 @@ GestureDetector stockCard(BuildContext context,
 }
 */
 GestureDetector stockCard(BuildContext context,
-    {required StockAtSectorModel stockAtSector}) {
+    {required StockModle stockAtSector}) {
   return GestureDetector(
     child: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -1035,31 +1041,44 @@ GestureDetector stockCard(BuildContext context,
 
           Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
             //stockAtSector.price
-            Text(stockAtSector.change100,
+            Text('0',
+                // 'stockAtSector.change100',
                 style: Theme.of(context)
                     .textTheme
                     .titleMedium!
                     .copyWith(color: firstColor, fontWeight: FontWeight.w600)),
-            Text(stockAtSector.change,
+            Text('0',
+                // 'stockAtSector.change',
                 style: Theme.of(context)
                     .textTheme
                     .titleSmall!
                     .copyWith(color: firstColor)),
           ]),
-          const Spacer(),
-          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            //stockAtSector.symbol
-            Text(stockAtSector.symbol,
-                style: Theme.of(context)
-                    .textTheme
-                    .titleLarge!
-                    .copyWith(color: textColor, fontWeight: FontWeight.w600)),
-          ]),
+          // const Spacer(),
+          const SizedBox(width: 16),
+          Expanded(
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              //stockAtSector.symbol
+              Text(stockAtSector.name,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleLarge!
+                      .copyWith(color: textColor, fontWeight: FontWeight.w600)),
+              Text(stockAtSector.ramz,
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleSmall!
+                      .copyWith(color: textColor, fontWeight: FontWeight.w600)),
+            ]),
+          ),
           const SizedBox(width: 20),
           CircleAvatar(
-            radius: 28,
-            backgroundColor: firstColor.withOpacity(0.1),
-          ),
+              radius: 28,
+              backgroundColor: firstColor.withOpacity(0.1),
+              backgroundImage: NetworkImage(stockAtSector.logo)),
         ],
       ),
     ),
@@ -1168,10 +1187,8 @@ Row nameLogo({required String ramz, required String logo}) {
 
 CircleAvatar logoCircleAvatar({required String logo}) {
   return CircleAvatar(
-      radius: 30,
-      backgroundColor: kPrimaryColor.withOpacity(0.5),
-      child: Image.asset(
-        logo,
-        fit: BoxFit.cover,
-      ));
+    radius: 30,
+    backgroundColor: kPrimaryColor.withOpacity(0.5),
+    backgroundImage: NetworkImage(logo),
+  );
 }

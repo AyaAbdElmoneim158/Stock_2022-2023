@@ -168,12 +168,20 @@ class HomePage extends StatelessWidget {
                               ),
                               itemCount: arrowss.length,
                               itemBuilder: (BuildContext context, int index) {
-                                StockAtSectorModel stockAtSector =
+                                /* StockAtSectorModel stockAtSector =
                                     StockAtSectorModel(
                                         symbol: arrowss[index].ramz,
                                         price: arrowss[index].price,
                                         change: arrowss[index].price,
-                                        change100: arrowss[index].price);
+                                        change100: arrowss[index].price);*/
+                                StockModle stockModle = StockModle(
+                                  id: DateTime.now().toIso8601String(),
+                                  logo: arrowss[index].logo.toString(),
+                                  name: arrowss[index].name.toString(),
+                                  // price: stockPriceController.text,
+                                  ramz: arrowss[index].ramz.toString(),
+                                  // stocksNo: stockNoController.text,
+                                );
                                 return InkWell(
                                   onTap: () {
                                     debugPrint("onTap");
@@ -182,7 +190,7 @@ class HomePage extends StatelessWidget {
                                         arguments: arrowss[index].ramz);
                                   },
                                   child: stockCard(context,
-                                      stockAtSector: stockAtSector),
+                                      stockAtSector: arrowss[index]),
                                 );
                               },
                             ),

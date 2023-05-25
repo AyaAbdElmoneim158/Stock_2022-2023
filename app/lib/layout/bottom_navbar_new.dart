@@ -1,5 +1,6 @@
 import 'package:app/modules/Navbar_pages/explore_new.dart';
 import 'package:app/modules/Navbar_pages/home_page.dart';
+import 'package:app/shared/styles/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:sliding_clipped_nav_bar/sliding_clipped_nav_bar.dart';
 import 'package:iconsax/iconsax.dart';
@@ -51,7 +52,7 @@ class _BottomNavbarNewState extends State<BottomNavbarNew> {
             borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(16), topRight: Radius.circular(16)),
             child: SlidingClippedNavBar(
-              backgroundColor: const Color(0XFF12192C),
+              backgroundColor: firstColor, // const Color(0XFF12192C),
               onButtonPressed: onButtonPressed,
               iconSize: 30,
               activeColor: const Color(0xFFffffff),
@@ -100,7 +101,7 @@ List<Widget> _listOfWidget = <Widget>[
   //     ),
   //   ),
   // ),
-  const HomePage(), const ExploreNew(),
+  const ExploreNew(), const HomePage(),
 
   // Container(
   //   alignment: Alignment.center,
