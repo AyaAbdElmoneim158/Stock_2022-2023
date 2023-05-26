@@ -12,6 +12,18 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:convert';
 
+List<String> editList({required List<String>? list}) {
+  List<String> listNew = [];
+  for (var element in list!) {
+    if (element.contains("B")) {
+      listNew.add(element.substring(0, element.indexOf("B", 0)));
+    } else {
+      listNew.add('0');
+    }
+  }
+  return listNew;
+}
+
 class SalesDataYear {
   SalesDataYear(this.year, this.sales);
   final DateTime year;
@@ -488,7 +500,7 @@ class AppCubit extends Cubit<AppStates> {
       // debugPrint(allData.incomeStatement!.header.toString());
       // final endIndexIncomeStatementtotalRevenue =allData.incomeStatement!.totalRevenue![i].indexOf("B", 0);
 //? Fetch Income Statement ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      /* for (int i = 0; i < allData.incomeStatement!.header!.length - 1; i++) {
+      for (int i = 0; i < allData.incomeStatement!.header!.length - 1; i++) {
         // Fetch arrays of data ...............................................................................................................................
         var valTotalRevenue = double.parse(
                 allData.incomeStatement!.totalRevenue![i].substring(0,
@@ -525,10 +537,10 @@ class AppCubit extends Cubit<AppStates> {
         BarChart1('Pretax income', incomeSalesData4),
         BarChart1('Net income', incomeSalesData5),
       ];
-      debugPrint("Income Statement.... Done!");*/
+      debugPrint("Income Statement.... Done!");
 //? Fetch BalanceSheet ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-      /*for (int i = 0; i < allData.balanceSheet!.header!.length; i++) {
+      for (int i = 0; i < allData.balanceSheet!.header!.length; i++) {
         // final endIndexBalanceSheettotalAssets =allData.balanceSheet!.totalAssets![i].indexOf("B", 0);
         // Fetch arrays of data ...............................................................................................................................
         var valTotalAssets = double.parse(allData.balanceSheet!.totalAssets![i]
@@ -550,11 +562,11 @@ class AppCubit extends Cubit<AppStates> {
         BarChart1('Total assets', balanceSheetSalesData1),
         BarChart1('Total liabilities', balanceSheetSalesData2),
       ];
-      debugPrint("BalanceSheet.... Done!");*/
+      debugPrint("BalanceSheet.... Done!");
 
 //? Fetch dividends ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-      /* for (int i = 0; i < allData.dividends!.header!.length; i++) {
+      for (int i = 0; i < allData.dividends!.header!.length; i++) {
         // Fetch arrays of data ...............................................................................................................................
         var valDividensPerShare =
                 double.parse(allData.dividends!.dividensPerShare![i]),
@@ -572,52 +584,51 @@ class AppCubit extends Cubit<AppStates> {
         BarChart1('Dividends per share', divideData1),
         // BarChart1('Total liabilities', divideData2),
       ];
-      debugPrint("dividends.... Done!");*/
+      debugPrint("dividends.... Done!");
 
 //? Fetch revenue ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       debugPrint(allData.revenue!.estimateR.toString());
       debugPrint(allData.revenue!.reportedR.toString());
+      List<String>? estimateR = editList(list: allData.revenue!.estimateR);
+      List<String>? reportedR = editList(list: allData.revenue!.reportedR);
+
+      // editList(list: allData.revenue!.reportedR);
+
       // debugPrint(double.parse(allData.revenue!.estimateR![0] /*.toString());*/
       //     .substring(0, allData.revenue!.estimateR![0].indexOf("B", 0))
       //     .toString()) as String?);
 // [2.27B,2.35B,2.72B,-,-,5.32B,-,-,5.31B,-]
 // [2.27B,2.54B,2.65B,3.59B,5.80B,4.29B,4.79B,6.44B,—, —]
-      // for (int i = 0; i < allData.revenue!.estimateR!.length; i++) {
-      // List<String> header = [
-      //   "2015",
-      //   "2016",
-      //   "2017",
-      //   "2018",
-      //   "2019",
-      //   "2020",
-      //   "2021",
-      //   "2022",
-      //   "2023",
-      //->   "2024",
-      //   "2025",
-      //   "2026",
-      // ];
-      // Fetch arrays of data ...............................................................................................................................
-      // var valReportedR = double.parse(allData.revenue!.estimateR![i] != "—"
-      //         ? allData.revenue!.reportedR![i].substring(0,
-      //             allData.balanceSheet!.totalLiabilities![i].indexOf("B", 0))
-      //         : '0'),
-      //     valEstimateR = double.parse(allData.revenue!.estimateR![i] != "—"
-      //         ? allData.revenue!.estimateR![i].substring(0,
-      //             allData.balanceSheet!.totalLiabilities![i].indexOf("B", 0))
-      //         : '0');
+      for (int i = 0; i < allData.revenue!.estimateR!.length; i++) {
+        List<String> header = [
+          "2015",
+          "2016",
+          "2017",
+          "2018",
+          "2019",
+          "2020",
+          "2021",
+          "2022",
+          "2023",
+          "2024",
+          // "2025",
+          // "2026",
+        ];
+        // Fetch arrays of data ...............................................................................................................................
+        var valReportedR = double.parse(reportedR[i]),
+            valEstimateR = double.parse(estimateR[i]);
 
-      // debugPrint(
-      // '${allData.revenue!.estimateR![i]} : ${allData.revenue!.estimateR![i]}');
-      // data arrays of data to SalesData...............................................................................................................................
-      // revenueData1.add(SalesData(header[i], valReportedR));
-      // revenueData2.add(SalesData(header[i], valEstimateR));
-      // }
+        debugPrint(
+            '${allData.revenue!.estimateR![i]} : ${allData.revenue!.estimateR![i]}');
+        // data arrays of data to SalesData...............................................................................................................................
+        revenueData1.add(SalesData(header[i], valReportedR));
+        revenueData2.add(SalesData(header[i], valEstimateR));
+      }
       // Add to group...............................................................................................................................
-      // revenueBarChartData1 = [
-      //   BarChart1('Reported', revenueData1),
-      //   BarChart1('Estimate', revenueData2),
-      // ];
+      revenueBarChartData1 = [
+        BarChart1('Reported', revenueData1),
+        BarChart1('Estimate', revenueData2),
+      ];
 
       debugPrint("revenue.... Done!");
 

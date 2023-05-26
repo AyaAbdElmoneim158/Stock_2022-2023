@@ -85,80 +85,15 @@ class _BottomNavbarNewState extends State<BottomNavbarNew> {
 // icons size: 30 for MaterialIcons
 
 List<Widget> _listOfWidget = <Widget>[
-  // Container(
-  //   alignment: Alignment.center,
-  //   child: SingleChildScrollView(
-  //     child: Column(
-  //       children: const [
-  //         Icon(Iconsax.home, size: 30, color: Colors.brown),
-  //         Icon(Iconsax.home1, size: 30, color: Colors.brown),
-  //         Icon(Iconsax.home2, size: 30, color: Colors.brown),
-  //         Icon(Iconsax.home_22, size: 30, color: Colors.brown),
-  //         Icon(Iconsax.home_23, size: 30, color: Colors.brown),
-  //         Icon(Iconsax.home_24, size: 30, color: Colors.brown),
-  //         Icon(Iconsax.home_25, size: 30, color: Colors.brown),
-  //       ],
-  //     ),
-  //   ),
-  // ),
-  const ExploreNew(), const HomePage(),
-
-  // Container(
-  //   alignment: Alignment.center,
-  //   child: SingleChildScrollView(
-  //     child: Column(
-  //       children: const [
-  //         Icon(Iconsax.search_normal2, size: 30, color: Colors.brown),
-  //         Icon(Iconsax.search_normal3, size: 30, color: Colors.brown),
-  //         Icon(Iconsax.search_normal4, size: 30, color: Colors.brown),
-  //         Icon(Iconsax.search_status3, size: 30, color: Colors.brown),
-  //         Icon(Iconsax.search_status4, size: 30, color: Colors.brown),
-  //       ],
-  //     ),
-  //   ),
-  // ),
-
+  const HomePage(),
+  const ExploreNew(),
   Container(
-    alignment: Alignment.center,
-    child: SingleChildScrollView(
-      child: Column(
-        children: const [
-          Icon(Iconsax.bookmark, size: 30, color: Colors.brown),
-          Icon(Iconsax.bookmark1, size: 30, color: Colors.brown),
-          Icon(Iconsax.bookmark2, size: 30, color: Colors.brown),
-          Icon(Iconsax.bookmark3, size: 30, color: Colors.brown),
-          Icon(Iconsax.bookmark4, size: 30, color: Colors.brown),
-          Icon(Iconsax.bookmark5, size: 30, color: Colors.brown),
-          Icon(Iconsax.bookmark_2, size: 30, color: Colors.brown),
-          Icon(Iconsax.bookmark_21, size: 30, color: Colors.brown),
-          Icon(Iconsax.bookmark_22, size: 30, color: Colors.brown),
-          Icon(Iconsax.bookmark_23, size: 30, color: Colors.brown),
-          Icon(Iconsax.bookmark_24, size: 30, color: Colors.brown),
-          Icon(Iconsax.bookmark_25, size: 30, color: Colors.brown),
-        ],
-      ),
-    ),
-  ),
-  // Container(
-  //   alignment: Alignment.center,
-  //   child: SingleChildScrollView(
-  //     child: Column(
-  //       children: const [
-  //         Icon(Iconsax.tag, size: 30, color: Colors.brown),
-  //         Icon(Iconsax.chart_13, size: 30, color: Colors.brown),
-  //         Icon(Iconsax.bookmark2, size: 30, color: Colors.brown),
-  //         Icon(Iconsax.bookmark3, size: 30, color: Colors.brown),
-  //         Icon(Iconsax.bookmark4, size: 30, color: Colors.brown),
-  //         Icon(Iconsax.bookmark5, size: 30, color: Colors.brown),
-  //         Icon(Iconsax.bookmark_2, size: 30, color: Colors.brown),
-  //         Icon(Iconsax.bookmark_21, size: 30, color: Colors.brown),
-  //         Icon(Iconsax.bookmark_22, size: 30, color: Colors.brown),
-  //         Icon(Iconsax.bookmark_23, size: 30, color: Colors.brown),
-  //         Icon(Iconsax.bookmark_24, size: 30, color: Colors.brown),
-  //         Icon(Iconsax.bookmark_25, size: 30, color: Colors.brown),
-  //       ],
-  //     ),
-  //   ),
-  // ),
+      alignment: Alignment.center,
+      child: const Center(
+        child: Text(
+          "❓",
+          style: TextStyle(fontSize: 80),
+        ),
+      )),
   const BookmarkPage(),
 ];

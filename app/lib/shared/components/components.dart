@@ -2,6 +2,7 @@
 import 'package:app/models/sector_model.dart';
 import 'package:app/models/stock_at_sector_model.dart';
 import 'package:app/models/stock_model.dart';
+import 'package:app/modules/Navbar_pages/real_time.dart';
 import 'package:app/modules/coin.dart';
 import 'package:app/shared/cubit/cubit.dart';
 import 'package:app/shared/cubit/states.dart';
@@ -564,7 +565,7 @@ class CategoryList extends StatelessWidget {
         children: const [
           CategoryItem(
             title: "Commercial Services",
-            isActive: true,
+            // isActive: true,
           ),
           CategoryItem(
             title: "Finance",
@@ -1029,6 +1030,7 @@ GestureDetector stockCard(BuildContext context,
   );
 }
 */
+// Coin
 GestureDetector stockCard(BuildContext context,
     {required StockModle stockAtSector}) {
   return GestureDetector(
@@ -1041,18 +1043,19 @@ GestureDetector stockCard(BuildContext context,
 
           Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
             //stockAtSector.price
-            Text('0',
-                // 'stockAtSector.change100',
-                style: Theme.of(context)
-                    .textTheme
-                    .titleMedium!
-                    .copyWith(color: firstColor, fontWeight: FontWeight.w600)),
-            Text('0',
-                // 'stockAtSector.change',
-                style: Theme.of(context)
-                    .textTheme
-                    .titleSmall!
-                    .copyWith(color: firstColor)),
+            // Text('0',
+            //     // 'stockAtSector.change100',
+            //     style: Theme.of(context)
+            //         .textTheme
+            //         .titleMedium!
+            //         .copyWith(color: firstColor, fontWeight: FontWeight.w600)),
+            // Text('0',
+            //     // 'stockAtSector.change',
+            //     style: Theme.of(context)
+            //         .textTheme
+            //         .titleSmall!
+            //         .copyWith(color: firstColor)),
+            Coin(ramz: stockAtSector.ramz, lastPrice: stockAtSector.price),
           ]),
           // const Spacer(),
           const SizedBox(width: 16),
