@@ -56,78 +56,103 @@ List<SectorModle> sectors = [
   ),
 ];*/
 
+import 'package:app/shared/components/constants.dart';
+
 const String imageUrl =
     'https://t4.ftcdn.net/jpg/01/37/57/81/240_F_137578103_ulK9MbD9IfKACx9RZe6Rx7PAyBA9aN2K.jpg';
 
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 class SectorModel {
   final String image;
-  final String name;
+  final String nameEn;
+  final String nameAr;
+
   SectorModel({
     required this.image,
-    required this.name,
+    required this.nameEn,
+    required this.nameAr,
   });
 }
 
 List<SectorModel> fackSector = [
   SectorModel(
       image: 'https://cdn-icons-png.flaticon.com/128/3812/3812158.png',
-      name: 'Commercial Services'),
+      nameEn: 'Commercial Services',
+      nameAr: 'خدمات تجارية'),
   SectorModel(
       image: 'https://cdn-icons-png.flaticon.com/128/1239/1239719.png',
-      name: 'Communications'),
+      nameEn: 'Communications',
+      nameAr: 'مجال الاتصالات'),
   SectorModel(
       image: 'https://cdn-icons-png.flaticon.com/128/2760/2760970.png',
-      name: 'Consumer Durables'),
+      nameEn: 'Consumer Durables',
+      nameAr: 'السلع المعمرة'),
   SectorModel(
       image: 'https://cdn-icons-png.flaticon.com/128/2880/2880910.png',
-      name: 'Consumer Non-Durables'),
+      nameEn: 'Consumer Non-Durables',
+      nameAr: "المستهلك غير المعمرة"),
   SectorModel(
       image: 'https://cdn-icons-png.flaticon.com/128/8890/8890251.png',
-      name: 'Consumer Services'),
+      nameEn: 'Consumer Services',
+      nameAr: 'خدمات المستهلك'),
   SectorModel(
       image: 'https://cdn-icons-png.flaticon.com/128/10298/10298967.png',
-      name: 'Distribution Services'),
+      nameEn: 'Distribution Services',
+      nameAr: 'خدمات التوزيع'),
   SectorModel(
       image: 'https://cdn-icons-png.flaticon.com/128/4257/4257824.png',
-      name: 'Electronic Technology'),
+      nameEn: 'Electronic Technology',
+      nameAr: 'التكنولوجيا الالكترونية'),
   SectorModel(
       image: 'https://cdn-icons-png.flaticon.com/128/4491/4491259.png',
-      name: 'Energy Minerals'),
+      nameEn: 'Energy Minerals',
+      nameAr: 'معادن الطاقة'),
   SectorModel(
       image: 'https://cdn-icons-png.flaticon.com/128/781/781760.png',
-      name: 'Finance'),
+      nameEn: 'Finance',
+      nameAr: 'تمويل'),
   SectorModel(
       image: 'https://cdn-icons-png.flaticon.com/128/4646/4646577.png',
-      name: 'Health Services'),
+      nameEn: 'Health Services',
+      nameAr: 'خدمات صحية'),
   SectorModel(
       image: 'https://cdn-icons-png.flaticon.com/128/9711/9711022.png',
-      name: 'Health Technology'),
+      nameEn: 'Health Technology',
+      nameAr: 'تكنولوجيا الصحة'),
   SectorModel(
       image: 'https://cdn-icons-png.flaticon.com/128/2450/2450526.png',
-      name: 'Industrial Services'),
+      nameEn: 'Industrial Services',
+      nameAr: 'خدمات صناعية'),
   SectorModel(
       image: 'https://cdn-icons-png.flaticon.com/128/2875/2875878.png',
-      name: 'Miscellaneous'),
+      nameEn: 'Miscellaneous',
+      nameAr: 'متنوع'),
   SectorModel(
       image: 'https://cdn-icons-png.flaticon.com/128/2990/2990917.png',
-      name: 'Non-Energy Minerals'),
+      nameEn: 'Non-Energy Minerals',
+      nameAr: 'المعادن غير المولدة للطاقة'),
   SectorModel(
       image: 'https://cdn-icons-png.flaticon.com/128/3690/3690098.png',
-      name: 'Process Industries'),
+      nameEn: 'Process Industries',
+      nameAr: 'الصناعات العملية'),
   SectorModel(
       image: 'https://cdn-icons-png.flaticon.com/128/9121/9121415.png',
-      name: 'Producer Manufacturing'),
+      nameEn: 'Producer Manufacturing',
+      nameAr: 'تصنيع المنتج'),
   SectorModel(
       image: 'https://cdn-icons-png.flaticon.com/128/1198/1198348.png',
-      name: 'Retail Trade'),
+      nameEn: 'Retail Trade',
+      nameAr: 'تجارة التجزئة'),
   SectorModel(
       image: 'https://cdn-icons-png.flaticon.com/128/870/870175.png',
-      name: 'Technology Services'),
+      nameEn: 'Technology Services',
+      nameAr: 'خدمات التكنولوجيا'),
   SectorModel(
       image: 'https://cdn-icons-png.flaticon.com/128/3267/3267450.png',
-      name: 'Transportation'),
+      nameEn: 'Transportation',
+      nameAr: 'مواصلات'),
   SectorModel(
       image: 'https://cdn-icons-png.flaticon.com/128/6695/6695398.png',
-      name: 'Utilities')
+      nameEn: 'Utilities',
+      nameAr: 'خدمات')
 ];
