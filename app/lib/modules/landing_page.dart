@@ -1,5 +1,6 @@
 import 'package:app/layout/bottom_navbar.dart';
 import 'package:app/layout/bottom_navbar_new.dart';
+import 'package:app/modules/Auth_pages/welcome_screen.dart';
 // import 'package:app/modules/login_page.dart';
 import 'package:app/modules/onboarding_page.dart';
 import 'package:app/shared/network/remote/auth_helper.dart';
@@ -24,7 +25,8 @@ class LandingPage extends StatelessWidget {
 
             final user = snapshot.data;
             if (user == null) {
-              return const OnboardingPage(); //!~> onboardeing
+              return const WelcomeScreen();
+              //  OnboardingPage(); //!~> onboardeing
             } else {
               return const BottomNavbarNew();
             }
