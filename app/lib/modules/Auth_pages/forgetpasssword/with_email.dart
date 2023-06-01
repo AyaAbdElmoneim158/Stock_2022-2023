@@ -3,6 +3,7 @@ import 'package:app/shared/cubit/cubit.dart';
 import 'package:app/shared/cubit/states.dart';
 import 'package:app/shared/router/routes.dart';
 import 'package:app/shared/styles/colors.dart';
+import 'package:app/shared/styles/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:app/shared/components/constants.dart';
@@ -61,8 +62,10 @@ class ForgetPasswordWithEmail extends StatelessWidget {
     }, builder: (context, state) {
       final appCubit = AppCubit.get(context);
       var emailController = TextEditingController();
+      SizeConfig().init(context);
 
       return Scaffold(
+        backgroundColor: kBackgroundColor,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
@@ -76,47 +79,45 @@ class ForgetPasswordWithEmail extends StatelessWidget {
         body: Center(
           child: Padding(
             padding: const EdgeInsets.all(15),
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                // crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Image.network(
-                    // 'https://cdn-icons-png.flaticon.com/128/3826/3826483.png',
-                    'https://cdn-icons-png.flaticon.com/128/3826/3826570.png',
-                    // 'https://cdn-icons-png.flaticon.com/128/6159/6159382.png',
-                    // 'https://cdn-icons-png.flaticon.com/128/3064/3064478.png',
-                    // 'https://cdn-icons-png.flaticon.com/128/6357/6357048.png',
-                    width: 200,
-                    fit: BoxFit.cover,
-                  ),
-                  const SizedBox(height: 30),
-                  Align(
-                    child: Text(
-                      "reset your password".toUpperCase(),
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineSmall!
-                          .copyWith(
-                              color: secondColor, fontWeight: FontWeight.w700),
+            child: SingleChildScrollView(
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  // crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Image.network(
+                      'https://img.freepik.com/free-vector/forgot-password-concept-illustration_114360-1123.jpg',
+                      height: SizeConfig.screenHeight! * 0.4, //40%
+                      width: double.infinity,
                     ),
-                  ),
-                  const SizedBox(height: 30),
-                  defaultField(
-                      hintText: Constants.emailFeild,
-                      labelText: Constants.emailFeild,
-                      controller: emailController,
-                      validator: (val) =>
-                          val!.isEmpty ? Constants.emailFeildAlert : null,
-                      onChanged: (val) => appCubit.changeEmailForget(val)),
-                  const SizedBox(height: 15),
-                  defaultButton(
-                      text: "Reset".toUpperCase(),
-                      color: firstColor,
-                      onPressed: () {
-                        appCubit.forgetPassword();
-                      },
-                      context: context),
-                ]),
+                    SizedBox(height: SizeConfig.screenHeight! * 0.1),
+                    Align(
+                      child: Text(
+                        "reset your password".toUpperCase(),
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineSmall!
+                            .copyWith(
+                                color: kTextColor, fontWeight: FontWeight.w700),
+                      ),
+                    ),
+                    const SizedBox(height: 30),
+                    defaultField(
+                        hintText: Constants.emailFeild,
+                        labelText: Constants.emailFeild,
+                        controller: emailController,
+                        validator: (val) =>
+                            val!.isEmpty ? Constants.emailFeildAlert : null,
+                        onChanged: (val) => appCubit.changeEmailForget(val)),
+                    const SizedBox(height: 32),
+                    defaultButton(
+                        text: "Reset".toUpperCase(),
+                        color: firstColor,
+                        onPressed: () {
+                          appCubit.forgetPassword();
+                        },
+                        context: context),
+                  ]),
+            ),
           ),
         ),
       );

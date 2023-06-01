@@ -1,5 +1,6 @@
 import 'package:app/modules/Navbar_pages/explore_new.dart';
 import 'package:app/modules/Navbar_pages/home_page.dart';
+import 'package:app/shared/components/constants.dart';
 import 'package:app/shared/styles/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:sliding_clipped_nav_bar/sliding_clipped_nav_bar.dart';
@@ -60,19 +61,19 @@ class _BottomNavbarNewState extends State<BottomNavbarNew> {
               barItems: <BarItem>[
                 BarItem(
                   icon: Icons.home,
-                  title: 'Home',
+                  title: Constants.home,
                 ),
                 BarItem(
                   icon: Icons.search_rounded,
-                  title: 'Search',
+                  title: Constants.search,
                 ),
                 BarItem(
                   icon: Icons.bolt_rounded,
-                  title: 'Recommend',
+                  title: Constants.recommend,
                 ),
                 BarItem(
                   icon: Icons.bookmark,
-                  title: 'Bookmark',
+                  title: Constants.bookmark,
                 ),
               ],
             ),

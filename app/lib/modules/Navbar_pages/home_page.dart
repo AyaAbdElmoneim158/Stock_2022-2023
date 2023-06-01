@@ -23,12 +23,13 @@ class HomePage extends StatelessWidget {
         builder: (context, state) {
           final appCubit = AppCubit.get(context);
           return Scaffold(
-            floatingActionButton: FloatingActionButton.small(
-              child: const Icon(Icons.logout),
-              onPressed: () => appCubit.fetchChartsData(ramz: 'FWRY'),
-              //appCubit.getStockApiData(ramz: 'FWRY')
-              //  => AuthHelper.instance.logout()
-            ),
+            // floatingActionButton: FloatingActionButton.small(
+            //   child: const Icon(Icons.logout),
+            //   onPressed: () => appCubit.fetchStockTimeline(),
+            //   // appCubit.fetchChartsData(ramz: 'ABUK'),
+            //   //appCubit.getStockApiData(ramz: 'FWRY')
+            //   //  => AuthHelper.instance.logout()
+            // ),
             body: NestedScrollView(
                 headerSliverBuilder: (context, innerBoxIsScrolled) => [
                       SliverAppBar(
@@ -38,7 +39,8 @@ class HomePage extends StatelessWidget {
                         bottom: PreferredSize(
                           preferredSize: size * 0.05,
                           child: Container(
-                              padding: EdgeInsets.all(size.height * 0.03),
+                              padding: EdgeInsets.symmetric(
+                                  vertical: size.height * 0.03), // ),
                               width: double.infinity,
                               decoration: BoxDecoration(
                                 color: Colors.white, //whiteColor,
@@ -49,7 +51,7 @@ class HomePage extends StatelessWidget {
                                         Radius.circular(size.height * 0.04)),
                               ),
                               child: Text(
-                                "الأسهم الخاصة بك التالية",
+                                "  الأسهم الخاصة بك التالية",
                                 style: Theme.of(context)
                                     .textTheme
                                     .headlineSmall!
@@ -81,7 +83,7 @@ class HomePage extends StatelessWidget {
                                             Icon(Icons.search),
                                             // SizedBox(width: 8),
                                             Spacer(),
-                                            Icon(Icons.notifications),
+                                            // Icon(Icons.notifications),
                                           ]),
                                         )
                                       ]),
@@ -116,14 +118,36 @@ class HomePage extends StatelessWidget {
                                             borderRadius:
                                                 BorderRadius.circular(20)),
                                         child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Expanded(
                                               child: Align(
-                                                child: Text(
-                                                    Constants.onboaringData[
-                                                        itemIndex]["text"],
-                                                    style: const TextStyle(
-                                                        color: Colors.white)),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    const Text(
+                                                        " نقد لك بعض المميزات ⚡",
+                                                        style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 20)),
+                                                    const SizedBox(height: 8),
+                                                    Text(
+                                                        Constants.onboaringData[
+                                                            itemIndex]["text"],
+                                                        style: const TextStyle(
+                                                            color:
+                                                                kTextLightColor,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w600)),
+                                                  ],
+                                                ),
                                               ),
                                             ),
                                             const SizedBox(width: 8),
