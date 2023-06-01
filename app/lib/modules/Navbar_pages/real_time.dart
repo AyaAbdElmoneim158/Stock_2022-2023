@@ -216,8 +216,11 @@ class _CoinState extends State<Coin> {
                     // Text(dataModel.stockMainApi!.stockPrice.toString(),
                     //     style: Theme.of(context).textTheme.titleMedium),
                     Text(
+                        double.parse(
+                                dataModel.stockMainApi!.stockPrice.toString())
+                            .toString(),
                         // ArabicNumbers().convert(double.parse(dataModel.stockMainApi!.stockPrice) ).toString(),
-                        dataModel.stockMainApi!.stockPrice.toString(),
+                        // dataModel.stockMainApi!.stockPrice.toString(),
                         // 'stockAtSector.change100',
                         style: Theme.of(context)
                             .textTheme

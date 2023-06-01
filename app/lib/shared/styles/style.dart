@@ -13,6 +13,8 @@ const kHeadline = TextStyle(
 
 const kBodyText =
     TextStyle(color: kTextColor, fontSize: 15, fontWeight: FontWeight.w600);
+const kBodyColorText =
+    TextStyle(color: kPrimaryColor, fontSize: 17, fontWeight: FontWeight.w600);
 
 const kButtonText = TextStyle(
   color: kTextColor,
@@ -20,8 +22,11 @@ const kButtonText = TextStyle(
   fontWeight: FontWeight.bold,
 );
 
-const kBodyText2 =
-    TextStyle(fontSize: 22, fontWeight: FontWeight.w500, color: kTextColor);
+const kBodyText2 = TextStyle(
+  fontSize: 22,
+  fontWeight: FontWeight.w600,
+  color: firstColor,
+);
 
 TextStyle btnTextStyle(BuildContext context, Color textColor) =>
     GoogleFonts.amiri(

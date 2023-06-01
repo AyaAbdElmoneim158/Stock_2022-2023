@@ -3,7 +3,8 @@ import 'package:app/models/sector_model.dart';
 import 'package:app/models/stock_at_sector_model.dart';
 import 'package:app/models/stock_model.dart';
 import 'package:app/modules/Navbar_pages/real_time.dart';
-import 'package:app/modules/coin.dart';
+import 'package:app/shared/components/constants.dart';
+// import 'package:app/modules/coin.dart';
 import 'package:app/shared/cubit/cubit.dart';
 import 'package:app/shared/cubit/states.dart';
 import 'package:app/shared/router/routes.dart';
@@ -87,18 +88,18 @@ Widget defaultField({
       decoration: InputDecoration(
         labelText: labelText,
         floatingLabelStyle:
-            const TextStyle(color: secondColor, fontWeight: FontWeight.w600),
+            const TextStyle(color: kTextColor, fontWeight: FontWeight.w600),
         hintText: hintText,
         enabledBorder: OutlineInputBorder(
           borderSide: const BorderSide(color: Colors.grey, width: 1.5),
           borderRadius: BorderRadius.circular(10),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: secondColor, width: 2),
+          borderSide: const BorderSide(color: firstColor, width: 1.5),
           borderRadius: BorderRadius.circular(10),
         ),
         errorBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Colors.redAccent, width: 2),
+          borderSide: const BorderSide(color: Colors.redAccent, width: 1.5),
           borderRadius: BorderRadius.circular(10),
         ),
         // bord
@@ -281,7 +282,7 @@ Widget defaultSector(context, SectorModel sectorModle, {int index = 0}) =>
       child: InkWell(
         onTap: () => Navigator.of(context, rootNavigator: false).pushNamed(
             AppRoutes.stocksAtSectorRoute,
-            arguments: sectorModle.name
+            arguments: sectorModle.nameEn
             // {'sector': sectorModle, 'index': index}
             ),
         child: Card(
@@ -299,7 +300,7 @@ Widget defaultSector(context, SectorModel sectorModle, {int index = 0}) =>
                       width: 60, fit: BoxFit.cover),
                   Expanded(
                     child: Text(
-                      sectorModle.name,
+                      lang ? sectorModle.nameAr : sectorModle.nameEn,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       softWrap: false,
@@ -343,16 +344,16 @@ class SocailCArd extends StatelessWidget {
 }
 
 //!~> snackbarErr........................................................
-SnackBar snackbarErr(AppStates state, {required String message}) {
+SnackBar snackbarErr(AppStates state,
+    {required String message, required ContentType contentType}) {
   return SnackBar(
     elevation: 0,
     behavior: SnackBarBehavior.floating,
     backgroundColor: Colors.transparent,
     content: AwesomeSnackbarContent(
-      title: 'Error..!',
-      message: message,
-      contentType: ContentType.failure,
-    ),
+        title: 'Error..!', message: message, contentType: contentType
+        // ContentType.failure,
+        ),
   );
 }
 
@@ -377,11 +378,11 @@ class SearchBox extends StatelessWidget {
       ),
       child: TextField(
         onChanged: onChanged,
-        decoration: const InputDecoration(
+        decoration: InputDecoration(
           border: InputBorder.none,
-          icon: Icon(Icons.search, color: Color(0XFF12192C)),
-          hintText: "Search Here",
-          hintStyle: TextStyle(color: kTextColor),
+          icon: const Icon(Icons.search, color: Color(0XFF12192C)),
+          hintText: Constants.searchHere,
+          hintStyle: const TextStyle(color: kTextColor),
         ),
       ),
     );
@@ -390,11 +391,12 @@ class SearchBox extends StatelessWidget {
 
 //?~> sector item..............................................................
 class ItemCard extends StatelessWidget {
-  final String title, svgSrc;
+  final String titleAr, titleEn, svgSrc;
   final void Function()? press;
   const ItemCard({
     super.key,
-    required this.title,
+    required this.titleAr,
+    required this.titleEn,
     required this.svgSrc,
     required this.press,
   });
@@ -423,7 +425,9 @@ class ItemCard extends StatelessWidget {
           onTap: () => navigatorTo(
               context: context,
               routeName: AppRoutes.stocksAtSectorRoute,
-              arguments: title),
+              arguments: {"title": titleEn, "image": svgSrc}
+              //  title
+              ),
           child: Padding(
             padding: const EdgeInsets.all(20.0),
             child: Column(
@@ -442,7 +446,7 @@ class ItemCard extends StatelessWidget {
                 ),
                 Expanded(
                   child: Text(
-                    title,
+                    lang ? titleAr : titleEn,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: kBodyText.copyWith(
@@ -488,7 +492,8 @@ class ItemList extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           itemCount: fackSector.length,
           itemBuilder: (context, index) => ItemCard(
-              title: fackSector[index].name,
+              titleAr: fackSector[index].nameAr,
+              titleEn: fackSector[index].nameEn,
               svgSrc: fackSector[index].image,
               press: () {})),
     );
@@ -644,12 +649,11 @@ ListView stockList({required List<StockAtSectorModel> stocksAtSector}) {
 
 //?~> news item..............................................................
 class NewsCard extends StatelessWidget {
-  final String title, des;
+  final News news;
   final void Function()? press;
   const NewsCard({
     super.key,
-    required this.title,
-    required this.des,
+    required this.news,
     required this.press,
   });
 
@@ -676,22 +680,22 @@ class NewsCard extends StatelessWidget {
         child: InkWell(
           onTap: () => navigatorTo(
               context: context,
-              routeName: AppRoutes.detailsStockRoute,
-              arguments: title),
+              routeName: AppRoutes.newsUrlRoute,
+              arguments: news.link),
           child: Padding(
             padding: const EdgeInsets.all(20.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  title,
+                  news.title.toString(),
                   style: kBodyText.copyWith(
                       color: firstColor, fontWeight: FontWeight.w700),
                 ),
                 const SizedBox(height: 16),
                 Expanded(
                   child: Text(
-                    des,
+                    news.des.toString(),
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
                     style: kBodyText.copyWith(color: kTextColor),
@@ -700,7 +704,7 @@ class NewsCard extends StatelessWidget {
                 Align(
                   alignment: Alignment.bottomRight,
                   child: Text(
-                    '20 May 2023',
+                    news.date.toString(),
                     style: Theme.of(context).textTheme.labelSmall,
                   ),
                 )
@@ -724,10 +728,8 @@ class NewsList extends StatelessWidget {
       child: ListView.builder(
           scrollDirection: Axis.horizontal,
           itemCount: news.length,
-          itemBuilder: (context, index) => NewsCard(
-              title: news[index].title.toString(),
-              des: news[index].des.toString(),
-              press: () {})),
+          itemBuilder: (context, index) =>
+              NewsCard(news: news[index], press: () {})),
     );
   }
 }
@@ -1088,6 +1090,45 @@ GestureDetector stockCard(BuildContext context,
   );
 }
 
+GestureDetector stockCardInnerSector(BuildContext context,
+    {required StockModle stockAtSector}) {
+  return GestureDetector(
+    child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Image.network() // Wrab with circle Avter...
+
+          Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+            Coin(ramz: stockAtSector.ramz, lastPrice: stockAtSector.price),
+          ]),
+          // const Spacer(),
+          const SizedBox(width: 16),
+          Expanded(
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              //stockAtSector.symbol
+              Text(stockAtSector.ramz,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleLarge!
+                      .copyWith(color: textColor, fontWeight: FontWeight.w600)),
+            ]),
+          ),
+          const SizedBox(width: 20),
+          CircleAvatar(
+              radius: 28,
+              backgroundColor: firstColor.withOpacity(0.1),
+              backgroundImage: NetworkImage(stockAtSector.logo)),
+        ],
+      ),
+    ),
+  );
+}
+
 Container newsContainer(BuildContext context, {required List<News> news}) {
   return Container(
     padding: const EdgeInsets.all(20),
@@ -1108,13 +1149,13 @@ Container newsContainer(BuildContext context, {required List<News> news}) {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Text(
-              "News",
+              Constants.news,
               style: Theme.of(context)
                   .textTheme
                   .headlineMedium!
                   .copyWith(color: kPrimaryColor, height: 1.2),
             ),
-            const Icon(Icons.newspaper)
+            // const Icon(Icons.newspaper)
           ],
         ),
         NewsList(news: news // details.news!
@@ -1144,13 +1185,13 @@ Container aboutContainer(BuildContext context, {required String about}) {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Text(
-              "About ",
+              Constants.about,
               style: Theme.of(context)
                   .textTheme
                   .headlineMedium!
                   .copyWith(color: kPrimaryColor, height: 1.2),
             ),
-            const Icon(Icons.location_city)
+            // const Icon(Icons.location_city)
           ],
         ),
         const SizedBox(height: 10),
@@ -1172,18 +1213,18 @@ Row nameLogo({required String ramz, required String logo}) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
+      logoCircleAvatar(logo: logo),
       Align(
-        alignment: Alignment.centerRight,
+        // alignment: Alignment.centerRight,
         child: Text(
           ramz,
           style: const TextStyle(
-            color: kTextMediumColor,
+            color: kTextColor,
             fontWeight: FontWeight.w600,
-            fontSize: 25,
+            fontSize: 20,
           ),
         ),
       ),
-      logoCircleAvatar(logo: logo),
     ],
   );
 }
@@ -1194,4 +1235,158 @@ CircleAvatar logoCircleAvatar({required String logo}) {
     backgroundColor: kPrimaryColor.withOpacity(0.5),
     backgroundImage: NetworkImage(logo),
   );
+}
+//*******************************************************************************
+//!~> Components................................................................
+
+//!~> CustomeTextField..........................................................
+class CustomeTextField extends StatelessWidget {
+  const CustomeTextField({
+    super.key,
+    required this.hintText,
+    required this.inputType,
+    required this.validator,
+    required this.controller,
+  });
+  final String hintText;
+  final TextInputType inputType;
+  final String? Function(String?)? validator;
+  final TextEditingController? controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      child: TextFormField(
+        validator: validator,
+        controller: controller,
+        style: kBodyText.copyWith(color: kTextColor),
+        keyboardType: inputType,
+        textInputAction: TextInputAction.next,
+        decoration: InputDecoration(
+          contentPadding: const EdgeInsets.all(20),
+          hintText: hintText,
+          hintStyle: kBodyText,
+          enabledBorder: OutlineInputBorder(
+            borderSide: const BorderSide(
+              color: Colors.grey,
+              width: 1,
+            ),
+            borderRadius: BorderRadius.circular(18),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: const BorderSide(
+              color: kPrimaryColor,
+              width: 2,
+            ),
+            borderRadius: BorderRadius.circular(18),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+//!~> CustomeTextButton.........................................................
+class CustomeTextButton extends StatelessWidget {
+  const CustomeTextButton({
+    super.key,
+    required this.buttonName,
+    required this.onTap,
+    required this.bgColor,
+    required this.textColor,
+  });
+  final String buttonName;
+  final void Function()? onTap;
+  final Color bgColor;
+  final Color textColor;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 50,
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: bgColor,
+        borderRadius: BorderRadius.circular(18),
+      ),
+      child: TextButton(
+        style: ButtonStyle(
+          overlayColor: MaterialStateProperty.resolveWith(
+            (states) => Colors.black12,
+          ),
+        ),
+        onPressed: onTap,
+        child: Text(
+          buttonName,
+          style: kButtonText.copyWith(color: textColor),
+        ),
+      ),
+    );
+  }
+}
+
+//!~> CustomePasswordField......................................................
+class CustomePasswordField extends StatelessWidget {
+  const CustomePasswordField({
+    super.key,
+    required this.hintText,
+    required this.isPasswordVisible,
+    required this.onTap,
+    required this.validator,
+    required this.controller,
+  });
+  final String hintText;
+  final bool isPasswordVisible;
+  final void Function()? onTap;
+  final String? Function(String?)? validator;
+  final TextEditingController? controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      child: TextFormField(
+        validator: validator,
+        controller: controller,
+        style: kBodyText.copyWith(
+          color: ksecondaryColor,
+        ),
+        obscureText: isPasswordVisible,
+        keyboardType: TextInputType.text,
+        textInputAction: TextInputAction.done,
+        decoration: InputDecoration(
+          suffixIcon: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: IconButton(
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              onPressed: onTap,
+              icon: Icon(
+                isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                color: Colors.grey,
+              ),
+            ),
+          ),
+          contentPadding: const EdgeInsets.all(20),
+          hintText: hintText,
+          hintStyle: kBodyText,
+          enabledBorder: OutlineInputBorder(
+            borderSide: const BorderSide(
+              color: Colors.grey,
+              width: 1,
+            ),
+            borderRadius: BorderRadius.circular(18),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: const BorderSide(
+              color: kPrimaryColor,
+              width: 2,
+            ),
+            borderRadius: BorderRadius.circular(18),
+          ),
+        ),
+      ),
+    );
+  }
 }

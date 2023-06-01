@@ -122,6 +122,26 @@ abstract class Constants {
   static String forgetPasswordUpdatedDes = lang
       ? "لقد تم تحديث كلمة السر الخاصة بك"
       : "your password has been updated";
+
+//!~> Details data: =====================================<
+  static String stockNoLabel = lang ? "عدد الاسهم" : 'Enter stock number';
+  static String stockNoAlart =
+      lang ? "قم بادخال عدد الاسهم" : 'Enter stock number';
+
+  static String stockPriceLabel =
+      lang ? "سعر السهم الواحد " : 'Enter stock price';
+  static String stockPriceAlart =
+      lang ? "قم بادخال سعر الاسهم" : 'Enter stock price';
+  static String stockFollow = lang ? "متابعة" : "Follow";
+  static String about = lang ? "نبذه" : "About";
+  static String news = lang ? "الاخبار" : "News";
+
+  static String home = lang ? "الرئيسيه" : "Home";
+  static String search = lang ? "استكشاف" : "Search";
+  static String recommend = lang ? "ترشيحات" : "Recommend";
+  static String bookmark = lang ? "المفضلات" : "Bookmark";
+  static String searchHere = lang ? "ابحث هنا" : "Search Here";
+
 //!~> EndPoints: =====================================<
   static const String baseUrl = "https://scrap-29ek.onrender.com/stock/";
 }

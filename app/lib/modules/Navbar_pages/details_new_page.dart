@@ -14,6 +14,7 @@ import 'package:app/modules/Navbar_pages/my_chart.dart';
 import 'package:app/modules/Design/Details/componets_details.dart';
 import 'package:app/models/stock_model.dart';
 import 'package:app/shared/components/components.dart';
+import 'package:app/shared/components/constants.dart';
 import 'package:app/shared/cubit/cubit.dart';
 import 'package:app/shared/cubit/states.dart';
 import 'package:app/shared/router/routes.dart';
@@ -26,6 +27,10 @@ import 'package:iconsax/iconsax.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:intl/intl.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+import 'package:arabic_numbers/arabic_numbers.dart';
+
+ArabicNumbers arabicNumber = ArabicNumbers();
+// arabicNumber.convert(7);
 
 List<SalesData> salesData = [
   SalesData("Q2'21", 35),
@@ -46,7 +51,7 @@ class DetailNewsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => AppCubit()..fetchDetails(ramz: ramz),
-      //..fetchStockTimeline(ramz: ramz), //..getStockApiData(ramz: ramz),
+      // ..fetchStockTimeline(), //..getStockApiData(ramz: ramz),//ramz: ramz
       child: BlocConsumer<AppCubit, AppStates>(
           listener: (context, state) {},
           builder: (context, state) {
@@ -104,7 +109,7 @@ class DetailNewsScreen extends StatelessWidget {
                                         .addArrowToFavoriteArrow(stockModle);
                                   },
                                   icon: const Icon(
-                                    Icons.favorite,
+                                    Icons.bookmark_add_outlined,
                                     color: firstColor,
                                   ));
                             } else {
@@ -115,8 +120,8 @@ class DetailNewsScreen extends StatelessWidget {
                                             .id); //! remove to fav with message
                                   },
                                   icon: const Icon(
-                                    Icons.favorite,
-                                    color: Colors.red,
+                                    Icons.bookmark_add,
+                                    color: Colors.grey,
                                   ));
                             }
                           } else {
@@ -156,15 +161,16 @@ class DetailNewsScreen extends StatelessWidget {
                                                   child: Column(
                                                     children: [
                                                       defaultField(
-                                                          hintText:
-                                                              "Enter stock number....",
-                                                          labelText:
-                                                              "stock number",
+                                                          hintText: Constants
+                                                              .stockNoLabel,
+                                                          labelText: Constants
+                                                              .stockNoLabel,
                                                           controller:
                                                               stockNoController,
                                                           validator: (val) => val!
                                                                   .isEmpty
-                                                              ? "Enter stock number"
+                                                              ? Constants
+                                                                  .stockNoAlart
                                                               : null,
                                                           onChanged: (val) =>
                                                               appCubit
@@ -174,15 +180,16 @@ class DetailNewsScreen extends StatelessWidget {
                                                           height: size.height *
                                                               0.03),
                                                       defaultField(
-                                                          hintText:
-                                                              "Enter stock price....",
-                                                          labelText:
-                                                              "stock price",
+                                                          hintText: Constants
+                                                              .stockPriceLabel,
+                                                          labelText: Constants
+                                                              .stockPriceLabel,
                                                           controller:
                                                               stockPriceController,
                                                           validator: (val) => val!
                                                                   .isEmpty
-                                                              ? "Enter stock price"
+                                                              ? Constants
+                                                                  .stockPriceAlart
                                                               : null,
                                                           onChanged: (val) =>
                                                               appCubit
@@ -304,7 +311,10 @@ class DetailNewsScreen extends StatelessWidget {
                               //     .toString()),
 
                               StockPrice(
-                                  price: details.stockMainApi!.stockPrice
+                                  price: double.parse(details
+                                          .stockMainApi!.stockPrice
+                                          .toString())
+                                      // arabicNumber.convert( details.stockMainApi!.stockPrice)
                                       .toString(),
                                   change: details.stockMainApi!.incPercentage
                                       .toString()),

@@ -25,7 +25,7 @@ class BookmarkPage extends StatelessWidget {
               excludeHeaderSemantics: true,
               // centerTitle: true,
               title: Text(
-                "مفضلاتك ",
+                "مفضلاتك 🔖",
                 style: Theme.of(context).textTheme.headlineSmall,
               ),
             ),

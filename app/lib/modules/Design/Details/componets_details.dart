@@ -556,43 +556,50 @@ class StockPrice extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: <Widget>[
-        //EGP
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: RichText(
-              text: TextSpan(children: [
-            TextSpan(
-              text: price.toString(),
-              style: Theme.of(context)
-                  .textTheme
-                  .displaySmall!
-                  .copyWith(color: kPrimaryColor, height: 1.2),
-            ),
-            TextSpan(
-              text: 'EGP',
-              style: Theme.of(context)
-                  .textTheme
-                  .bodySmall!
-                  .copyWith(color: kPrimaryColor, height: 1.2),
-            ),
-          ])),
-        ),
+    return SizedBox(
+      width: double.infinity,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+          Text(
+            // details.stockMainApi!.incPercentage.toString(),
+            change.toString(),
+            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                color:
+                    // double.parse(change.substring(0, 3)) > 0? kPrimaryColor:
+                    Colors.green,
+                height: 1.2),
+          ),
+          //EGP
+          const SizedBox(width: 16),
 
-        const SizedBox(width: 16),
-        Text(
-          // details.stockMainApi!.incPercentage.toString(),
-          change.toString(),
-          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-              color:
-                  // double.parse(change.substring(0, 3)) > 0? kPrimaryColor:
-                  Colors.green,
-              height: 1.2),
-        ),
-        // SvgPicture.asset("assets/icons/increase.svg")
-      ],
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: RichText(
+                text: TextSpan(children: [
+              TextSpan(
+                text: price.toString(),
+                style: Theme.of(context)
+                    .textTheme
+                    .displaySmall!
+                    .copyWith(color: kPrimaryColor, height: 1.2),
+              ),
+              // TextSpan(
+              //   text: 'EGP',
+              //   style: Theme.of(context)
+              //       .textTheme
+              //       .bodySmall!
+              //       .copyWith(color: kPrimaryColor, height: 1.2),
+              // ),
+            ])),
+          ),
+
+          // const SizedBox(width: 16),
+
+          // SvgPicture.asset("assets/icons/increase.svg")
+        ],
+      ),
     );
   }
 }

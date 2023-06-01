@@ -10,7 +10,8 @@ class DioHelper {
       //https://20mccck65d.execute-api.ap-northeast-1.amazonaws.com/?stock=ABUK-0
 //https://scrap-29ek.onrender.com/stock/abuk/7
 //https://20mccck65d.execute-api.ap-northeast-1.amazonaws.com/?stock=ABUK-1
-      baseUrl: 'https://20mccck65d.execute-api.ap-northeast-1.amazonaws.com/',
+      baseUrl:
+          'https://20mccck65d.execute-api.ap-northeast-1.amazonaws.com/', //'https://',
       /*Details */ /*All chart */
       // "https://ou8m3oozn4.execute-api.ap-northeast-1.amazonaws.com/default/",/*Sector */
       // "https://scrap-29ek.onrender.com/stock/",

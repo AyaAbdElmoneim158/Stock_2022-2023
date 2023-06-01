@@ -14,7 +14,7 @@ class MyChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AppCubit()..fetchStockTimeline(ramz: ramz),
+      create: (context) => AppCubit()..fetchStockTimeline(), //ramz: ramz
       child: BlocConsumer<AppCubit, AppStates>(
           listener: (context, state) {},
           builder: (context, state) {

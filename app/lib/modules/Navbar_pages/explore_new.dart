@@ -27,7 +27,8 @@ class ExploreNew extends StatelessWidget {
 
             return Scaffold(
               backgroundColor: kBackgroundColor,
-              appBar: AppBar(
+              appBar: AppBar(),
+              /* appBar: AppBar(
                 iconTheme: const IconThemeData(color: firstColor),
               ),
               drawer: Drawer(
@@ -60,7 +61,7 @@ class ExploreNew extends StatelessWidget {
                                   Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
-                                    children: [
+                                    children: const [
                                       Text(
                                         'userName',
                                       ),
@@ -76,7 +77,7 @@ class ExploreNew extends StatelessWidget {
                                 ],
                               ),
                               SizedBox(height: SizeConfig.defaultSize! * 2),
-                              Divider(
+                              const Divider(
                                   thickness: 1.6,
                                   color: kTextColor,
                                   height: 1.5),
@@ -103,8 +104,8 @@ class ExploreNew extends StatelessWidget {
                                       itemCount: 5)),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Icon(Icons.logout, color: firstColor),
+                                children: const [
+                                  Icon(Icons.logout, color: firstColor),
                                   Text(
                                     "  Logout",
                                   ),
@@ -126,7 +127,7 @@ class ExploreNew extends StatelessWidget {
                   // fetchStocksAtSectors(sectorName: 'Communications'),
                   //appCubit.getStockApiData(ramz: 'FWRY')
                   //  => AuthHelper.instance.logout()
-                  ),
+                  ),*/
               body: Column(
                 children: [
                   SearchBox(
@@ -155,12 +156,12 @@ class ExploreNew extends StatelessWidget {
                                   Navigator.pushNamed(
                                       context, AppRoutes.detailsStockRoute,
                                       arguments:
-                                          appCubit.stocksAtSectors[index].logo);
+                                          appCubit.stocksAtSectors[index].ramz);
                                 },
                                 // StockModle stockAtSector = StockModle(id: id);
                                 //  Text("kkkk")
                                 // ToDo: ..................
-                                child: stockCard(context,
+                                child: stockCardInnerSector(context,
                                     stockAtSector:
                                         appCubit.stocksAtSectors[index]),
                               )),

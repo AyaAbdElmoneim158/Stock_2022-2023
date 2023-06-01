@@ -11,14 +11,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:convert';
+import 'package:http/http.dart' as http;
 
-List<String> editList({required List<String>? list}) {
-  List<String> listNew = [];
+List<double> editList({required List<String>? list}) {
+  List<double> listNew = [];
   for (var element in list!) {
     if (element.contains("B")) {
-      listNew.add(element.substring(0, element.indexOf("B", 0)));
+      listNew.add(double.parse(element.substring(0, element.indexOf("B", 0))));
     } else {
-      listNew.add('0');
+      listNew.add(0);
     }
   }
   return listNew;
@@ -429,9 +430,28 @@ class AppCubit extends Cubit<AppStates> {
 
 //!~> fetchStocksAtSectors --------------------------------------------------------
   List<SalesDataYear> chartData = [];
-  void fetchStockTimeline({required String ramz}) {
+  void fetchStockTimeline() {
+    //{required String ramz}
     emit(FetchStockTimelineLoadingState());
-    DioHelper.getData(path: '$ramz/30').then((value) {
+    http
+        .get(Uri.parse('https://scrap-29ek.onrender.com/stock/abuk/7'))
+        .then((value) {
+      // debugPrint(value.body); //jsonDecode
+      var data = jsonDecode(value.body);
+      // debugPrint(data.runtimeType.toString()); //jsonDecode
+      for (int i = 0; i < 7; i++) {
+        chartData.add(SalesDataYear(
+            DateTime.parse(data["data"][i][0]), data["data"][i][5]));
+      }
+      debugPrint(chartData.length.toString());
+      emit(FetchStockTimelineSuccessState());
+    }).catchError((err) {
+      debugPrint(err.toString());
+      emit(FetchStockTimelineErrorState(err.toString()));
+    });
+
+    //var
+    /*DioHelper.getData(path: '$ramz/30').then((value) {
       debugPrint(value.data.runtimeType.toString());
       debugPrint(value.data["data"].toString());
       for (int i = 0; i < 30; i++) {
@@ -441,7 +461,7 @@ class AppCubit extends Cubit<AppStates> {
       emit(FetchStockTimelineSuccessState());
     }).catchError((err) {
       emit(FetchStockTimelineErrorState(err.toString()));
-    });
+    });*/
   }
 
 //*~> Fetch stock Details..................................................................
@@ -587,11 +607,11 @@ class AppCubit extends Cubit<AppStates> {
       debugPrint("dividends.... Done!");
 
 //? Fetch revenue ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      debugPrint(allData.revenue!.estimateR.toString());
+      /* debugPrint(allData.revenue!.estimateR.toString());
       debugPrint(allData.revenue!.reportedR.toString());
-      List<String>? estimateR = editList(list: allData.revenue!.estimateR);
-      List<String>? reportedR = editList(list: allData.revenue!.reportedR);
-
+      List<double>? estimateR = editList(list: allData.revenue!.estimateR);
+      List<double>? reportedR = editList(list: allData.revenue!.reportedR);
+      debugPrint(reportedR.toString());*/
       // editList(list: allData.revenue!.reportedR);
 
       // debugPrint(double.parse(allData.revenue!.estimateR![0] /*.toString());*/
@@ -599,7 +619,7 @@ class AppCubit extends Cubit<AppStates> {
       //     .toString()) as String?);
 // [2.27B,2.35B,2.72B,-,-,5.32B,-,-,5.31B,-]
 // [2.27B,2.54B,2.65B,3.59B,5.80B,4.29B,4.79B,6.44B,—, —]
-      for (int i = 0; i < allData.revenue!.estimateR!.length; i++) {
+      /* for (int i = 0; i < allData.revenue!.estimateR!.length; i++) {
         List<String> header = [
           "2015",
           "2016",
@@ -615,8 +635,7 @@ class AppCubit extends Cubit<AppStates> {
           // "2026",
         ];
         // Fetch arrays of data ...............................................................................................................................
-        var valReportedR = double.parse(reportedR[i]),
-            valEstimateR = double.parse(estimateR[i]);
+        var valReportedR = reportedR[i], valEstimateR = estimateR[i];
 
         debugPrint(
             '${allData.revenue!.estimateR![i]} : ${allData.revenue!.estimateR![i]}');
@@ -630,7 +649,7 @@ class AppCubit extends Cubit<AppStates> {
         BarChart1('Estimate', revenueData2),
       ];
 
-      debugPrint("revenue.... Done!");
+      debugPrint("revenue.... Done!");*/
 
 //? Fetch estimateE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
