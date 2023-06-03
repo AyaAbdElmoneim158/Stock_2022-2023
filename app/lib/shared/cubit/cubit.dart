@@ -1,5 +1,7 @@
+import 'dart:async';
+
 import 'package:app/models/sales_data_model.dart';
-import 'package:app/models/stock_at_sector_model.dart';
+// import 'package:app/models/stock_at_sector_model.dart';
 import 'package:app/models/stock_chart_model.dart';
 import 'package:app/models/stock_model.dart';
 import 'package:app/models/user_model.dart';
@@ -12,6 +14,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:app/models/sales_data_model.dart';
 
 List<double> editList({required List<String>? list}) {
   List<double> listNew = [];
@@ -43,6 +46,8 @@ class AppCubit extends Cubit<AppStates> {
   final _service = FirestoreHelper.instance;
   final _fireStore = FirestoreHelper.instance;
   var user = AuthHelper.instance.currentUser;
+
+  String testVal = "Test";
 
   String userName = "";
   String email = "";
@@ -242,6 +247,22 @@ class AppCubit extends Cubit<AppStates> {
     emit(RemoveArrowToFavSuccessState());
   }
 
+//! **************************************************************************************************
+  List<String> priceNo = [];
+  getPriceNo({required id}) {
+    Stream<StockModle> stockModle = _fireStore.documentsStream(
+        path: 'users/${user?.uid}/followingArrow/$id',
+        builder: (data, documentId) => StockModle.fromMap(data!, documentId));
+
+    debugPrint(stockModle.firstWhere((element) {
+      debugPrint(element.ramz.toString());
+      priceNo.add(element.price);
+      priceNo.add(element.stocksNo);
+      return true;
+    }).toString());
+    //  return  ;
+  }
+
 // //! getStockDetails ============================================<
 //   var stockDetails;
 //   dynamic getStockDetails(String stockName) async {
@@ -429,19 +450,25 @@ class AppCubit extends Cubit<AppStates> {
   }
 
 //!~> fetchStocksAtSectors --------------------------------------------------------
-  List<SalesDataYear> chartData = [];
-  void fetchStockTimeline() {
+
+  List<SalesData> chartData = [];
+  // SalesData("2018", 19),
+
+  void fetchStockTimeline({required String ramz, required int period}) {
     //{required String ramz}
+    chartData = [];
     emit(FetchStockTimelineLoadingState());
     http
-        .get(Uri.parse('https://scrap-29ek.onrender.com/stock/abuk/7'))
+        .get(Uri.parse(
+      // 'https://scrap-29ek.onrender.com/stock/abuk/7',
+      'https://scrap-29ek.onrender.com/stock/$ramz/$period',
+    ))
         .then((value) {
       // debugPrint(value.body); //jsonDecode
       var data = jsonDecode(value.body);
-      // debugPrint(data.runtimeType.toString()); //jsonDecode
-      for (int i = 0; i < 7; i++) {
-        chartData.add(SalesDataYear(
-            DateTime.parse(data["data"][i][0]), data["data"][i][5]));
+      debugPrint(data.runtimeType.toString()); //jsonDecode
+      for (int i = 0; i < period; i++) {
+        chartData.add(SalesData(data["data"][i][0], data["data"][i][5]));
       }
       debugPrint(chartData.length.toString());
       emit(FetchStockTimelineSuccessState());
@@ -571,7 +598,7 @@ class AppCubit extends Cubit<AppStates> {
                     0,
                     allData.balanceSheet!.totalLiabilities![i]
                         .indexOf("B", 0)));
-        // data arrays of data to SalesData...............................................................................................................................
+        // data arrays of dat a to SalesData...............................................................................................................................
         balanceSheetSalesData1
             .add(SalesData(allData.balanceSheet!.header![i], valTotalAssets));
         balanceSheetSalesData2.add(
@@ -729,6 +756,31 @@ class AppCubit extends Cubit<AppStates> {
     }).catchError((err) {
       debugPrint("error at fetchIncomeChart: $err");
       emit(FetchIncomeChartErrorState(err));
+    });
+  }
+
+//***************************************************************************************************
+//1-> Create Stream Controler
+  StockModelApi dataModel = StockModelApi();
+  StreamController<StockModelApi> streamController = StreamController();
+
+//2-> Get Data From Api
+  Future<void> getData({required String ramz}) async {
+    var url = Uri.parse(
+        "https://20mccck65d.execute-api.ap-northeast-1.amazonaws.com/?stock=$ramz-0");
+    final res = await http.get(url);
+    final dataBody = json.decode(res.body);
+    // StockModelApi
+    dataModel = StockModelApi.fromJson(dataBody);
+    // DataModel dataModel = DataModel.fromJson(dataBody);
+    streamController.sink.add(dataModel);
+    debugPrint("data: ${dataModel.stockMainApi!.stockPrice.toString()}");
+  }
+
+  Timer getDataTime() {
+    getData(ramz: 'abuk');
+    return Timer.periodic(const Duration(minutes: 5), (timer) {
+      getData(ramz: 'abuk');
     });
   }
 }

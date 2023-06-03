@@ -213,23 +213,24 @@ class _CoinState extends State<Coin> {
               } else {
                 return Column(
                   children: [
-                    // Text(dataModel.stockMainApi!.stockPrice.toString(),
-                    //     style: Theme.of(context).textTheme.titleMedium),
                     Text(
-                        double.parse(
-                                dataModel.stockMainApi!.stockPrice.toString())
+                        dataModel.stockMainApi!.stockPrice!
+                            .split('')
+                            .reversed
+                            .join()
                             .toString(),
-                        // ArabicNumbers().convert(double.parse(dataModel.stockMainApi!.stockPrice) ).toString(),
-                        // dataModel.stockMainApi!.stockPrice.toString(),
-                        // 'stockAtSector.change100',
                         style: Theme.of(context)
                             .textTheme
                             .titleMedium!
                             .copyWith(
                                 color: firstColor,
                                 fontWeight: FontWeight.w600)),
-                    Text(dataModel.stockMainApi!.incPercentage.toString(),
-                        // 'stockAtSector.change',
+                    Text(
+                        dataModel.stockMainApi!.incPercentage!
+                            .split('')
+                            .reversed
+                            .join()
+                            .toString(),
                         style: Theme.of(context)
                             .textTheme
                             .titleSmall!

@@ -1,10 +1,11 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 //!~> defaultButton >===========================<
 import 'package:app/models/sector_model.dart';
 import 'package:app/models/stock_at_sector_model.dart';
 import 'package:app/models/stock_model.dart';
 import 'package:app/modules/Navbar_pages/real_time.dart';
 import 'package:app/shared/components/constants.dart';
-// import 'package:app/modules/coin.dart';
+//  import 'package:app/modules/coin.dart';
 import 'package:app/shared/cubit/cubit.dart';
 import 'package:app/shared/cubit/states.dart';
 import 'package:app/shared/router/routes.dart';
@@ -502,14 +503,14 @@ class ItemList extends StatelessWidget {
 
 //?~> CategoryItem ...................................................................
 class CategoryItem extends StatelessWidget {
-  final String title;
+  final Category category;
   final bool isActive;
   static bool active = false;
 
   // final void Function()? press;
   const CategoryItem({
     super.key,
-    required this.title,
+    required this.category,
     this.isActive = false,
     // required this.press,
   });
@@ -523,13 +524,14 @@ class CategoryItem extends StatelessWidget {
           // final size = MediaQuery.of(context).size;
 
           return GestureDetector(
-            onTap: () => appCubit.fetchStocksAtSectors(sectorName: title),
+            onTap: () =>
+                appCubit.fetchStocksAtSectors(sectorName: category.categoryEn),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
               child: Column(
                 children: <Widget>[
                   Text(
-                    title,
+                    category.categoryAr,
                     style: isActive
                         ? const TextStyle(
                             color: kTextColor,
@@ -563,25 +565,14 @@ class CategoryList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
-          CategoryItem(
-            title: "Commercial Services",
-            // isActive: true,
-          ),
-          CategoryItem(
-            title: "Finance",
-          ),
-          CategoryItem(
-            title: "Commercial Services",
-          ),
-          CategoryItem(
-            title: "Commercial Services",
-          ),
-        ],
+    return SizedBox(
+      height: 70,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (context, index) => CategoryItem(
+          category: fackCategory[index],
+          // isActive: true,
+        ),
       ),
     );
   }
@@ -1033,6 +1024,125 @@ GestureDetector stockCard(BuildContext context,
 }
 */
 // Coin
+
+class StockCard extends StatelessWidget {
+  final StockModle stockAtSector;
+  const StockCard({
+    super.key,
+    required this.stockAtSector,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => AppCubit()
+        ..getDataTime()
+        ..getPriceNo(id: '2023-04-24T11:52:05.533'),
+      child: BlocConsumer<AppCubit, AppStates>(
+          listener: (context, state) {},
+          builder: (context, state) {
+            final appCubit = AppCubit.get(context);
+            final size = MediaQuery.of(context).size;
+
+            return GestureDetector(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    StreamBuilder<StockModelApi>(
+                        stream: appCubit.streamController.stream,
+                        builder: (context, snapshot) {
+                          debugPrint(snapshot.data.toString());
+                          switch (snapshot.connectionState) {
+                            case ConnectionState.waiting:
+                              return Container(
+                                  width: 50,
+                                  color: Colors.white,
+                                  child: Center(
+                                      child: Image.asset(
+                                          'assets/ripple.gif'))); //const Center(child: CircularProgressIndicator());
+                            default:
+                              if (snapshot.hasError) {
+                                return const Text("Error...");
+                              } else {
+                                return Column(
+                                  children: [
+                                    Text(
+                                        '${double.parse(appCubit.priceNo[1]) * (double.parse(appCubit.priceNo[0]) - double.parse(appCubit.dataModel.stockMainApi!.stockPrice.toString()))}'),
+                                    Text(
+                                        appCubit
+                                            .dataModel.stockMainApi!.stockPrice!
+                                            .split('')
+                                            .reversed
+                                            .join()
+                                            .toString(),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleMedium!
+                                            .copyWith(
+                                                color: firstColor,
+                                                fontWeight: FontWeight.w600)),
+                                    Text(
+                                        appCubit.dataModel.stockMainApi!
+                                            .incPercentage!
+                                            .split('')
+                                            .reversed
+                                            .join()
+                                            .toString(),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleSmall!
+                                            .copyWith(color: firstColor)),
+                                  ],
+                                );
+
+                                // Price(snapshot.data!, context);
+                              }
+                          }
+                        }
+
+                        // Text(dataModel.price.toString(),style: Theme.of(context).textTheme.headline3,
+                        ),
+                    // const Spacer(),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            //stockAtSector.symbol
+                            Text(stockAtSector.name,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleLarge!
+                                    .copyWith(
+                                        color: textColor,
+                                        fontWeight: FontWeight.w600)),
+                            Text(stockAtSector.ramz,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleSmall!
+                                    .copyWith(
+                                        color: textColor,
+                                        fontWeight: FontWeight.w600)),
+                          ]),
+                    ),
+                    const SizedBox(width: 20),
+                    CircleAvatar(
+                        radius: 28,
+                        backgroundColor: firstColor.withOpacity(0.1),
+                        backgroundImage: NetworkImage(stockAtSector.logo)),
+                  ],
+                ),
+              ),
+            );
+          }),
+    );
+  }
+}
+
 GestureDetector stockCard(BuildContext context,
     {required StockModle stockAtSector}) {
   return GestureDetector(
@@ -1057,6 +1167,7 @@ GestureDetector stockCard(BuildContext context,
             //         .textTheme
             //         .titleSmall!
             //         .copyWith(color: firstColor)),
+
             Coin(ramz: stockAtSector.ramz, lastPrice: stockAtSector.price),
           ]),
           // const Spacer(),

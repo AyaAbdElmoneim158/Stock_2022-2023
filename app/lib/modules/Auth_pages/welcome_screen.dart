@@ -28,9 +28,12 @@ class WelcomeScreen extends StatelessWidget {
                         child: ZoomIn(
                           duration: const Duration(milliseconds: 1000),
                           child: const Image(
-                              image: AssetImage('assets/stock_logo.png')
-                              // NetworkImage('https://cdni.iconscout.com/illustration/premium/thumb/stock-market-38-985590.png')
-                              ),
+                              // image: AssetImage('assets/stock_logo.png')
+                              image: NetworkImage(
+                            'https://cdn-icons-png.flaticon.com/128/7738/7738099.png',
+                            // 'https://cdn-icons-png.flaticon.com/128/4258/4258289.png',
+                            // 'https://cdn-icons-png.flaticon.com/128/7738/7738973.png',
+                          )),
                         ),
                       ),
                     ),

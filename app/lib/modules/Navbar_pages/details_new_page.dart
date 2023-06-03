@@ -311,9 +311,10 @@ class DetailNewsScreen extends StatelessWidget {
                               //     .toString()),
 
                               StockPrice(
-                                  price: double.parse(details
-                                          .stockMainApi!.stockPrice
-                                          .toString())
+                                  price: details.stockMainApi!.stockPrice
+                                      // double.parse(details
+                                      //         .stockMainApi!.stockPrice
+                                      //         .toString())
                                       // arabicNumber.convert( details.stockMainApi!.stockPrice)
                                       .toString(),
                                   change: details.stockMainApi!.incPercentage

@@ -1,5 +1,69 @@
-import 'package:app/shared/styles/colors.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:app/models/sector_model.dart';
+import 'package:app/shared/styles/colors.dart';
+
+/*
+large_cap
+large_cap,small_cap,
+largest_employers,
+high_dividend,
+highest_net_income,
+highest_cash,
+top_gainers,
+biggest_loser,
+most_active,
+unusual_volume,
+most_volatile,
+high_beta,
+best_performing,
+highest_revenue,
+most_expensive,
+penny_stocks,
+overbought,
+oversold,
+alltime_high,
+alltime_low,
+52_week_high,
+52_week_low 
+ */
+
+class Category {
+  String categoryAr;
+  String categoryEn;
+  Category({
+    required this.categoryAr,
+    required this.categoryEn,
+  });
+}
+
+List<Category> fackCategory = [
+  Category(categoryAr: 'الشركات العملاقة', categoryEn: 'large_cap'),
+  Category(categoryAr: 'الشركات الصغيرة', categoryEn: 'small_cap'),
+  Category(categoryAr: 'أكبر المشغلين', categoryEn: 'largest_employers'),
+  Category(
+      categoryAr: 'أعلى عائد لتوزيعات الأرباح', categoryEn: 'high_dividend'),
+  Category(categoryAr: 'أعلى صافي دخل', categoryEn: 'highest_net_income'),
+  Category(categoryAr: 'أعلى نقدية', categoryEn: 'highest_cash'),
+  Category(categoryAr: 'الأكثر ارتفاعًا', categoryEn: 'top_gainers'),
+  Category(categoryAr: 'أكبر الخاسرين', categoryEn: 'biggest_loser'),
+  Category(categoryAr: 'الأكثر نشاطًا', categoryEn: 'most_active'),
+  Category(categoryAr: 'زخم غير اعتيادي', categoryEn: 'unusual_volume'),
+  Category(categoryAr: 'الأكثر تذبذبًا', categoryEn: 'most_volatile'),
+  Category(categoryAr: 'بيتا عالية', categoryEn: 'high_beta'),
+  Category(categoryAr: 'الأفضل أداءً', categoryEn: 'best_performing'),
+  Category(categoryAr: 'أكبر الإيرادات', categoryEn: 'highest_revenue'),
+  Category(categoryAr: 'الأعلى سعراً', categoryEn: 'most_expensive'),
+  Category(categoryAr: 'الأسهم المنخفضة السعر', categoryEn: 'penny_stocks'),
+  Category(categoryAr: 'تشبع شرائي', categoryEn: 'overbought'),
+  Category(categoryAr: 'تشبع بيعي', categoryEn: 'oversold'),
+  Category(categoryAr: 'أعلى سعر على الإطلاق', categoryEn: 'alltime_high'),
+  Category(categoryAr: 'الأكثر إنخفاضا على الإطلاق', categoryEn: 'alltime_low'),
+  Category(
+      categoryAr: 'أقصى ارتفاع للسعر خلال 52 أسبوع',
+      categoryEn: '52_week_high'),
+  Category(
+      categoryAr: 'أدنى مستوى للسعر خلال 52 أسبوع', categoryEn: '52_week_low'),
+];
 
 bool lang = true;
 bool theme = true;

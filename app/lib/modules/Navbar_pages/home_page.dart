@@ -207,15 +207,17 @@ class HomePage extends StatelessWidget {
                                   // stocksNo: stockNoController.text,
                                 );
                                 return InkWell(
-                                  onTap: () {
-                                    debugPrint("onTap");
-                                    Navigator.pushNamed(
-                                        context, AppRoutes.detailsStockRoute,
-                                        arguments: arrowss[index].ramz);
-                                  },
-                                  child: stockCard(context,
-                                      stockAtSector: arrowss[index]),
-                                );
+                                    onTap: () {
+                                      debugPrint("onTap");
+                                      Navigator.pushNamed(
+                                          context, AppRoutes.detailsStockRoute,
+                                          arguments: arrowss[index].ramz);
+                                    },
+                                    child:
+                                        StockCard(stockAtSector: arrowss[index])
+                                    /* stockCard(context,
+                                      stockAtSector: arrowss[index]),*/
+                                    );
                               },
                             ),
                           ),
