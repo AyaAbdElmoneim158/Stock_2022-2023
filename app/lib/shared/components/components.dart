@@ -3,6 +3,7 @@
 import 'package:app/models/sector_model.dart';
 import 'package:app/models/stock_at_sector_model.dart';
 import 'package:app/models/stock_model.dart';
+import 'package:app/modules/Navbar_pages/new_dash.dart';
 import 'package:app/modules/Navbar_pages/real_time.dart';
 import 'package:app/shared/components/constants.dart';
 //  import 'package:app/modules/coin.dart';
@@ -16,6 +17,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 // import 'package:iconsax/iconsax.dart';
+import 'dart:ui' as ui;
+import 'package:arabic_numbers/arabic_numbers.dart';
+import 'package:app/models/sales_data_model.dart';
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 
 //!~> Navigator.................................................................
 void navigatorTo(
@@ -352,7 +357,7 @@ SnackBar snackbarErr(AppStates state,
     behavior: SnackBarBehavior.floating,
     backgroundColor: Colors.transparent,
     content: AwesomeSnackbarContent(
-        title: 'Error..!', message: message, contentType: contentType
+        title: '', message: message, contentType: contentType
         // ContentType.failure,
         ),
   );
@@ -523,34 +528,30 @@ class CategoryItem extends StatelessWidget {
           final appCubit = AppCubit.get(context);
           // final size = MediaQuery.of(context).size;
 
-          return GestureDetector(
-            onTap: () =>
-                appCubit.fetchStocksAtSectors(sectorName: category.categoryEn),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-              child: Column(
-                children: <Widget>[
-                  Text(
-                    category.categoryAr,
-                    style: isActive
-                        ? const TextStyle(
-                            color: kTextColor,
-                            fontWeight: FontWeight.bold,
-                          )
-                        : const TextStyle(fontSize: 12),
-                  ),
-                  if (isActive)
-                    Container(
-                      margin: const EdgeInsets.symmetric(vertical: 5),
-                      height: 3,
-                      width: 22,
-                      decoration: BoxDecoration(
-                        color: kPrimaryColor,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+            child: Column(
+              children: <Widget>[
+                Text(
+                  category.categoryAr,
+                  style: isActive
+                      ? const TextStyle(
+                          color: kTextColor,
+                          fontWeight: FontWeight.bold,
+                        )
+                      : const TextStyle(fontSize: 12),
+                ),
+                if (isActive)
+                  Container(
+                    margin: const EdgeInsets.symmetric(vertical: 5),
+                    height: 3,
+                    width: 22,
+                    decoration: BoxDecoration(
+                      color: kPrimaryColor,
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                ],
-              ),
+                  ),
+              ],
             ),
           );
         });
@@ -565,16 +566,37 @@ class CategoryList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 70,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) => CategoryItem(
-          category: fackCategory[index],
-          // isActive: true,
-        ),
-      ),
-    );
+    int flag = 0;
+
+    return BlocConsumer<AppCubit, AppStates>(
+        listener: (context, state) {},
+        builder: (context, state) {
+          final appCubit = AppCubit.get(context);
+          return SizedBox(
+            height: 70,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemBuilder: (context, index) => GestureDetector(
+                onTap: () {
+                  appCubit.fetchStocksAtSectors(
+                      sectorName: fackCategory[index].categoryEn);
+                  flag = index;
+                  // isActive =true;
+                  // CategoryItem.active = true;
+                },
+                child: flag == index
+                    ? CategoryItem(
+                        category: fackCategory[index],
+                        isActive: true,
+                      )
+                    : CategoryItem(
+                        category: fackCategory[index],
+                        // isActive: true,
+                      ),
+              ),
+            ),
+          );
+        });
   }
 }
 
@@ -1036,74 +1058,311 @@ class StockCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => AppCubit()
-        ..getDataTime()
-        ..getPriceNo(id: '2023-04-24T11:52:05.533'),
+        ..getDataTime(ramz: stockAtSector.ramz)
+        ..getPriceNo(id: stockAtSector.id),
       child: BlocConsumer<AppCubit, AppStates>(
           listener: (context, state) {},
           builder: (context, state) {
             final appCubit = AppCubit.get(context);
             final size = MediaQuery.of(context).size;
+            // double calc = double.parse(appCubit.priceNo[1]) *
+            //     (double.parse(appCubit.priceNo[0]) -
+            //         double.parse(appCubit.dataModel.stockMainApi!.stockPrice
+            //             .toString()));
 
-            return GestureDetector(
+            return Dismissible(
+              key: Key('deleteFollowingArrow ${stockAtSector.id}'),
+              background: Container(color: Colors.red),
+              onDismissed: (direction) {
+                showDialog(
+                    context: context,
+                    builder: (_) {
+                      return AlertDialog(
+                        title: const Text('Are you sure you want deleted?'),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context, false);
+                            }, // passing false
+                            child: const Text('No'),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context, true);
+                              // appCubit.deleteFollowingArrow(id: stockAtSector.id);
+                            }, // passing true
+                            child: const Text('Yes'),
+                          ),
+                        ],
+                      );
+                    }).then((exit) {
+                  if (exit == null) return;
+
+                  if (exit) {
+                    // user pressed Yes button
+                    appCubit.deleteFollowingArrow(id: stockAtSector.id);
+                  } else {
+                    // user pressed No button
+                  }
+                });
+                // appCubit.deleteFollowingArrow(id: stockAtSector.id);
+              },
+              child: GestureDetector(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CircleAvatar(
+                          radius: 28,
+                          backgroundColor: firstColor.withOpacity(0.1),
+                          backgroundImage: NetworkImage(stockAtSector.logo)),
+
+                      // const Spacer(),
+
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              //stockAtSector.symbol
+                              Text(stockAtSector.name,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleLarge!
+                                      .copyWith(
+                                          color: textColor,
+                                          fontWeight: FontWeight.w600)),
+                              Text(stockAtSector.ramz,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleSmall!
+                                      .copyWith(
+                                          color: textColor,
+                                          fontWeight: FontWeight.w600)),
+                            ]),
+                      ),
+                      const SizedBox(width: 20),
+
+                      StreamBuilder<StockModelApi>(
+                          stream: appCubit.streamController.stream,
+                          builder: (context, snapshot) {
+                            debugPrint(snapshot.data.toString());
+                            switch (snapshot.connectionState) {
+                              case ConnectionState.waiting:
+                                return Container(
+                                    width: 50,
+                                    color: Colors.white,
+                                    child: Center(
+                                        child: Image.asset(
+                                            'assets/ripple.gif'))); //const Center(child: CircularProgressIndicator());
+                              default:
+                                if (snapshot.hasError) {
+                                  return const Text("Error...");
+                                } else {
+                                  return Column(
+                                    children: [
+                                      Directionality(
+                                        textDirection: ui.TextDirection.ltr,
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                                // calc.toString()
+                                                // ArabicNumbers().convert(calc.toStringAsFixed(3)),
+                                                // double.parse(
+                                                ArabicNumbers().convert((double
+                                                            .parse(appCubit
+                                                                .priceNo[1]) *
+                                                        (double.parse(appCubit
+                                                                .dataModel
+                                                                .stockMainApi!
+                                                                .stockPrice
+                                                                .toString()) -
+                                                            double.parse(appCubit
+                                                                .priceNo[0])))
+                                                    .toStringAsFixed(2)),
+
+                                                //     )
+                                                // .toStringAsFixed(2)
+                                                // .toString(),
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .titleSmall!
+                                                    .copyWith(
+                                                      color: (double.parse(appCubit
+                                                                          .priceNo[
+                                                                      1]) *
+                                                                  (double.parse(appCubit.priceNo[0]) -
+                                                                      double.parse(appCubit
+                                                                          .dataModel
+                                                                          .stockMainApi!
+                                                                          .stockPrice
+                                                                          .toString()))) >
+                                                              0
+                                                          // .contains('-')
+                                                          ? Colors.red
+                                                          : (double.parse(appCubit.priceNo[1]) *
+                                                                      (double.parse(appCubit.priceNo[0]) -
+                                                                          double.parse(appCubit
+                                                                              .dataModel
+                                                                              .stockMainApi!
+                                                                              .stockPrice
+                                                                              .toString()))) <
+                                                                  0
+                                                              ? Colors.green
+                                                              : firstColor,
+                                                    )),
+                                            Text("Eg")
+                                          ],
+                                        ),
+                                      ),
+                                      Directionality(
+                                        textDirection: ui.TextDirection.ltr,
+                                        child: Row(
+                                          children: [
+                                            Text(
+                                                // calc.toString()
+                                                // ArabicNumbers().convert(calc.toStringAsFixed(3)),
+                                                // double.parse(
+                                                ArabicNumbers().convert(((((double.parse(appCubit
+                                                                        .dataModel
+                                                                        .stockMainApi!
+                                                                        .stockPrice
+                                                                        .toString()) *
+                                                                    double.parse(
+                                                                        appCubit.priceNo[
+                                                                            1])) -
+                                                                (double.parse(appCubit.priceNo[0]) *
+                                                                    double.parse(appCubit.priceNo[
+                                                                        1]))) /
+                                                            (double.parse(appCubit.priceNo[0]) *
+                                                                double.parse(appCubit.priceNo[1]))) *
+                                                        100)
+                                                    .toStringAsFixed(2)),
+
+                                                //     )
+                                                // .toStringAsFixed(2)
+                                                // .toString(),
+                                                style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                                                      color: ((double.parse(appCubit.priceNo[0]) -
+                                                                      double.parse(appCubit
+                                                                          .dataModel
+                                                                          .stockMainApi!
+                                                                          .stockPrice
+                                                                          .toString())) /
+                                                                  100) >
+                                                              0
+                                                          // .contains('-')
+                                                          ? Colors.red
+                                                          : (double.parse(appCubit
+                                                                              .priceNo[
+                                                                          1]) *
+                                                                      (double.parse(appCubit.priceNo[0]) -
+                                                                          double.parse(appCubit
+                                                                              .dataModel
+                                                                              .stockMainApi!
+                                                                              .stockPrice
+                                                                              .toString()))) <
+                                                                  0
+                                                              ? Colors.green
+                                                              : firstColor,
+                                                    )),
+                                            Text("%")
+                                          ],
+                                        ),
+                                      ),
+                                      // Text("kkjkj")
+                                      /*Text(
+                                          appCubit
+                                              .dataModel.stockMainApi!.stockPrice!
+                                              .split('')
+                                              .reversed
+                                              .join()
+                                              .toString(),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleMedium!
+                                              .copyWith(
+                                                  color: firstColor,
+                                                  fontWeight: FontWeight.w600)),
+                                      Text(
+                                          appCubit.dataModel.stockMainApi!
+                                              .incPercentage!
+                                              .split('')
+                                              .reversed
+                                              .join()
+                                              .toString(),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleSmall!
+                                              .copyWith(color: firstColor)),*/
+                                    ],
+                                  );
+
+                                  // Price(snapshot.data!, context);
+                                }
+                            }
+                          }
+
+                          // Text(dataModel.price.toString(),style: Theme.of(context).textTheme.headline3,
+                          ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          }),
+    );
+  }
+}
+
+class StockCardFav extends StatelessWidget {
+  final StockModle stockAtSector;
+
+  const StockCardFav({super.key, required this.stockAtSector});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocConsumer<AppCubit, AppStates>(
+        listener: (context, state) {},
+        builder: (context, state) {
+          final appCubit = AppCubit.get(context);
+
+          return Dismissible(
+            key: Key('deleteFavoriteArrow ${stockAtSector.id}'),
+            onDismissed: (direction) =>
+                appCubit.deleteFavoriteArrow(id: stockAtSector.id),
+            child: GestureDetector(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    StreamBuilder<StockModelApi>(
-                        stream: appCubit.streamController.stream,
-                        builder: (context, snapshot) {
-                          debugPrint(snapshot.data.toString());
-                          switch (snapshot.connectionState) {
-                            case ConnectionState.waiting:
-                              return Container(
-                                  width: 50,
-                                  color: Colors.white,
-                                  child: Center(
-                                      child: Image.asset(
-                                          'assets/ripple.gif'))); //const Center(child: CircularProgressIndicator());
-                            default:
-                              if (snapshot.hasError) {
-                                return const Text("Error...");
-                              } else {
-                                return Column(
-                                  children: [
-                                    Text(
-                                        '${double.parse(appCubit.priceNo[1]) * (double.parse(appCubit.priceNo[0]) - double.parse(appCubit.dataModel.stockMainApi!.stockPrice.toString()))}'),
-                                    Text(
-                                        appCubit
-                                            .dataModel.stockMainApi!.stockPrice!
-                                            .split('')
-                                            .reversed
-                                            .join()
-                                            .toString(),
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .titleMedium!
-                                            .copyWith(
-                                                color: firstColor,
-                                                fontWeight: FontWeight.w600)),
-                                    Text(
-                                        appCubit.dataModel.stockMainApi!
-                                            .incPercentage!
-                                            .split('')
-                                            .reversed
-                                            .join()
-                                            .toString(),
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .titleSmall!
-                                            .copyWith(color: firstColor)),
-                                  ],
-                                );
+                    // Image.network() // Wrab with circle Avter...
 
-                                // Price(snapshot.data!, context);
-                              }
-                          }
-                        }
+                    Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          //stockAtSector.price
+                          // Text('0',
+                          //     // 'stockAtSector.change100',
+                          //     style: Theme.of(context)
+                          //         .textTheme
+                          //         .titleMedium!
+                          //         .copyWith(color: firstColor, fontWeight: FontWeight.w600)),
+                          // Text('0',
+                          //     // 'stockAtSector.change',
+                          //     style: Theme.of(context)
+                          //         .textTheme
+                          //         .titleSmall!
+                          //         .copyWith(color: firstColor)),
 
-                        // Text(dataModel.price.toString(),style: Theme.of(context).textTheme.headline3,
-                        ),
+                          Coin(
+                              ramz: stockAtSector.ramz,
+                              lastPrice: stockAtSector.price),
+                        ]),
                     // const Spacer(),
                     const SizedBox(width: 16),
                     Expanded(
@@ -1137,69 +1396,70 @@ class StockCard extends StatelessWidget {
                   ],
                 ),
               ),
-            );
-          }),
-    );
+            ),
+          );
+        });
   }
 }
 
-GestureDetector stockCard(BuildContext context,
-    {required StockModle stockAtSector}) {
-  return GestureDetector(
-    child: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Image.network() // Wrab with circle Avter...
+// GestureDetector stockCard(BuildContext context,
+//     {required StockModle stockAtSector}) {
+//   return GestureDetector(
+//     child: Padding(
+//       padding: const EdgeInsets.symmetric(horizontal: 15),
+//       child: Row(
+//         crossAxisAlignment: CrossAxisAlignment.start,
+//         children: [
+//           // Image.network() // Wrab with circle Avter...
 
-          Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-            //stockAtSector.price
-            // Text('0',
-            //     // 'stockAtSector.change100',
-            //     style: Theme.of(context)
-            //         .textTheme
-            //         .titleMedium!
-            //         .copyWith(color: firstColor, fontWeight: FontWeight.w600)),
-            // Text('0',
-            //     // 'stockAtSector.change',
-            //     style: Theme.of(context)
-            //         .textTheme
-            //         .titleSmall!
-            //         .copyWith(color: firstColor)),
+//           Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+//             //stockAtSector.price
+//             // Text('0',
+//             //     // 'stockAtSector.change100',
+//             //     style: Theme.of(context)
+//             //         .textTheme
+//             //         .titleMedium!
+//             //         .copyWith(color: firstColor, fontWeight: FontWeight.w600)),
+//             // Text('0',
+//             //     // 'stockAtSector.change',
+//             //     style: Theme.of(context)
+//             //         .textTheme
+//             //         .titleSmall!
+//             //         .copyWith(color: firstColor)),
 
-            Coin(ramz: stockAtSector.ramz, lastPrice: stockAtSector.price),
-          ]),
-          // const Spacer(),
-          const SizedBox(width: 16),
-          Expanded(
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              //stockAtSector.symbol
-              Text(stockAtSector.name,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleLarge!
-                      .copyWith(color: textColor, fontWeight: FontWeight.w600)),
-              Text(stockAtSector.ramz,
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleSmall!
-                      .copyWith(color: textColor, fontWeight: FontWeight.w600)),
-            ]),
-          ),
-          const SizedBox(width: 20),
-          CircleAvatar(
-              radius: 28,
-              backgroundColor: firstColor.withOpacity(0.1),
-              backgroundImage: NetworkImage(stockAtSector.logo)),
-        ],
-      ),
-    ),
-  );
-}
+//             Coin(ramz: stockAtSector.ramz, lastPrice: stockAtSector.price),
+//           ]),
+//           // const Spacer(),
+//           const SizedBox(width: 16),
+//           Expanded(
+//             child:
+//                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+//               //stockAtSector.symbol
+//               Text(stockAtSector.name,
+//                   maxLines: 1,
+//                   overflow: TextOverflow.ellipsis,
+//                   style: Theme.of(context)
+//                       .textTheme
+//                       .titleLarge!
+//                       .copyWith(color: textColor, fontWeight: FontWeight.w600)),
+//               Text(stockAtSector.ramz,
+//                   style: Theme.of(context)
+//                       .textTheme
+//                       .titleSmall!
+//                       .copyWith(color: textColor, fontWeight: FontWeight.w600)),
+//             ]),
+//           ),
+//           const SizedBox(width: 20),
+//           CircleAvatar(
+//               radius: 28,
+//               backgroundColor: firstColor.withOpacity(0.1),
+//               backgroundImage: NetworkImage(stockAtSector.logo)),
+//         ],
+//       ),
+//     ),
+//   );
+
+// }
 
 GestureDetector stockCardInnerSector(BuildContext context,
     {required StockModle stockAtSector}) {
@@ -1210,10 +1470,11 @@ GestureDetector stockCardInnerSector(BuildContext context,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Image.network() // Wrab with circle Avter...
+          CircleAvatar(
+              radius: 28,
+              backgroundColor: firstColor.withOpacity(0.1),
+              backgroundImage: NetworkImage(stockAtSector.logo)),
 
-          Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-            Coin(ramz: stockAtSector.ramz, lastPrice: stockAtSector.price),
-          ]),
           // const Spacer(),
           const SizedBox(width: 16),
           Expanded(
@@ -1225,15 +1486,22 @@ GestureDetector stockCardInnerSector(BuildContext context,
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context)
                       .textTheme
-                      .titleLarge!
-                      .copyWith(color: textColor, fontWeight: FontWeight.w600)),
+                      .bodyMedium!
+                      .copyWith(color: textColor, fontWeight: FontWeight.w500)),
+
+              Text(trans(enWord: stockAtSector.name),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium!
+                      .copyWith(color: textColor, fontWeight: FontWeight.w500)),
             ]),
           ),
           const SizedBox(width: 20),
-          CircleAvatar(
-              radius: 28,
-              backgroundColor: firstColor.withOpacity(0.1),
-              backgroundImage: NetworkImage(stockAtSector.logo)),
+          Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+            Coin(ramz: stockAtSector.ramz, lastPrice: stockAtSector.price),
+          ]),
         ],
       ),
     ),
@@ -1498,6 +1766,35 @@ class CustomePasswordField extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+///*********************************************************************** */
+class detailsChart extends StatelessWidget {
+  const detailsChart({
+    super.key,
+    required this.chartData,
+  });
+
+  final List<SalesData> chartData;
+
+  @override
+  Widget build(BuildContext context) {
+    return ConditionalBuilder(
+      condition: chartData.isNotEmpty,
+      builder: (context) => chartWithLine2(
+          groupsData:
+              // [],
+              // divideBarChartData1
+              divideData,
+          // chartData,
+          chartName: 'Divide',
+          dataSourceLine: chartData),
+      fallback: (context) => Container(
+          color: Colors.white,
+          child:
+              Center(child: Center(child: Image.asset('assets/ripple.gif')))),
     );
   }
 }

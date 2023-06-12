@@ -13,6 +13,7 @@ import 'package:app/models/sales_data_model.dart';
 import 'package:app/modules/Navbar_pages/my_chart.dart';
 import 'package:app/modules/Design/Details/componets_details.dart';
 import 'package:app/models/stock_model.dart';
+import 'package:app/modules/test_page.dart';
 import 'package:app/shared/components/components.dart';
 import 'package:app/shared/components/constants.dart';
 import 'package:app/shared/cubit/cubit.dart';
@@ -302,9 +303,10 @@ class DetailNewsScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               nameLogo(
-                                  ramz: details.ramz.toString(),
-                                  logo:
-                                      'https://s3-symbol-logo.tradingview.com/fawry-for-banking-technology-and-electronic-payment--big.svg'),
+                                ramz: details.name.toString(),
+                                logo: details.logo.toString(),
+                                // 'https://s3-symbol-logo.tradingview.com/fawry-for-banking-technology-and-electronic-payment--big.svg'
+                              ),
                               const SizedBox(height: 15),
                               // Text(details.stockMainApi!.stockPrice.toString()),
                               // Text(details.stockMainApi!.incPercentage
@@ -320,7 +322,8 @@ class DetailNewsScreen extends StatelessWidget {
                                   change: details.stockMainApi!.incPercentage
                                       .toString()),
                               const SizedBox(height: 15),
-                              const DetailsChart(),
+                              // const DetailsChart(),
+                              TestPage(ramz: details.ramz.toString()),
                               const SizedBox(height: 15),
                             ],
                           ),

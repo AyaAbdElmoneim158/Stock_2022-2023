@@ -51,7 +51,7 @@ class HomePage extends StatelessWidget {
                                         Radius.circular(size.height * 0.04)),
                               ),
                               child: Text(
-                                "  الأسهم الخاصة بك التالية",
+                                " الأسهم الخاصة بك التالية",
                                 style: Theme.of(context)
                                     .textTheme
                                     .headlineSmall!
@@ -91,7 +91,7 @@ class HomePage extends StatelessWidget {
                               ),
                               CarouselSlider.builder(
                                 options: CarouselOptions(
-                                  height: 150,
+                                  height: 140,
                                   aspectRatio: 16 / 9,
                                   viewportFraction: 0.9,
                                   initialPage: 0,
@@ -223,6 +223,43 @@ class HomePage extends StatelessWidget {
                           ),
                           fallback: (context) {
                             return Container(
+                              color: kBackgroundColor,
+                              child: Center(
+                                child: Column(
+                                    // mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      const SizedBox(height: 20),
+                                      // const CircleAvatar(
+                                      //   radius: 90.0, backgroundColor: Colors.transparent,backgroundImage:
+                                      //NetworkImage(
+                                      // "https://img.freepik.com/premium-vector/like-thumb-up-symbol-finger-up-vector-stock-illustration_100456-10995.jpg"
+                                      // "https://cdn3d.iconscout.com/3d/premium/thumb/hands-with-heart-4883949-4073132.png"
+                                      // "https://cdn3d.iconscout.com/3d/premium/thumb/stock-analytics-5233669-4379879.png"
+                                      // ), ),
+                                      Image.network(
+                                        "https://cdn3d.iconscout.com/3d/free/thumb/stock-market-4756743-3960608.png",
+
+                                        // 'https://cdn-icons-png.flaticon.com/128/3208/3208709.png',
+                                        // 'https://cdn-icons-png.flaticon.com/128/7222/7222088.png',
+                                        // 'https://cdn-icons-png.flaticon.com/128/2899/2899445.png',
+                                        width: 150, fit: BoxFit.cover,
+                                      ),
+
+                                      const SizedBox(height: 5),
+                                      InkWell(
+                                          onTap:
+                                              () {}, //=>appCubit.changeCurrentIndex(2), // {}, //=> Navigator.pushNamed(context, AppRoutes.arrowsSectorRoute),
+                                          child: Text(
+                                            "اختر الأسهم الخاص بك التي تريد متابعته",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .headlineSmall,
+                                          ))
+                                    ]),
+                              ),
+                            );
+
+                            /*Container(
                               color: Colors.white,
                               child: Column(children: [
                                 const SizedBox(height: 60),
@@ -247,7 +284,7 @@ class HomePage extends StatelessWidget {
                                           .headlineSmall,
                                     ))
                               ]),
-                            );
+                            );*/
                           },
                         );
                       } else {

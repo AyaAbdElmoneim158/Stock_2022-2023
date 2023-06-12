@@ -38,6 +38,8 @@ dependencies:
   iconsax: ^0.0.8
   arabic_numbers: ^1.0.0
   http: ^0.13.6
+  intl: ^0.17.0
+  horizontal_data_table: ^4.2.0
 
 dev_dependencies:
   flutter_test:

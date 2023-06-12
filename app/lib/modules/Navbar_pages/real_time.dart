@@ -125,6 +125,8 @@ import 'package:app/shared/styles/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 // import 'package:fabexdateformatter/fabexdateformatter.dart';
+import 'dart:ui' as ui;
+import 'package:arabic_numbers/arabic_numbers.dart';
 
 class DataModel {
   String? about;
@@ -213,28 +215,57 @@ class _CoinState extends State<Coin> {
               } else {
                 return Column(
                   children: [
-                    Text(
-                        dataModel.stockMainApi!.stockPrice!
-                            .split('')
-                            .reversed
-                            .join()
+// import 'dart:ui' as ui;
+                    //
+                    Directionality(
+                      textDirection: ui.TextDirection.ltr,
+                      child: Row(
+                        children: [
+                          Text(
+                              ArabicNumbers()
+                                  .convert(dataModel.stockMainApi!.stockPrice!)
+                                  // dataModel.stockMainApi!.stockPrice!
+                                  // .split('')
+                                  // .reversed
+                                  // .join()
+                                  .toString(),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium!
+                                  .copyWith(
+                                      color: firstColor,
+                                      fontWeight: FontWeight.w600)),
+                          Text("EGP",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(
+                                      color: firstColor,
+                                      fontWeight: FontWeight.w600))
+                        ],
+                      ),
+                    ),
+                    Directionality(
+                      textDirection: ui.TextDirection.ltr,
+                      child: Text(
+                        ArabicNumbers()
+                            .convert(dataModel.stockMainApi!.incPercentage!)
+                            // dataModel.stockMainApi!.incPercentage!
+                            // .split('')
+                            // .reversed
+                            // .join()
                             .toString(),
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleMedium!
-                            .copyWith(
-                                color: firstColor,
-                                fontWeight: FontWeight.w600)),
-                    Text(
-                        dataModel.stockMainApi!.incPercentage!
-                            .split('')
-                            .reversed
-                            .join()
-                            .toString(),
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleSmall!
-                            .copyWith(color: firstColor)),
+                        style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                              color: dataModel.stockMainApi!.incPercentage!
+                                      .contains('−')
+                                  ? Colors.red
+                                  : dataModel.stockMainApi!.incPercentage!
+                                          .contains('+')
+                                      ? Colors.green
+                                      : firstColor,
+                            ),
+                      ),
+                    ),
                   ],
                 );
 

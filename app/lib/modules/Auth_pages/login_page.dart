@@ -82,7 +82,15 @@ class LoginPage extends StatelessWidget {
                 //   width: 100,
                 //   fit: BoxFit.cover,
                 // ),
-                Text(Constants.loginTitle, style: titleStyle(context)),
+                flag
+                    ? ZoomIn(
+                        duration: const Duration(milliseconds: 250),
+                        child: Text(Constants.loginTitle,
+                            style: titleStyle(context)))
+                    : ZoomOut(
+                        duration: const Duration(milliseconds: 250),
+                        child: Text(Constants.loginTitle,
+                            style: titleStyle(context))),
                 Form(
                   key: formKey,
                   child: Padding(

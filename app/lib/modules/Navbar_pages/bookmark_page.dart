@@ -90,7 +90,7 @@ class BookmarkPage extends StatelessWidget {
                                             AppRoutes.detailsStockRoute,
                                             arguments: arrowss[index].ramz);
                                       },
-                                      child: stockCard(context,
+                                      child: StockCardFav(
                                           stockAtSector: arrowss[index]),
                                     );
                                   },

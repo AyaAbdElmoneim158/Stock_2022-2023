@@ -86,7 +86,7 @@ class ForgetPasswordWithEmail extends StatelessWidget {
                   children: [
                     Image.network(
                       'https://img.freepik.com/free-vector/forgot-password-concept-illustration_114360-1123.jpg',
-                      height: SizeConfig.screenHeight! * 0.4, //40%
+                      height: SizeConfig.screenHeight! * 0.3, //40%
                       width: double.infinity,
                     ),
                     SizedBox(height: SizeConfig.screenHeight! * 0.1),

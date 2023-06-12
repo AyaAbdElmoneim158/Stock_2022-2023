@@ -1,5 +1,8 @@
 import 'package:app/firebase_options.dart';
 import 'package:app/modules/Design/Details/design_details.dart';
+import 'package:app/modules/page_view.dart';
+import 'package:app/modules/table_test.dart';
+
 import 'package:app/shared/components/constants.dart';
 import 'package:app/shared/cubit/bloc_observer.dart';
 import 'package:app/shared/cubit/cubit.dart';
@@ -59,7 +62,7 @@ class MyApp extends StatelessWidget {
         //ToDo:~> Add Routes ---------------------------------------------------->
         onGenerateRoute: onGenerate,
         initialRoute: AppRoutes.landingRoute,
-        // home: const DesignDetails(),
+        // home: const TableTest(),
       ),
     );
   }

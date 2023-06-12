@@ -1,5 +1,6 @@
 import 'package:app/models/stock_model.dart';
 import 'package:app/shared/components/components.dart';
+import 'package:app/shared/components/constants.dart';
 import 'package:app/shared/cubit/cubit.dart';
 import 'package:app/shared/cubit/states.dart';
 import 'package:app/shared/router/routes.dart';
@@ -18,7 +19,7 @@ class ExploreNew extends StatelessWidget {
     return BlocProvider(
       create: (context) => AppCubit()
         // ..fetchChartsData(ramz: 'ABUK'),
-        ..fetchStocksAtSectors(sectorName: 'Commercial Services'),
+        ..fetchStocksAtSectors(sectorName: 'large_cap'),
       child: BlocConsumer<AppCubit, AppStates>(
           listener: (context, state) {},
           builder: (context, state) {
@@ -27,7 +28,13 @@ class ExploreNew extends StatelessWidget {
 
             return Scaffold(
               backgroundColor: kBackgroundColor,
-              appBar: AppBar(),
+              appBar: AppBar(
+                title: Text(
+                  trans(enWord: "THE EGYPTIAN MODERN EDUCATION SYSTEMS"),
+                  // "\u0627\u0644\u0645\u0635\u0631\u064a\u0629 \u0644\u0646\u0638\u0645 \u0627\u0644\u062a\u0639\u0644\u064a\u0645 \u0627\u0644\u062d\u062f\u064a\u062b\u0629 \u0634 \u0645 \u0645 ",
+                  style: const TextStyle(color: kPrimaryColor),
+                ),
+              ),
               /* appBar: AppBar(
                 iconTheme: const IconThemeData(color: firstColor),
               ),
@@ -138,7 +145,7 @@ class ExploreNew extends StatelessWidget {
                   ConditionalBuilder(
                     condition: state is! FetchStocksAtSectorLoadingState,
                     builder: (context) => SizedBox(
-                      height: 330,
+                      height: 200,
                       child: ListView.separated(
                           separatorBuilder: (context, index) => Padding(
                                 padding: const EdgeInsets.only(

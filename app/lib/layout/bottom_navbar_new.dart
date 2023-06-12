@@ -1,5 +1,8 @@
+import 'package:app/modules/Navbar_pages/details_new_page.dart';
 import 'package:app/modules/Navbar_pages/explore_new.dart';
 import 'package:app/modules/Navbar_pages/home_page.dart';
+import 'package:app/modules/Navbar_pages/new_dash.dart';
+import 'package:app/modules/my_chart.dart';
 import 'package:app/modules/test_page.dart';
 import 'package:app/shared/components/constants.dart';
 import 'package:app/shared/styles/colors.dart';
@@ -91,16 +94,20 @@ class _BottomNavbarNewState extends State<BottomNavbarNew> {
 // icons size: 30 for MaterialIcons
 
 List<Widget> _listOfWidget = <Widget>[
-  const TestPage(),
+  // TestPage(ramz: 'abuk'),
+
   const HomePage(),
+  // const NewDash(ramz: 'ABUK'),
+  // const MyChart(),
+  // const DetailNewsScreen(ramz: 'ABUK'),
   const ExploreNew(),
-  // Container(
-  //     alignment: Alignment.center,
-  //     child: const Center(
-  //       child: Text(
-  //         "❓",
-  //         style: TextStyle(fontSize: 80),
-  //       ),
-  //     )),
+  Container(
+      alignment: Alignment.center,
+      child: const Center(
+        child: Text(
+          "❓",
+          style: TextStyle(fontSize: 80),
+        ),
+      )),
   const BookmarkPage(),
 ];

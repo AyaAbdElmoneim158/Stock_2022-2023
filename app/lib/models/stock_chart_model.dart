@@ -24,47 +24,48 @@ class StockChartModel {
 
   StockChartModel.fromJson(Map<String, dynamic> json) {
     incomeStatement = json['income_statement'] != null
-        ? IncomeStatement.fromJson(json['income_statement'])
+        ? new IncomeStatement.fromJson(json['income_statement'])
         : null;
     balanceSheet = json['balance_sheet'] != null
-        ? BalanceSheet.fromJson(json['balance_sheet'])
+        ? new BalanceSheet.fromJson(json['balance_sheet'])
         : null;
-    cashFlow =
-        json['cash_flow'] != null ? CashFlow.fromJson(json['cash_flow']) : null;
+    cashFlow = json['cash_flow'] != null
+        ? new CashFlow.fromJson(json['cash_flow'])
+        : null;
     dividends = json['dividends'] != null
-        ? Dividends.fromJson(json['dividends'])
+        ? new Dividends.fromJson(json['dividends'])
         : null;
     dividenedPayoutHistory = json['dividened_payout_history'] != null
-        ? DividenedPayoutHistory.fromJson(json['dividened_payout_history'])
+        ? new DividenedPayoutHistory.fromJson(json['dividened_payout_history'])
         : null;
     revenue =
-        json['revenue'] != null ? Revenue.fromJson(json['revenue']) : null;
+        json['revenue'] != null ? new Revenue.fromJson(json['revenue']) : null;
     earning =
-        json['earning'] != null ? Earning.fromJson(json['earning']) : null;
+        json['earning'] != null ? new Earning.fromJson(json['earning']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    if (incomeStatement != null) {
-      data['income_statement'] = incomeStatement!.toJson();
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.incomeStatement != null) {
+      data['income_statement'] = this.incomeStatement!.toJson();
     }
-    if (balanceSheet != null) {
-      data['balance_sheet'] = balanceSheet!.toJson();
+    if (this.balanceSheet != null) {
+      data['balance_sheet'] = this.balanceSheet!.toJson();
     }
-    if (cashFlow != null) {
-      data['cash_flow'] = cashFlow!.toJson();
+    if (this.cashFlow != null) {
+      data['cash_flow'] = this.cashFlow!.toJson();
     }
-    if (dividends != null) {
-      data['dividends'] = dividends!.toJson();
+    if (this.dividends != null) {
+      data['dividends'] = this.dividends!.toJson();
     }
-    if (dividenedPayoutHistory != null) {
-      data['dividened_payout_history'] = dividenedPayoutHistory!.toJson();
+    if (this.dividenedPayoutHistory != null) {
+      data['dividened_payout_history'] = this.dividenedPayoutHistory!.toJson();
     }
-    if (revenue != null) {
-      data['revenue'] = revenue!.toJson();
+    if (this.revenue != null) {
+      data['revenue'] = this.revenue!.toJson();
     }
-    if (earning != null) {
-      data['earning'] = earning!.toJson();
+    if (this.earning != null) {
+      data['earning'] = this.earning!.toJson();
     }
     return data;
   }
@@ -160,34 +161,36 @@ class IncomeStatement {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['header'] = header;
-    data['total_revenue'] = totalRevenue;
-    data['cost_of_goods_sold'] = costOfGoodsSold;
-    data['gross_profit'] = grossProfit;
-    data['operating_expenses'] = operatingExpenses;
-    data['operating_income'] = operatingIncome;
-    data['nonOperating_income'] = nonOperatingIncome;
-    data['pretax_income'] = pretaxIncome;
-    data['equity_in_earnings'] = equityInEarnings;
-    data['taxes'] = taxes;
-    data['nonControllingMinority_interest'] = nonControllingMinorityInterest;
-    data['after_tax_other_income_expense'] = afterTaxOtherIncomeExpense;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['header'] = this.header;
+    data['total_revenue'] = this.totalRevenue;
+    data['cost_of_goods_sold'] = this.costOfGoodsSold;
+    data['gross_profit'] = this.grossProfit;
+    data['operating_expenses'] = this.operatingExpenses;
+    data['operating_income'] = this.operatingIncome;
+    data['nonOperating_income'] = this.nonOperatingIncome;
+    data['pretax_income'] = this.pretaxIncome;
+    data['equity_in_earnings'] = this.equityInEarnings;
+    data['taxes'] = this.taxes;
+    data['nonControllingMinority_interest'] =
+        this.nonControllingMinorityInterest;
+    data['after_tax_other_income_expense'] = this.afterTaxOtherIncomeExpense;
     data['net_income_before_discontinued_operations'] =
-        netIncomeBeforeDiscontinuedOperations;
-    data['discontinued_operations'] = discontinuedOperations;
-    data['net_income'] = netIncome;
-    data['dilution_adjustment'] = dilutionAdjustment;
-    data['preferred_dividends'] = preferredDividends;
+        this.netIncomeBeforeDiscontinuedOperations;
+    data['discontinued_operations'] = this.discontinuedOperations;
+    data['net_income'] = this.netIncome;
+    data['dilution_adjustment'] = this.dilutionAdjustment;
+    data['preferred_dividends'] = this.preferredDividends;
     data['diluted_net_income_available_to_common_stockholders'] =
-        dilutedNetIncomeAvailableToCommonStockholders;
-    data['basic_EPS'] = basicEPS;
-    data['diluted_EPS'] = dilutedEPS;
-    data['average_basic_shares_outstanding'] = averageBasicSharesOutstanding;
-    data['diluted_shares_outstanding'] = dilutedSharesOutstanding;
-    data['EBITDA'] = eBITDA;
-    data['EBIT'] = eBIT;
-    data['total_operating_expenses'] = totalOperatingExpenses;
+        this.dilutedNetIncomeAvailableToCommonStockholders;
+    data['basic_EPS'] = this.basicEPS;
+    data['diluted_EPS'] = this.dilutedEPS;
+    data['average_basic_shares_outstanding'] =
+        this.averageBasicSharesOutstanding;
+    data['diluted_shares_outstanding'] = this.dilutedSharesOutstanding;
+    data['EBITDA'] = this.eBITDA;
+    data['EBIT'] = this.eBIT;
+    data['total_operating_expenses'] = this.totalOperatingExpenses;
     return data;
   }
 }
@@ -225,16 +228,16 @@ class BalanceSheet {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['header'] = header;
-    data['total_assets'] = totalAssets;
-    data['total_liabilities'] = totalLiabilities;
-    data['total_equity'] = totalEquity;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['header'] = this.header;
+    data['total_assets'] = this.totalAssets;
+    data['total_liabilities'] = this.totalLiabilities;
+    data['total_equity'] = this.totalEquity;
     data['total_liabilities_and_shareholders'] =
-        totalLiabilitiesAndShareholders;
-    data['total_debt'] = totalDebt;
-    data['net_debt'] = netDebt;
-    data['book_value_per_share'] = bookValuePerShare;
+        this.totalLiabilitiesAndShareholders;
+    data['total_debt'] = this.totalDebt;
+    data['net_debt'] = this.netDebt;
+    data['book_value_per_share'] = this.bookValuePerShare;
     return data;
   }
 }
@@ -265,12 +268,12 @@ class CashFlow {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['header'] = header;
-    data['cash_from_operating_activity'] = cashFromOperatingActivity;
-    data['cash_from_investing_activity'] = cashFromInvestingActivity;
-    data['cash_from_financing_activity'] = cashFromFinancingActivity;
-    data['free_cash_flow'] = freeCashFlow;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['header'] = this.header;
+    data['cash_from_operating_activity'] = this.cashFromOperatingActivity;
+    data['cash_from_investing_activity'] = this.cashFromInvestingActivity;
+    data['cash_from_financing_activity'] = this.cashFromFinancingActivity;
+    data['free_cash_flow'] = this.freeCashFlow;
     return data;
   }
 }
@@ -295,11 +298,11 @@ class Dividends {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['header'] = header;
-    data['dividens_per_share'] = dividensPerShare;
-    data['dividend_yield'] = dividendYield;
-    data['payout_ratio'] = payoutRatio;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['header'] = this.header;
+    data['dividens_per_share'] = this.dividensPerShare;
+    data['dividend_yield'] = this.dividendYield;
+    data['payout_ratio'] = this.payoutRatio;
     return data;
   }
 }
@@ -360,67 +363,73 @@ class DividenedPayoutHistory {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['0'] = l0;
-    data['1'] = l1;
-    data['2'] = l2;
-    data['3'] = l3;
-    data['4'] = l4;
-    data['5'] = l5;
-    data['6'] = l6;
-    data['7'] = l7;
-    data['8'] = l8;
-    data['9'] = l9;
-    data['10'] = l10;
-    data['11'] = l11;
-    data['12'] = l12;
-    data['13'] = l13;
-    data['14'] = l14;
-    data['15'] = l15;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['0'] = this.l0;
+    data['1'] = this.l1;
+    data['2'] = this.l2;
+    data['3'] = this.l3;
+    data['4'] = this.l4;
+    data['5'] = this.l5;
+    data['6'] = this.l6;
+    data['7'] = this.l7;
+    data['8'] = this.l8;
+    data['9'] = this.l9;
+    data['10'] = this.l10;
+    data['11'] = this.l11;
+    data['12'] = this.l12;
+    data['13'] = this.l13;
+    data['14'] = this.l14;
+    data['15'] = this.l15;
     return data;
   }
 }
 
 class Revenue {
+  List<String>? headerR;
   List<String>? reportedR;
   List<String>? estimateR;
   List<String>? surpriseR;
 
-  Revenue({this.reportedR, this.estimateR, this.surpriseR});
+  Revenue({this.headerR, this.reportedR, this.estimateR, this.surpriseR});
 
   Revenue.fromJson(Map<String, dynamic> json) {
+    headerR = json['header_R'].cast<String>();
     reportedR = json['reported_R'].cast<String>();
     estimateR = json['estimate_R'].cast<String>();
     surpriseR = json['surprise_R'].cast<String>();
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['reported_R'] = reportedR;
-    data['estimate_R'] = estimateR;
-    data['surprise_R'] = surpriseR;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['header_R'] = this.headerR;
+    data['reported_R'] = this.reportedR;
+    data['estimate_R'] = this.estimateR;
+    data['surprise_R'] = this.surpriseR;
     return data;
   }
 }
 
 class Earning {
+  List<String>? headerE;
   List<String>? reportedE;
   List<String>? estimateE;
   List<String>? surpriseE;
 
-  Earning({this.reportedE, this.estimateE, this.surpriseE});
+  Earning({this.headerE, this.reportedE, this.estimateE, this.surpriseE});
 
   Earning.fromJson(Map<String, dynamic> json) {
+    headerE = json['header_E'].cast<String>();
     reportedE = json['reported_E'].cast<String>();
     estimateE = json['estimate_E'].cast<String>();
     surpriseE = json['surprise_E'].cast<String>();
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['reported_E'] = reportedE;
-    data['estimate_E'] = estimateE;
-    data['surprise_E'] = surpriseE;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['header_E'] = this.headerE;
+    data['reported_E'] = this.reportedE;
+    data['estimate_E'] = this.estimateE;
+    data['surprise_E'] = this.surpriseE;
     return data;
   }
 }

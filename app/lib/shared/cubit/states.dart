@@ -177,3 +177,13 @@ class FetchIncomeChartErrorState extends AppStates {
   final String err;
   FetchIncomeChartErrorState(this.err);
 }
+//! fetchPridictionData------------
+
+class FetchPridictionDataSuccessState extends AppStates {}
+
+class FetchPridictionDataLoadingState extends AppStates {}
+
+class FetchPridictionDataErrorState extends AppStates {
+  final String err;
+  FetchPridictionDataErrorState(this.err);
+}

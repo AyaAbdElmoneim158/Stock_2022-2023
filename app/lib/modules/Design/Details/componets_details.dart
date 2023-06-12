@@ -1,5 +1,5 @@
 import 'dart:math';
-
+import 'dart:ui' as ui;
 import 'package:app/models/sales_data_model.dart';
 import 'package:app/models/stock_model.dart';
 import 'package:app/shared/components/components.dart';
@@ -9,6 +9,7 @@ import 'package:app/shared/styles/style.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:intl/intl.dart';
+import 'package:arabic_numbers/arabic_numbers.dart';
 
 final List<SalesDataYear> chartData = [
   SalesDataYear(DateTime.parse("2023-05-11"), 35),
@@ -562,37 +563,47 @@ class StockPrice extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-          Text(
-            // details.stockMainApi!.incPercentage.toString(),
-            change.toString(),
-            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                color:
-                    // double.parse(change.substring(0, 3)) > 0? kPrimaryColor:
-                    Colors.green,
-                height: 1.2),
+          Directionality(
+            textDirection: ui.TextDirection.ltr,
+            child: Text(
+              // details.stockMainApi!.incPercentage.toString(),
+              // textDirection: TextDirection.ltr,
+              ArabicNumbers().convert(change),
+              // change.toString(),
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                  color: change.contains('-') ? Colors.green : Colors.red,
+                  // double.parse(change.substring(0, 3)) > 0? kPrimaryColor:
+                  // Colors.green,
+                  height: 1.2),
+            ),
           ),
           //EGP
           const SizedBox(width: 16),
 
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: RichText(
-                text: TextSpan(children: [
-              TextSpan(
-                text: price.toString(),
-                style: Theme.of(context)
-                    .textTheme
-                    .displaySmall!
-                    .copyWith(color: kPrimaryColor, height: 1.2),
-              ),
-              // TextSpan(
-              //   text: 'EGP',
-              //   style: Theme.of(context)
-              //       .textTheme
-              //       .bodySmall!
-              //       .copyWith(color: kPrimaryColor, height: 1.2),
-              // ),
-            ])),
+          Directionality(
+            textDirection: ui.TextDirection.ltr,
+            child: Align(
+              alignment: Alignment.topLeft,
+              child: RichText(
+                  text: TextSpan(children: [
+                TextSpan(
+                  text: ArabicNumbers().convert(price),
+
+                  // price.toString(),
+                  style: Theme.of(context)
+                      .textTheme
+                      .displaySmall!
+                      .copyWith(color: kPrimaryColor, height: 1.2),
+                ),
+                // TextSpan(
+                //   text: 'EGP',
+                //   style: Theme.of(context)
+                //       .textTheme
+                //       .bodySmall!
+                //       .copyWith(color: kPrimaryColor, height: 1.2),
+                // ),
+              ])),
+            ),
           ),
 
           // const SizedBox(width: 16),

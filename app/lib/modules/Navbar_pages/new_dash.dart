@@ -106,28 +106,29 @@ class NewDash extends StatelessWidget {
                     child: Column(
                       children: [
                         //! Container_4 (AllCharts) ********************************************
-                        columnsChart(
-                            groupsData: incomeBarChartData1
+                        /*columnsChart(
                             // incomeStatementData
-                            ,
+                            groupsData: incomeBarChartData1,
                             chartName: 'Income Statement'),
+
                         columnsChart(
-                            groupsData: balanceSheetBarChartData1
                             //  balanceSheetData
-                            ,
-                            chartName: 'Balance Sheet'),
+                            groupsData: balanceSheetBarChartData1,
+                            chartName: 'Balance Sheet'),*/
 
-                        columnsChartWithLine(
-                            groupsData: divideBarChartData1
+                        /* columnsChartWithLine(
                             //  divideData
-                            ,
+                            groupsData: divideBarChartData1,
                             chartName: 'Divide',
-                            dataSourceLine: appCubit.divideData2),
+                            dataSourceLine: appCubit.divideData2),*/
 
                         columnsChart(
+                            //revenueData1
                             // revenueBarChartData1
-                            groupsData: revenueData,
+                            groupsData: appCubit.revenueBarChartData1,
+                            //  revenueData,
                             chartName: 'Revenue'),
+
                         columnsChart(
                             // earningBarChartData1
                             groupsData: earningData,
@@ -344,6 +345,56 @@ Column chartWithLine(
                 NumberFormat.simpleCurrency(decimalDigits: 2, name: 'B')),
       ),
       Divider(height: 1.2, color: Colors.grey.shade500),
+    ],
+  );
+}
+
+Column chartWithLine2(
+    {required List<BarChart1> groupsData,
+    required String chartName,
+    required List<SalesData> dataSourceLine}) {
+  return Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      SfCartesianChart(
+        borderWidth: 0,
+        borderColor: Colors.transparent,
+        plotAreaBorderWidth: 0,
+        //! -------------------------- incomeBarChartData1
+        // legend: Legend(isVisible: true, position: LegendPosition.bottom),
+        tooltipBehavior: TooltipBehavior(enable: true),
+        series: <CartesianSeries>[
+          for (var group in groupsData)
+            // appCubit.incomeBarChartData1)
+            /*ColumnSeries<SalesData, String>(
+                dataSource: group.data,
+                xValueMapper: (SalesData sales, _) => sales.month,
+                yValueMapper: (SalesData sales, _) => sales.sales,
+                borderRadius: BorderRadius.circular(2.0),
+                name: group.name,
+                enableTooltip: true,
+                spacing: 0.3,
+                color: const Color(0XFF42bda8)
+                //Colors.green
+                //
+                ),*/
+            LineSeries<SalesData, String>(
+                dataSource: dataSourceLine,
+                xValueMapper: (SalesData sales, _) => sales.month,
+                yValueMapper: (SalesData sales, _) => sales.sales,
+                // name: 'Dividend yield',
+                color: const Color(0xFFF09F01),
+                // enableTooltip: true,
+                markerSettings: const MarkerSettings(isVisible: false)),
+        ],
+        primaryXAxis: CategoryAxis(isVisible: false),
+        primaryYAxis: NumericAxis(
+            isVisible: false,
+            edgeLabelPlacement: EdgeLabelPlacement.shift,
+            numberFormat:
+                NumberFormat.simpleCurrency(decimalDigits: 2, name: '')),
+      ),
+      // Divider(height: 1.2, color: Colors.grey.shade500),
     ],
   );
 }
