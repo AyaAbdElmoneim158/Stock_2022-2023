@@ -67,11 +67,14 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-/*import 'package:app/modules/test2_page.dart';
+/*import 'package:app/modules/test_view_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
-void main(List<String> args) {
-  runApp(const MyApp());
+void main() {
+  runApp(
+    const MyApp(),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -79,9 +82,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: const Test2Page(),
-    );
+    return const MaterialApp(localizationsDelegates: [
+      GlobalMaterialLocalizations.delegate,
+      GlobalWidgetsLocalizations.delegate,
+      GlobalCupertinoLocalizations.delegate,
+    ], supportedLocales: [
+      Locale('ar', "AE"),
+    ], home: TestViewPage());
   }
 }*/

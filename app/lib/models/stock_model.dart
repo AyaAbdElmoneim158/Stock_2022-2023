@@ -17,7 +17,7 @@ class StockModle {
   final String logo;
   final String price;
   final String stocksNo;
-  // final bool isFav;
+  final String change;
   // final bool isFoll;
 
   StockModle({
@@ -27,7 +27,7 @@ class StockModle {
     this.name = '',
     this.price = '',
     this.ramz = '',
-    // this.isFav=false,
+    this.change = '',
     // this.isFoll=false,
   });
 
@@ -39,7 +39,7 @@ class StockModle {
       name: map['name'] ?? '',
       price: map['price'] ?? '',
       ramz: map['ramz'] ?? '',
-      // isFav: map['isFav'] ?? false,
+      change: map['change'] ?? '',
       // isFoll: map['isFoll'] ?? false,
     );
   }
@@ -51,6 +51,7 @@ class StockModle {
     result.addAll({'name': name});
     result.addAll({'logo': logo});
     result.addAll({'price': price});
+    result.addAll({'change': change});
     result.addAll({'ramz': ramz});
     return result;
   }

@@ -78,6 +78,7 @@ class _TestPageState extends State<TestPage> {
                   // color: Colors.red.withOpacity(0.3),
                   height: 530,
                   child: PageView(reverse: true, children: [
+                    historyChart(chartHistoryData, appCubit),
                     Center(
                         child: Column(
                       children: [
@@ -110,27 +111,35 @@ class _TestPageState extends State<TestPage> {
                         ConditionalBuilder(
                           condition: predictions.isNotEmpty && dates.isNotEmpty,
                           builder: (context) => SingleChildScrollView(
-                            child: Row(
-                              children: [
-                                const FixedColumnWidget(),
-                                ScrollableColumnWidget(
-                                    dates: appCubit.days,
-                                    predictions: appCubit.dataPridiction),
-                              ],
+                            child: SizedBox(
+                              // height: 150,
+                              // width: double.infinity,
+                              child: Row(
+                                children: [
+                                  const FixedColumnWidget(),
+                                  ScrollableColumnWidget(
+                                      dates: appCubit.days,
+                                      predictions: appCubit.dataPridiction),
+                                ],
+                              ),
                             ),
                           ),
-                          fallback: (context) => Container(
-                              color: Colors.white,
-                              child: Center(
-                                  child: Center(
-                                      child:
-                                          Image.asset('assets/ripple.gif')))),
+                          fallback: (context) => SizedBox(
+                            // height: 100,
+                            // width: double.infinity,
+                            child: Container(
+                                color: Colors.white,
+                                child: Center(
+                                    child: Center(
+                                        child:
+                                            Image.asset('assets/ripple.gif')))),
+                          ),
                         ),
 
                         // Text("page1"),
                       ],
                     )),
-                    historyChart(chartHistoryData, appCubit),
+
                     // Center(child: Text("page2"))
                   ]),
                 ),

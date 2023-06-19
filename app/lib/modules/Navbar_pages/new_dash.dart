@@ -100,44 +100,53 @@ class NewDash extends StatelessWidget {
           return ConditionalBuilder(
             condition: state is! FetchIncomeChartLoadingState,
             builder: (context) => Scaffold(
+                appBar: generalAppbar(context),
                 backgroundColor: kBackgroundColor,
                 body: Center(
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
                         //! Container_4 (AllCharts) ********************************************
-                        /*columnsChart(
-                            // incomeStatementData
-                            groupsData: incomeBarChartData1,
-                            chartName: 'Income Statement'),
-
-                        columnsChart(
-                            //  balanceSheetData
-                            groupsData: balanceSheetBarChartData1,
-                            chartName: 'Balance Sheet'),*/
-
-                        /* columnsChartWithLine(
-                            //  divideData
-                            groupsData: divideBarChartData1,
-                            chartName: 'Divide',
-                            dataSourceLine: appCubit.divideData2),*/
-
-                        columnsChart(
-                            //revenueData1
-                            // revenueBarChartData1
-                            groupsData: appCubit.revenueBarChartData1,
-                            //  revenueData,
-                            chartName: 'Revenue'),
-
-                        columnsChart(
-                            // earningBarChartData1
-                            groupsData: earningData,
-                            chartName: 'Earning'),
+                        incomeBarChartData1.isEmpty
+                            ? Container()
+                            : columnsChart(
+                                // incomeStatementData
+                                groupsData: incomeBarChartData1,
+                                chartName: 'بيانات الدخل'),
+                        incomeBarChartData1.isEmpty
+                            ? Container()
+                            : columnsChart(
+                                //  balanceSheetData
+                                groupsData: balanceSheetBarChartData1,
+                                chartName: 'بَيَانُ المُوَازَنَة'),
+                        incomeBarChartData1.isEmpty
+                            ? Container()
+                            : columnsChartWithLine(
+                                //  divideData
+                                groupsData: divideBarChartData1,
+                                chartName: 'الإيرادات',
+                                dataSourceLine: appCubit.divideData2),
+                        incomeBarChartData1.isEmpty
+                            ? Container()
+                            : columnsChart(
+                                //revenueData1
+                                // revenueBarChartData1
+                                groupsData:
+                                    // appCubit.revenueBarChartData1,
+                                    revenueData,
+                                chartName: 'أرباح'),
+                        incomeBarChartData1.isEmpty
+                            ? Container()
+                            : columnsChart(
+                                // earningBarChartData1
+                                groupsData: earningData,
+                                chartName: 'العوائد'),
                       ],
                     ),
                   ),
                 )),
             fallback: (context) => Container(
+                width: 50,
                 color: Colors.white,
                 child: Center(
                     child: Center(child: Image.asset('assets/ripple.gif')))),
@@ -166,12 +175,6 @@ Column columnsChart(
               ),
             ),
             const Spacer(),
-            const Text('سنوي',
-                style: TextStyle(
-                  color: Colors.orangeAccent,
-                  fontSize: 20,
-                  // fontFamily: FontWeight.w600
-                )),
           ],
         ),
       ),
@@ -247,12 +250,6 @@ Column columnsChartWithLine(
               ),
             ),
             const Spacer(),
-            const Text('سنوي',
-                style: TextStyle(
-                  color: Colors.orangeAccent,
-                  fontSize: 20,
-                  // fontFamily: FontWeight.w600
-                )),
           ],
         ),
       ),
@@ -382,9 +379,10 @@ Column chartWithLine2(
                 dataSource: dataSourceLine,
                 xValueMapper: (SalesData sales, _) => sales.month,
                 yValueMapper: (SalesData sales, _) => sales.sales,
-                // name: 'Dividend yield',
+                name: 'Dividend yield',
                 color: const Color(0xFFF09F01),
-                // enableTooltip: true,
+                width: 2,
+                enableTooltip: true,
                 markerSettings: const MarkerSettings(isVisible: false)),
         ],
         primaryXAxis: CategoryAxis(isVisible: false),

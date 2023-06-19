@@ -10,8 +10,8 @@ import 'package:app/shared/components/constants.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 
 class ForgetPasswordWithEmail extends StatelessWidget {
-  const ForgetPasswordWithEmail({super.key});
-
+  ForgetPasswordWithEmail({super.key});
+  var emailController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AppCubit, AppStates>(listener: (context, state) {
@@ -61,21 +61,12 @@ class ForgetPasswordWithEmail extends StatelessWidget {
       }
     }, builder: (context, state) {
       final appCubit = AppCubit.get(context);
-      var emailController = TextEditingController();
+
       SizeConfig().init(context);
 
       return Scaffold(
         backgroundColor: kBackgroundColor,
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          leading: IconButton(
-              icon: const Icon(
-                Icons.arrow_back_ios,
-                color: firstColor,
-              ),
-              onPressed: () => Navigator.pop(context)),
-        ),
+        appBar: generalAppbar(context),
         body: Center(
           child: Padding(
             padding: const EdgeInsets.all(15),
@@ -92,7 +83,7 @@ class ForgetPasswordWithEmail extends StatelessWidget {
                     SizedBox(height: SizeConfig.screenHeight! * 0.1),
                     Align(
                       child: Text(
-                        "reset your password".toUpperCase(),
+                        Constants.resetPassword,
                         style: Theme.of(context)
                             .textTheme
                             .headlineSmall!
@@ -101,6 +92,9 @@ class ForgetPasswordWithEmail extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 30),
+                    // PasswordFeild(
+                    //     controller: passwordController,
+                    //     onChanged: (val) => appCubit.changePassword(val)),
                     defaultField(
                         hintText: Constants.emailFeild,
                         labelText: Constants.emailFeild,
@@ -110,7 +104,7 @@ class ForgetPasswordWithEmail extends StatelessWidget {
                         onChanged: (val) => appCubit.changeEmailForget(val)),
                     const SizedBox(height: 32),
                     defaultButton(
-                        text: "Reset".toUpperCase(),
+                        text: Constants.reset,
                         color: firstColor,
                         onPressed: () {
                           appCubit.forgetPassword();

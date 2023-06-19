@@ -130,29 +130,33 @@ class ScrollableColumnWidget extends StatelessWidget {
           ),
 // ! list of dates -------------------------------------------------------------
 
-          columns: dates
-              .map((e) => DataColumn(
-                      label: Text(
-                    DateFormat.yMMMEd().format(e),
-                    // e.toString(),
-                    style: Theme.of(context).textTheme.titleMedium,
-                  )))
-              .toList(),
+          columns: dates.isEmpty
+              ? []
+              : dates
+                  .map((e) => DataColumn(
+                          label: Text(
+                        DateFormat.yMMMEd().format(e),
+                        // e.toString(),
+                        style: Theme.of(context).textTheme.titleMedium,
+                      )))
+                  .toList(),
 
 // ! list of Prediction -------------------------------------------------------------
 
           rows: [
             DataRow(
-                cells: predictions
-                    .map((e) => DataCell(Directionality(
-                          textDirection: ui.TextDirection.ltr,
-                          child: Text(
-                            // toStringAsFixed(3)
-                            e.toStringAsFixed(3).toString(),
-                            style: Theme.of(context).textTheme.titleMedium,
-                          ),
-                        )))
-                    .toList())
+                cells: dates.isEmpty
+                    ? []
+                    : predictions
+                        .map((e) => DataCell(Directionality(
+                              textDirection: ui.TextDirection.ltr,
+                              child: Text(
+                                // toStringAsFixed(3)
+                                e.toStringAsFixed(3).toString(),
+                                style: Theme.of(context).textTheme.titleMedium,
+                              ),
+                            )))
+                        .toList())
           ],
         ),
       ),

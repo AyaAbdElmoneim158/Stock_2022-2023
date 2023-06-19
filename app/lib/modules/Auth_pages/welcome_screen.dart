@@ -1,4 +1,4 @@
-import 'package:app/shared/components/components.dart';
+/*import 'package:app/shared/components/components.dart';
 import 'package:app/shared/components/constants.dart';
 import 'package:app/shared/router/routes.dart';
 import 'package:app/shared/styles/colors.dart';
@@ -120,6 +120,75 @@ class WelcomeScreen extends StatelessWidget {
                   ),
                 )
               ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}*/
+
+import 'package:app/shared/components/components.dart';
+import 'package:app/shared/components/constants.dart';
+import 'package:app/shared/styles/colors.dart';
+import 'package:app/shared/styles/size_config.dart';
+import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+
+class WelcomeScreen extends StatefulWidget {
+  const WelcomeScreen({super.key});
+
+  @override
+  State<WelcomeScreen> createState() => _WelcomeScreenState();
+}
+
+class _WelcomeScreenState extends State<WelcomeScreen> {
+  @override
+  Widget build(BuildContext context) {
+    SizeConfig().init(context);
+    CarouselController? carouselController = CarouselController();
+    // final controller = PageController(viewportFraction: 0.8, keepPage: true);
+    // int current = 0;
+
+    return Scaffold(
+      backgroundColor: kBackgroundColor,
+      body: Center(
+        child: SingleChildScrollView(
+          child: SafeArea(
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: SizeConfig.screenWidth! * Constants.padding),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  //! CarouselSlider .............................................
+                  Column(
+                    children: [
+                      CarouselSlider.builder(
+                        carouselController: carouselController,
+                        options: carouselOptions(
+                          height: 450,
+                          onPageChanged: (index, reason) {
+                            // setState(() {current = index;});
+                          },
+                        ),
+                        itemCount: Constants.carouselData.length,
+                        itemBuilder: (BuildContext context, int itemIndex,
+                                int pageViewIndex) =>
+                            carouselSildeWelcome(context, itemIndex),
+                      ),
+                      //ToDo:: SmoothPageIndicator................................
+                      // SmoothPageIndicator(
+                      //     controller: PageController(initialPage: _current),
+                      //     count: Constants.carouselData.length,
+                      //     effect: const JumpingDotEffect(
+                      //         activeDotColor: AppColors.ksecondColor)),
+                    ],
+                  ),
+                  //! WelcomeBtns ................................................
+                  welcomeBtns(context)
+                ],
+              ),
             ),
           ),
         ),

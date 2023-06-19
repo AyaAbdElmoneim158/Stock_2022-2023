@@ -2,7 +2,9 @@ import 'package:app/models/stock_model.dart';
 import 'package:app/shared/components/components.dart';
 import 'package:app/shared/cubit/cubit.dart';
 import 'package:app/shared/cubit/states.dart';
+import 'package:app/shared/network/remote/auth_helper.dart';
 import 'package:app/shared/router/routes.dart';
+import 'package:app/shared/styles/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
@@ -28,6 +30,15 @@ class BookmarkPage extends StatelessWidget {
                 "مفضلاتك 🔖",
                 style: Theme.of(context).textTheme.headlineSmall,
               ),
+              actions: [
+                TextButton(
+                  onPressed: () => AuthHelper.instance.logout(),
+                  child: Text(
+                    "Logout",
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                ),
+              ],
             ),
             body: Container(
               decoration: const BoxDecoration(
@@ -58,8 +69,8 @@ class BookmarkPage extends StatelessWidget {
                                     padding: const EdgeInsets.only(
                                         top: 15,
                                         bottom: 15,
-                                        left: 70,
-                                        right: 15),
+                                        left: 15,
+                                        right: 70),
                                     child: Divider(
                                       height: 1.6,
                                       thickness: 1.5,
@@ -159,6 +170,7 @@ class BookmarkPage extends StatelessWidget {
                             );
                       } else {
                         return Container(
+                            width: 50,
                             color: Colors.white,
                             child: Center(
                                 child: Image.asset('assets/ripple.gif')));

@@ -31,7 +31,42 @@ double to_double(var str) {
   return ret;
 }
 
-List<double> editList({required List<String>? list}) {
+bool isNumber(String ch) {
+  return ch == "0" ||
+      ch == "1" ||
+      ch == "2" ||
+      ch == "3" ||
+      ch == "4" ||
+      ch == "5" ||
+      ch == "6" ||
+      ch == "7" ||
+      ch == "8" ||
+      ch == "9";
+}
+
+List<double> editList(List<String> list) {
+  List<double> listNew = [];
+  for (var element in list) {
+    if (element.contains("B")) {
+      var ele = element.substring(0, element.indexOf("B", 0));
+      listNew.add(to_double(ele));
+    } else if (element.contains("M")) {
+      var ele = element.substring(0, element.indexOf("M", 0));
+      listNew.add(to_double(ele) / 1000);
+    } else if (isNumber(
+        element[element.length - 1])) // double.tryParse(element) != null
+    {
+      listNew.add(to_double(element));
+    } else {
+      listNew.add(0);
+    }
+  }
+  return listNew;
+}
+
+// [7.55B, 8.58B, 7.88B, 8.84B, 16.33B, ]
+// "-"
+/*List<double> editList({required List<String>? list}) {
   List<double> listNew = [];
   for (var element in list!) {
     // debugPrint("1....");
@@ -67,7 +102,7 @@ List<double> editList({required List<String>? list}) {
   }
   return listNew;
 }
-
+*/
 List<DateTime> getDaysInBetween(DateTime startDate, DateTime endDate) {
   List<DateTime> days = [];
   for (int i = 0; i <= endDate.difference(startDate).inDays; i++) {
@@ -494,21 +529,45 @@ class AppCubit extends Cubit<AppStates> {
       var allData = jsonDecode(value.data); //value.datalength
       debugPrint(allData.runtimeType.toString());
       for (int i = 1; i < allData.length; i++) {
-        /* stocksAtSectors.add(StockAtSectorModel(
-            symbol: allData["$i"][0],
-            price: allData["$i"][1],
-            change: allData["$i"][2],
-            change100: allData["$i"][3]));*/
         stocksAtSectors.add(StockModle(
-            id: DateTime.now().toIso8601String(),
-            ramz: allData["$i"][0],
-            logo: allData["$i"][13],
-            name: allData["$i"][1]));
+          id: DateTime.now().toIso8601String(),
+          ramz: allData["$i"][0],
+          logo: allData["$i"][12],
+          name: allData["$i"][1],
+          change: allData["$i"][3],
+          price: allData["$i"][2],
+        ));
       }
-      // debugPrint('${allData["1"][13]}');
-      // debugPrint('${allData["1"][11]}');
-      // debugPrint('${allData["1"][12]}');
-      debugPrint("len: ${stocksAtSectors.length}");
+
+      debugPrint("\nlen: ${stocksAtSectors.length}**************************");
+      emit(FetchStocksAtSectorSuccessState());
+    }).catchError((err) {
+      debugPrint("error at fetchStocksAtSectors: $err");
+      emit(FetchStocksAtSectorErrorState(err.toString()));
+    });
+  }
+
+  List<StockModle> stocksAtSectorscat = [];
+  void fetchStocksAtSectorscat({required String sectorName}) {
+    emit(FetchStocksAtSectorLoadingState());
+    DioHelper.getData(path: '/', queryParameters: {"stock": "$sectorName-2"})
+        .then((value) {
+      stocksAtSectorscat = [];
+      var allData = jsonDecode(value.data); //value.datalength
+      debugPrint(allData.runtimeType.toString());
+      for (int i = 1; i < allData.length; i++) {
+        stocksAtSectorscat.add(StockModle(
+          id: DateTime.now().toIso8601String(),
+          ramz: allData["$i"][0],
+          logo: allData["$i"][13],
+          name: allData["$i"][1],
+          change: allData["$i"][4],
+          price: allData["$i"][3],
+        ));
+      }
+
+      debugPrint(
+          "\nlen: ${stocksAtSectorscat.length}**************************");
       emit(FetchStocksAtSectorSuccessState());
     }).catchError((err) {
       debugPrint("error at fetchStocksAtSectors: $err");
@@ -614,7 +673,7 @@ class AppCubit extends Cubit<AppStates> {
       // debugPrint(allData.incomeStatement!.header.toString());
       // final endIndexIncomeStatementtotalRevenue =allData.incomeStatement!.totalRevenue![i].indexOf("B", 0);
 //? Fetch Income Statement ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      /* for (int i = 0; i < allData.incomeStatement!.header!.length - 1; i++) {
+      for (int i = 0; i < allData.incomeStatement!.header!.length - 1; i++) {
         // Fetch arrays of data ...............................................................................................................................
         var valTotalRevenue = double.parse(
                 allData.incomeStatement!.totalRevenue![i].substring(0,
@@ -651,10 +710,10 @@ class AppCubit extends Cubit<AppStates> {
         BarChart1('Pretax income', incomeSalesData4),
         BarChart1('Net income', incomeSalesData5),
       ];
-      debugPrint("Income Statement.... Done!");*/
+      debugPrint("Income Statement.... Done!");
 //? Fetch BalanceSheet ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-      /* for (int i = 0; i < allData.balanceSheet!.header!.length; i++) {
+      for (int i = 0; i < allData.balanceSheet!.header!.length; i++) {
         // final endIndexBalanceSheettotalAssets =allData.balanceSheet!.totalAssets![i].indexOf("B", 0);
         // Fetch arrays of data ...............................................................................................................................
         var valTotalAssets = double.parse(allData.balanceSheet!.totalAssets![i]
@@ -676,11 +735,11 @@ class AppCubit extends Cubit<AppStates> {
         BarChart1('Total assets', balanceSheetSalesData1),
         BarChart1('Total liabilities', balanceSheetSalesData2),
       ];
-      debugPrint("BalanceSheet.... Done!");*/
+      debugPrint("BalanceSheet.... Done!");
 
 //? Fetch dividends ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-      /* for (int i = 0; i < allData.dividends!.header!.length; i++) {
+      for (int i = 0; i < allData.dividends!.header!.length; i++) {
         // Fetch arrays of data ...............................................................................................................................
         var valDividensPerShare =
                 double.parse(allData.dividends!.dividensPerShare![i]),
@@ -698,7 +757,7 @@ class AppCubit extends Cubit<AppStates> {
         BarChart1('Dividends per share', divideData1),
         // BarChart1('Total liabilities', divideData2),
       ];
-      debugPrint("dividends.... Done!");*/
+      debugPrint("dividends.... Done!");
 
 //? Fetch revenue ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       // [2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026]
@@ -723,7 +782,7 @@ class AppCubit extends Cubit<AppStates> {
       List<String>? headerR = allData.revenue!.headerR;
       // List<double>? estimateR = editList(list: allData.revenue!.estimateR);
       debugPrint("1----");
-      List<double> reportedR1 = editList(list: categories);
+      List<double> reportedR1 = editList(categories);
       // [7.73, 8.57,7.70,8.52,16.88,22.50,20.31,20.77,23.68 ];
 
       debugPrint("2----");
@@ -890,6 +949,7 @@ class AppCubit extends Cubit<AppStates> {
     // var data = [];
 
     chartData2 = [];
+    dataPridiction = [];
     emit(FetchPridictionDataLoadingState());
     http
         .get(Uri.parse(

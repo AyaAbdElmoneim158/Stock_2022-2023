@@ -15,8 +15,10 @@ import 'package:app/modules/news_url.dart';
 import 'package:app/modules/Auth_pages/login_page.dart';
 // import 'package:app/modules/onboarding_page.dart';
 import 'package:app/modules/Auth_pages/register_page.dart';
+import 'package:app/modules/no_internet_page.dart';
 import 'package:app/shared/router/routes.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 Route<dynamic> onGenerate(RouteSettings settings) {
   switch (settings.name) {
@@ -29,7 +31,14 @@ Route<dynamic> onGenerate(RouteSettings settings) {
       final url = settings.arguments as String;
 
       return CupertinoPageRoute(
-          builder: (_) => NewsUrl(url: url), settings: settings);
+          builder: (_) => StreamBuilder<ConnectivityResult>(
+              stream: Connectivity().onConnectivityChanged,
+              builder: (context, snapshot) {
+                return snapshot.data == ConnectivityResult.none
+                    ? const NoInternetPage()
+                    : NewsUrl(url: url);
+              }),
+          settings: settings);
     case AppRoutes.stocksAtSectorRoute:
       final args = settings.arguments as Map<String, dynamic>;
       // final sector = args["sector"] as SectorModle;
@@ -37,15 +46,29 @@ Route<dynamic> onGenerate(RouteSettings settings) {
       // final args = settings.arguments as String;
 
       return CupertinoPageRoute(
-          builder: (_) => StockAtSectorNew(
-              sectorName: args["title"], svgSrc: args["image"]), //
+          builder: (_) => StreamBuilder<ConnectivityResult>(
+              stream: Connectivity().onConnectivityChanged,
+              builder: (context, snapshot) {
+                return snapshot.data == ConnectivityResult.none
+                    ? const NoInternetPage()
+                    : StockAtSectorNew(
+                        sectorNameAr: args["titleAr"],
+                        sectorNameEn: args["titleEn"],
+                        svgSrc: args["image"]);
+              }), //
           // StocksInnerSectot(sectorName: args),
           settings: settings);
 
     case AppRoutes.detailsStockRoute:
       final ramz = settings.arguments as String;
       return CupertinoPageRoute(
-          builder: (_) => DetailNewsScreen(ramz: ramz),
+          builder: (_) => StreamBuilder<ConnectivityResult>(
+              stream: Connectivity().onConnectivityChanged,
+              builder: (context, snapshot) {
+                return snapshot.data == ConnectivityResult.none
+                    ? const NoInternetPage()
+                    : DetailNewsScreen(ramz: ramz);
+              }),
           // DetailsStock(ramz: ramz),
           settings: settings);
 
@@ -54,29 +77,77 @@ Route<dynamic> onGenerate(RouteSettings settings) {
     case AppRoutes.dashStockRoute:
       final ramz = settings.arguments as String;
       return CupertinoPageRoute(
-          builder: (_) => NewDash(ramz: ramz),
+          builder: (_) => StreamBuilder<ConnectivityResult>(
+              stream: Connectivity().onConnectivityChanged,
+              builder: (context, snapshot) {
+                return snapshot.data == ConnectivityResult.none
+                    ? const NoInternetPage()
+                    : NewDash(ramz: ramz);
+              }),
           //  OldDash(ramz: ramz),
           // DetailsStock(ramz: ramz),
           settings: settings);
 
     case AppRoutes.navbarRoute:
       return CupertinoPageRoute(
-          builder: (_) => const BottomNavbarNew(), settings: settings);
+          builder: (_) => StreamBuilder<ConnectivityResult>(
+              stream: Connectivity().onConnectivityChanged,
+              builder: (context, snapshot) {
+                return snapshot.data == ConnectivityResult.none
+                    ? const NoInternetPage()
+                    : const BottomNavbarNew();
+              }),
+          settings: settings);
     case AppRoutes.successRoute:
       return CupertinoPageRoute(
-          builder: (_) => const SuccessfulLogin(), settings: settings);
+          builder: (_) => StreamBuilder<ConnectivityResult>(
+              stream: Connectivity().onConnectivityChanged,
+              builder: (context, snapshot) {
+                return snapshot.data == ConnectivityResult.none
+                    ? const NoInternetPage()
+                    : const SuccessfulLogin();
+              }),
+          settings: settings);
     case AppRoutes.resetPasswordRoute:
       return CupertinoPageRoute(
-          builder: (_) => const ForgetPasswordWithEmail(), settings: settings);
+          builder: (_) => StreamBuilder<ConnectivityResult>(
+              stream: Connectivity().onConnectivityChanged,
+              builder: (context, snapshot) {
+                return snapshot.data == ConnectivityResult.none
+                    ? const NoInternetPage()
+                    : ForgetPasswordWithEmail();
+              }),
+          settings: settings);
     case AppRoutes.loginRoute:
       return CupertinoPageRoute(
-          builder: (_) => LoginPage(), settings: settings);
+          builder: (_) => StreamBuilder<ConnectivityResult>(
+              stream: Connectivity().onConnectivityChanged,
+              builder: (context, snapshot) {
+                return snapshot.data == ConnectivityResult.none
+                    ? const NoInternetPage()
+                    : LoginPage();
+              }),
+          settings: settings);
     case AppRoutes.registerRoute:
       return CupertinoPageRoute(
-          builder: (_) => RegisterPage(), settings: settings);
+          builder: (_) => StreamBuilder<ConnectivityResult>(
+              stream: Connectivity().onConnectivityChanged,
+              builder: (context, snapshot) {
+                return snapshot.data == ConnectivityResult.none
+                    ? const NoInternetPage()
+                    : RegisterPage();
+              }),
+          settings: settings);
     case AppRoutes.landingRoute:
     default:
       return CupertinoPageRoute(
-          builder: (_) => const LandingPage(), settings: settings);
+          builder: (_) => StreamBuilder<ConnectivityResult>(
+              stream: Connectivity().onConnectivityChanged,
+              builder: (context, snapshot) {
+                return snapshot.data == ConnectivityResult.none
+                    ? const NoInternetPage()
+                    : const LandingPage();
+              }),
+          settings: settings);
   }
 }

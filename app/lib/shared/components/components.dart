@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 //!~> defaultButton >===========================<
+import 'package:animate_do/animate_do.dart';
 import 'package:app/models/sector_model.dart';
 import 'package:app/models/stock_at_sector_model.dart';
 import 'package:app/models/stock_model.dart';
@@ -9,9 +10,12 @@ import 'package:app/shared/components/constants.dart';
 //  import 'package:app/modules/coin.dart';
 import 'package:app/shared/cubit/cubit.dart';
 import 'package:app/shared/cubit/states.dart';
+import 'package:app/shared/network/remote/auth_helper.dart';
 import 'package:app/shared/router/routes.dart';
 import 'package:app/shared/styles/colors.dart';
+import 'package:app/shared/styles/size_config.dart';
 import 'package:app/shared/styles/style.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -21,6 +25,9 @@ import 'dart:ui' as ui;
 import 'package:arabic_numbers/arabic_numbers.dart';
 import 'package:app/models/sales_data_model.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+// import 'package:flutter_svg/flutter_svg.dart';
+// import 'package:flutter_svg_provider/flutter_svg_provider.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 //!~> Navigator.................................................................
 void navigatorTo(
@@ -86,33 +93,40 @@ Widget defaultField({
   String? labelText = '',
   final TextInputType keyboardType = TextInputType.text,
 }) =>
-    TextFormField(
-      onChanged: onChanged,
-      controller: controller,
-      validator: validator,
-      textInputAction: TextInputAction.next,
-      decoration: InputDecoration(
-        labelText: labelText,
-        floatingLabelStyle:
-            const TextStyle(color: kTextColor, fontWeight: FontWeight.w600),
-        hintText: hintText,
-        enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Colors.grey, width: 1.5),
-          borderRadius: BorderRadius.circular(10),
+    SizedBox(
+      width: double.infinity,
+      height: 60,
+      child: TextFormField(
+        cursorColor: kTextColor,
+        onChanged: onChanged,
+        controller: controller,
+        validator: validator,
+        textInputAction: TextInputAction.next,
+        decoration: InputDecoration(
+          // labelText: labelText,
+          floatingLabelStyle: const TextStyle(
+              color: kTextMediumColor, fontWeight: FontWeight.w600),
+          hintText: hintText,
+          enabledBorder: OutlineInputBorder(
+            borderSide: const BorderSide(color: Colors.grey, width: 1.5),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: const BorderSide(color: ksecondaryColor, width: 1.5),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          errorBorder: UnderlineInputBorder(
+              borderSide: const BorderSide(color: Colors.redAccent, width: 1.5),
+              borderRadius: BorderRadius.circular(10)),
+          disabledBorder: InputBorder.none,
+          focusedErrorBorder: UnderlineInputBorder(
+              borderSide: const BorderSide(color: Colors.redAccent, width: 1.5),
+              borderRadius: BorderRadius.circular(10)),
+          // OutlineInputBorder(
+          //   borderSide: const BorderSide(color: Colors.redAccent, width: 1.5),
+          //   borderRadius: BorderRadius.circular(10),
+          // ),
         ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: firstColor, width: 1.5),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        errorBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Colors.redAccent, width: 1.5),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        // bord
-        // border: OutlineInputBorder(
-        //   borderSide: BorderSide(color: Colors.deepPurple.shade200, width: 2),
-        //   borderRadius: BorderRadius.circular(10),
-        // )
       ),
     );
 Widget defaultField0({
@@ -412,7 +426,7 @@ class ItemCard extends StatelessWidget {
     // This size provide you the total height and width of the screen
     Size size = MediaQuery.of(context).size;
     return Container(
-      width: 200,
+      width: SizeConfig.screenHeight! * 0.3,
       margin: const EdgeInsets.only(left: 10, right: 10, top: 20, bottom: 20),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -431,7 +445,11 @@ class ItemCard extends StatelessWidget {
           onTap: () => navigatorTo(
               context: context,
               routeName: AppRoutes.stocksAtSectorRoute,
-              arguments: {"title": titleEn, "image": svgSrc}
+              arguments: {
+                "titleEn": titleEn,
+                "titleAr": titleAr,
+                "image": svgSrc
+              }
               //  title
               ),
           child: Padding(
@@ -456,7 +474,9 @@ class ItemCard extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: kBodyText.copyWith(
-                        color: firstColor, fontWeight: FontWeight.w700),
+                        fontSize: 20,
+                        color: kTextColor,
+                        fontWeight: FontWeight.w700),
                   ),
                 ),
               ],
@@ -547,7 +567,7 @@ class CategoryItem extends StatelessWidget {
                     height: 3,
                     width: 22,
                     decoration: BoxDecoration(
-                      color: kPrimaryColor,
+                      color: secondColor,
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
@@ -1072,9 +1092,15 @@ class StockCard extends StatelessWidget {
 
             return Dismissible(
               key: Key('deleteFollowingArrow ${stockAtSector.id}'),
-              background: Container(color: Colors.red),
+              background: Container(
+                color: Colors.red,
+                child: const Icon(
+                  Icons.delete,
+                  color: Colors.white,
+                ),
+              ),
               onDismissed: (direction) {
-                showDialog(
+                /*showDialog(
                     context: context,
                     builder: (_) {
                       return AlertDialog(
@@ -1104,19 +1130,63 @@ class StockCard extends StatelessWidget {
                   } else {
                     // user pressed No button
                   }
-                });
-                // appCubit.deleteFollowingArrow(id: stockAtSector.id);
+                });*/
+                appCubit.deleteFollowingArrow(id: stockAtSector.id);
               },
               child: GestureDetector(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      // CircleAvatar(
+                      //  backgroundImage: SvgPicture.asset("assetName") as ImageProvider,
+                      //       // Image(image: SvgPicture.network("assetName")) as ImageProvider,
+                      //   backgroundColor: Colors.red,
+                      //   radius: 20,
+                      // ),
                       CircleAvatar(
-                          radius: 28,
-                          backgroundColor: firstColor.withOpacity(0.1),
-                          backgroundImage: NetworkImage(stockAtSector.logo)),
+                        radius: 20,
+                        child: SvgPicture.network(
+                          stockAtSector.logo,
+                          width: 50,
+                        ),
+                      ),
+
+                      // SvgPicture.network(
+                      //   stockAtSector.logo,
+                      //   width: 50,
+                      // ),
+                      // CircleAvatar(
+                      //   radius: 20,
+                      //   backgroundColor: firstColor.withOpacity(0.1),
+                      //   backgroundImage: SvgPicture.network(stockAtSector.logo)
+                      //       as ImageProvider,
+                      //   // SvgPicture.network('stockAtSector?.logo')
+                      // ),
+// Svg(stockAtSector.logo),
+// Image(
+//   width: 32,
+//   height: 32,
+//   image: Svg('assets/my_icon.svg'),
+// )
+                      // Container(
+                      //   margin: EdgeInsets.symmetric(horizontal: 5),
+                      //   width: 60,
+                      //   height: 20,
+                      //   decoration: BoxDecoration(
+                      //     // color: currentColor.medium,
+                      //     borderRadius: BorderRadius.circular(4),
+                      //     // image: DecorationImage( image: SvgPicture.asset('assets/images/home.png'),),
+                      //   ),
+                      //   child: SvgPicture.network(stockAtSector.logo),
+                      // ),
+                      /*Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image:  SvgPicture.network(stockAtSector.logo)
+                          ),
+                      ),*/
 
                       // const Spacer(),
 
@@ -1126,19 +1196,19 @@ class StockCard extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               //stockAtSector.symbol
+                              Text(stockAtSector.ramz,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleSmall!
+                                      .copyWith(
+                                          color: kTextColor,
+                                          fontWeight: FontWeight.w600)),
                               Text(stockAtSector.name,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: Theme.of(context)
                                       .textTheme
                                       .titleLarge!
-                                      .copyWith(
-                                          color: textColor,
-                                          fontWeight: FontWeight.w600)),
-                              Text(stockAtSector.ramz,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .titleSmall!
                                       .copyWith(
                                           color: textColor,
                                           fontWeight: FontWeight.w600)),
@@ -1163,6 +1233,7 @@ class StockCard extends StatelessWidget {
                                   return const Text("Error...");
                                 } else {
                                   return Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
                                       Directionality(
                                         textDirection: ui.TextDirection.ltr,
@@ -1189,7 +1260,7 @@ class StockCard extends StatelessWidget {
                                                 // .toString(),
                                                 style: Theme.of(context)
                                                     .textTheme
-                                                    .titleSmall!
+                                                    .titleLarge!
                                                     .copyWith(
                                                       color: (double.parse(appCubit
                                                                           .priceNo[
@@ -1214,7 +1285,12 @@ class StockCard extends StatelessWidget {
                                                               ? Colors.green
                                                               : firstColor,
                                                     )),
-                                            Text("Eg")
+                                            const Text(
+                                              " EGP ",
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: firstColor),
+                                            )
                                           ],
                                         ),
                                       ),
@@ -1245,7 +1321,7 @@ class StockCard extends StatelessWidget {
                                                 //     )
                                                 // .toStringAsFixed(2)
                                                 // .toString(),
-                                                style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                                                style: Theme.of(context).textTheme.titleLarge!.copyWith(
                                                       color: ((double.parse(appCubit.priceNo[0]) -
                                                                       double.parse(appCubit
                                                                           .dataModel
@@ -1269,7 +1345,12 @@ class StockCard extends StatelessWidget {
                                                               ? Colors.green
                                                               : firstColor,
                                                     )),
-                                            Text("%")
+                                            const Text(
+                                              " % ",
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color: firstColor),
+                                            )
                                           ],
                                         ),
                                       ),
@@ -1342,7 +1423,7 @@ class StockCardFav extends StatelessWidget {
                   children: [
                     // Image.network() // Wrab with circle Avter...
 
-                    Column(
+                    /*Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           //stockAtSector.price
@@ -1364,12 +1445,40 @@ class StockCardFav extends StatelessWidget {
                               lastPrice: stockAtSector.price),
                         ]),
                     // const Spacer(),
+                    */
+                    // CircleAvatar(
+                    //     radius: 20,
+                    //     backgroundColor: firstColor.withOpacity(0.1),
+                    //     backgroundImage: NetworkImage(stockAtSector.logo)),
+                    // SvgPicture.network(stockAtSector.logo),
+                    CircleAvatar(
+                      radius: 20,
+                      child: SvgPicture.network(
+                        stockAtSector.logo,
+                        width: 50,
+                      ),
+                    ),
+                    // CircleAvatar(
+                    //   radius: 20,
+                    //   backgroundColor: firstColor.withOpacity(0.1),
+                    //   backgroundImage:
+                    //       as ImageProvider,
+                    //   // SvgPicture.network('stockAtSector?.logo')
+                    // ),
                     const SizedBox(width: 16),
                     Expanded(
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             //stockAtSector.symbol
+
+                            Text(stockAtSector.ramz,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleSmall!
+                                    .copyWith(
+                                        color: textColor,
+                                        fontWeight: FontWeight.w600)),
                             Text(stockAtSector.name,
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
@@ -1379,20 +1488,9 @@ class StockCardFav extends StatelessWidget {
                                     .copyWith(
                                         color: textColor,
                                         fontWeight: FontWeight.w600)),
-                            Text(stockAtSector.ramz,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleSmall!
-                                    .copyWith(
-                                        color: textColor,
-                                        fontWeight: FontWeight.w600)),
                           ]),
                     ),
                     const SizedBox(width: 20),
-                    CircleAvatar(
-                        radius: 28,
-                        backgroundColor: firstColor.withOpacity(0.1),
-                        backgroundImage: NetworkImage(stockAtSector.logo)),
                   ],
                 ),
               ),
@@ -1470,10 +1568,24 @@ GestureDetector stockCardInnerSector(BuildContext context,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Image.network() // Wrab with circle Avter...
+          // CircleAvatar(
+          //     radius: 20,
+          //     backgroundColor: firstColor.withOpacity(0.1),
+          //     backgroundImage: NetworkImage(stockAtSector.logo)),
           CircleAvatar(
-              radius: 28,
-              backgroundColor: firstColor.withOpacity(0.1),
-              backgroundImage: NetworkImage(stockAtSector.logo)),
+            radius: 20,
+            child: SvgPicture.network(
+              stockAtSector.logo,
+              width: 50,
+            ),
+          ),
+          // CircleAvatar(
+          //   radius: 20,
+          //   backgroundColor: firstColor.withOpacity(0.1),
+          //   backgroundImage:
+          //       SvgPicture.network(stockAtSector.logo) as ImageProvider,
+          //   // SvgPicture.network('stockAtSector?.logo')
+          // ),
 
           // const Spacer(),
           const SizedBox(width: 16),
@@ -1481,27 +1593,92 @@ GestureDetector stockCardInnerSector(BuildContext context,
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               //stockAtSector.symbol
-              Text(stockAtSector.ramz,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyMedium!
-                      .copyWith(color: textColor, fontWeight: FontWeight.w500)),
+              Text(
+                stockAtSector.ramz,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context)
+                    .textTheme
+                    .titleSmall!
+                    .copyWith(color: kTextColor, fontWeight: FontWeight.w600),
+              ),
 
-              Text(trans(enWord: stockAtSector.name),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyMedium!
-                      .copyWith(color: textColor, fontWeight: FontWeight.w500)),
+              Text(
+                // trans(enWord: stockAtSector.name),
+                transs[stockAtSector.name].toString(),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context)
+                    .textTheme
+                    .titleLarge!
+                    .copyWith(color: textColor, fontWeight: FontWeight.w600),
+              ),
             ]),
           ),
           const SizedBox(width: 20),
-          Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-            Coin(ramz: stockAtSector.ramz, lastPrice: stockAtSector.price),
-          ]),
+
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Directionality(
+                  textDirection: ui.TextDirection.ltr,
+                  child: Text(stockAtSector.price,
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            color: firstColor,
+                          ))),
+              Directionality(
+                  textDirection: ui.TextDirection.ltr,
+                  child: Text(
+                    stockAtSector.change,
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        color: stockAtSector.change.contains('−')
+                            ? Colors.red
+                            : Colors.green),
+                  )),
+            ],
+          ),
+
+          /*Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+            Column(
+              children: [
+                Directionality(
+                  textDirection: ui.TextDirection.ltr,
+                  child: Row(
+                    children: [
+                      Text(stockAtSector.price.toString(),
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium!
+                              .copyWith(
+                                  color: firstColor,
+                                  fontWeight: FontWeight.w600)),
+                    ],
+                  ),
+                ),
+                Directionality(
+                  textDirection: ui.TextDirection.ltr,
+                  child: Text(
+                    stockAtSector.change
+                        // dataModel.stockMainApi!.incPercentage!
+                        // .split('')
+                        // .reversed
+                        // .join()
+                        .toString(),
+                    style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                          color: dataModel.stockMainApi!.incPercentage!
+                                  .contains('−')
+                              ? Colors.red
+                              : dataModel.stockMainApi!.incPercentage!
+                                      .contains('+')
+                                  ? Colors.green
+                                  : firstColor,
+                        ),
+                  ),
+                ),
+              ],
+            )
+            // Coin(ramz: stockAtSector.ramz, lastPrice: stockAtSector.price),
+          ]),*/
         ],
       ),
     ),
@@ -1532,7 +1709,7 @@ Container newsContainer(BuildContext context, {required List<News> news}) {
               style: Theme.of(context)
                   .textTheme
                   .headlineMedium!
-                  .copyWith(color: kPrimaryColor, height: 1.2),
+                  .copyWith(color: secondColor, height: 1.2),
             ),
             // const Icon(Icons.newspaper)
           ],
@@ -1568,7 +1745,7 @@ Container aboutContainer(BuildContext context, {required String about}) {
               style: Theme.of(context)
                   .textTheme
                   .headlineMedium!
-                  .copyWith(color: kPrimaryColor, height: 1.2),
+                  .copyWith(color: secondColor, height: 1.2),
             ),
             // const Icon(Icons.location_city)
           ],
@@ -1615,6 +1792,7 @@ CircleAvatar logoCircleAvatar({required String logo}) {
     backgroundImage: NetworkImage(logo),
   );
 }
+
 //*******************************************************************************
 //!~> Components................................................................
 
@@ -1792,9 +1970,210 @@ class detailsChart extends StatelessWidget {
           chartName: 'Divide',
           dataSourceLine: chartData),
       fallback: (context) => Container(
+          width: 100,
           color: Colors.white,
           child:
               Center(child: Center(child: Image.asset('assets/ripple.gif')))),
     );
   }
+}
+
+AppBar generalAppbar(BuildContext context) {
+  return AppBar(
+    backgroundColor: Colors.transparent,
+    elevation: 0,
+    leading: IconButton(
+        icon: const Icon(
+          Icons.arrow_back_ios,
+          color: firstColor,
+        ),
+        onPressed: () => Navigator.pop(context)),
+  );
+}
+
+//!~> carouselOptions(At ... )...............................................
+CarouselOptions carouselOptions(
+    {required dynamic Function(int, CarouselPageChangedReason)? onPageChanged,
+    required double height}) {
+  return CarouselOptions(
+      height: height,
+      aspectRatio: 16 / 9,
+      viewportFraction: 1,
+      initialPage: 0,
+      enableInfiniteScroll: true,
+      reverse: false,
+      autoPlay: true,
+      autoPlayInterval: const Duration(seconds: 3),
+      autoPlayAnimationDuration: const Duration(milliseconds: 800),
+      autoPlayCurve: Curves.fastOutSlowIn,
+      enlargeCenterPage: true,
+      enlargeFactor: 0.3,
+      scrollDirection: Axis.horizontal,
+      onPageChanged: onPageChanged
+      // (index, reason) {
+      //   setState(() {
+      //     current = index;
+      //   });
+      // },
+      );
+}
+
+//!~> welcomeBtns(At Welcome)...................................................
+ZoomIn welcomeBtns(BuildContext context) {
+  return ZoomIn(
+    duration: const Duration(milliseconds: 2000),
+    child: Container(
+      height: 50,
+      decoration: BoxDecoration(
+        color: const Color(0XFF0c1946), //Colors.grey[850],
+        borderRadius: BorderRadius.circular(18),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: CustomeTextButton(
+              bgColor: Colors.white,
+              buttonName: Constants.register,
+              onTap: () {
+                navigatorTo(
+                    context: context, routeName: AppRoutes.registerRoute);
+              },
+              textColor: Colors.black87,
+            ),
+          ),
+          Expanded(
+            child: CustomeTextButton(
+              bgColor: const Color(0XFF0c1946),
+              buttonName: Constants.loginBtn,
+              onTap: () {
+                navigatorTo(context: context, routeName: AppRoutes.loginRoute);
+              },
+              textColor: Colors.white,
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+//!~> carouselSildeWelcome(At Welcome).............................................................
+Column carouselSildeWelcome(BuildContext context, int itemIndex) {
+  return Column(
+    children: [
+      Center(
+        child: SizedBox(
+          // width: MediaQuery.of(context).size.width * 0.8,
+          child: ZoomIn(
+            duration: const Duration(milliseconds: 1000),
+            child:
+                // FadeInImage(placeholder: placeholder, image: image)
+                FadeInImage.assetNetwork(
+              height: SizeConfig.screenHeight! * 0.3,
+              width: double.infinity,
+              placeholder: 'assets/spinner.gif',
+              image:
+                  // 'https://cdn3d.iconscout.com/3d/premium/thumb/stock-analysis-5233674-4379884.png',
+
+                  Constants.carouselData[itemIndex]['image'],
+            ),
+          ),
+        ),
+      ),
+      SizedBox(height: SizeConfig.screenHeight! * Constants.sizedBox / 6),
+      ZoomIn(
+        duration: const Duration(milliseconds: 1500),
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width * 0.8,
+          child: Text(
+            Constants.carouselData[itemIndex]["text"],
+            style: kBodyText2,
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ),
+    ],
+  );
+}
+
+class PasswordFeild extends StatefulWidget {
+  TextEditingController? controller;
+  void Function(String)? onChanged;
+  PasswordFeild({super.key, required this.controller, required this.onChanged});
+
+  @override
+  State<PasswordFeild> createState() => _PasswordFeildState();
+}
+
+class _PasswordFeildState extends State<PasswordFeild> {
+  bool passwordVisible = true;
+  var passwordController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: double.infinity,
+      height: 60,
+      child: TextFormField(
+        controller: widget.controller,
+        onChanged: widget.onChanged,
+        cursorColor: kTextColor,
+        obscureText: passwordVisible,
+        validator: (val) => val!.isEmpty ? Constants.passwordFeildAlert : null,
+        decoration: InputDecoration(
+          // border: UnderlineInputBorder(),
+          hintText: Constants.passwordFeild,
+          // labelText: Constants.passwordFeild,
+          // helperText: "Password must contain special character",
+          // helperStyle: TextStyle(color: Colors.green),
+          suffixIcon: IconButton(
+            color: secondColor,
+            icon:
+                Icon(passwordVisible ? Icons.visibility : Icons.visibility_off),
+            onPressed: () {
+              setState(
+                () {
+                  passwordVisible = !passwordVisible;
+                },
+              );
+            },
+          ),
+          alignLabelWithHint: false,
+          // filled: true,
+          enabledBorder: OutlineInputBorder(
+            borderSide: const BorderSide(color: Colors.grey, width: 1.5),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: const BorderSide(color: ksecondaryColor, width: 1.5),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          errorBorder: UnderlineInputBorder(
+              borderSide: const BorderSide(color: Colors.redAccent, width: 1.5),
+              borderRadius: BorderRadius.circular(10)),
+          disabledBorder: InputBorder.none,
+          focusedErrorBorder: UnderlineInputBorder(
+              borderSide: const BorderSide(color: Colors.redAccent, width: 1.5),
+              borderRadius: BorderRadius.circular(10)),
+        ),
+        keyboardType: TextInputType.visiblePassword,
+        textInputAction: TextInputAction.done,
+      ),
+    );
+  }
+}
+
+AppBar customeAppbar(BuildContext context) {
+  return AppBar(
+    leading: IconButton(icon: const Icon(Icons.search), onPressed: () {}),
+    actions: [
+      TextButton(
+        onPressed: () => AuthHelper.instance.logout(),
+        child: Text(
+          "Logout",
+          style: Theme.of(context).textTheme.titleLarge,
+        ),
+      ),
+    ],
+  );
 }

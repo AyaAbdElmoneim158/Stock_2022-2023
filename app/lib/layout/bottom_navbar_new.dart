@@ -1,7 +1,11 @@
 import 'package:app/modules/Navbar_pages/details_new_page.dart';
+import 'package:app/modules/Navbar_pages/recommend_page.dart';
+
 import 'package:app/modules/Navbar_pages/explore_new.dart';
 import 'package:app/modules/Navbar_pages/home_page.dart';
 import 'package:app/modules/Navbar_pages/new_dash.dart';
+import 'package:app/modules/Navbar_pages/test_charts_api.dart';
+import 'package:app/modules/chatApp/chat_screen.dart';
 import 'package:app/modules/my_chart.dart';
 import 'package:app/modules/test_page.dart';
 import 'package:app/shared/components/constants.dart';
@@ -68,19 +72,20 @@ class _BottomNavbarNewState extends State<BottomNavbarNew> {
                 //   title: 'Test',
                 // ),
                 BarItem(
-                  icon: Icons.home,
+                  icon: Iconsax.home_2,
                   title: Constants.home,
                 ),
                 BarItem(
-                  icon: Icons.search_rounded,
+                  icon: Iconsax.search_normal,
                   title: Constants.search,
                 ),
                 BarItem(
-                  icon: Icons.bolt_rounded,
+                  icon: Iconsax.sidebar_top,
+                  // .bolt_rounded,
                   title: Constants.recommend,
                 ),
                 BarItem(
-                  icon: Icons.bookmark,
+                  icon: Iconsax.bookmark,
                   title: Constants.bookmark,
                 ),
               ],
@@ -95,19 +100,23 @@ class _BottomNavbarNewState extends State<BottomNavbarNew> {
 
 List<Widget> _listOfWidget = <Widget>[
   // TestPage(ramz: 'abuk'),
-
+  // ChatScreen(),
+  // TestChatsApi(),
   const HomePage(),
+  const ExploreNew(),
   // const NewDash(ramz: 'ABUK'),
   // const MyChart(),
   // const DetailNewsScreen(ramz: 'ABUK'),
-  const ExploreNew(),
-  Container(
-      alignment: Alignment.center,
-      child: const Center(
-        child: Text(
-          "❓",
-          style: TextStyle(fontSize: 80),
-        ),
-      )),
+
+  const RecommendPage(),
+  // Container(
+  //     alignment: Alignment.center,
+  //     child: const Center(
+  //       child: Text(
+  //         "❓",
+  //         style: TextStyle(fontSize: 80),
+  //       ),
+  //     )),
+
   const BookmarkPage(),
 ];

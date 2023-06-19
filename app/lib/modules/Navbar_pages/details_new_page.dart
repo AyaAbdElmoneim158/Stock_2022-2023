@@ -9,6 +9,7 @@
 // }
 //
 // import 'package:covid_19/constants.dart';
+import 'dart:ui' as ui;
 import 'package:app/models/sales_data_model.dart';
 import 'package:app/modules/Navbar_pages/my_chart.dart';
 import 'package:app/modules/Design/Details/componets_details.dart';
@@ -77,7 +78,7 @@ class DetailNewsScreen extends StatelessWidget {
                 ),
                 appBar: AppBar(
                   backgroundColor: kBackgroundColor,
-                  title: Text(details.ramz.toString()),
+                  // title: Text(details.ramz.toString()),
                   titleTextStyle: kBodyText2,
                   leading: IconButton(
                     onPressed: () => Navigator.pop(context),
@@ -302,17 +303,121 @@ class DetailNewsScreen extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              nameLogo(
-                                ramz: details.name.toString(),
-                                logo: details.logo.toString(),
-                                // 'https://s3-symbol-logo.tradingview.com/fawry-for-banking-technology-and-electronic-payment--big.svg'
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  // CircleAvatar(
+                                  //     radius: 28,
+                                  //     backgroundColor:
+                                  //         kPrimaryColor.withOpacity(0.1),
+                                  //     backgroundImage: NetworkImage(
+                                  //         details.logo.toString())),
+                                  CircleAvatar(
+                                    radius: 20,
+                                    child: SvgPicture.network(
+                                      details.logo.toString(),
+                                      width: 50,
+                                    ),
+                                  ),
+                                  // const Spacer(),
+                                  const SizedBox(width: 16),
+                                  Expanded(
+                                    child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          //stockAtSector.symbol
+
+                                          Text(details.ramz.toString(),
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .titleSmall!
+                                                  .copyWith(
+                                                      color: kTextLightColor,
+                                                      fontWeight:
+                                                          FontWeight.w400)),
+                                          Text(details.name.toString(),
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .titleMedium!
+                                                  .copyWith(
+                                                      color: firstColor,
+                                                      fontWeight:
+                                                          FontWeight.w500)),
+                                        ]),
+                                  ),
+                                ],
                               ),
+                              const SizedBox(height: 32),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text(" EGP ",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleLarge!
+                                              .copyWith(
+                                                  color: firstColor,
+                                                  fontWeight: FontWeight.w600)),
+                                      Directionality(
+                                        textDirection: ui.TextDirection.ltr,
+                                        child: Text(
+                                            details.stockMainApi!.stockPrice
+                                                .toString(),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .headlineSmall!
+                                                .copyWith(
+                                                    color: firstColor,
+                                                    fontWeight:
+                                                        FontWeight.w600)),
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Text(" % ",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodySmall!
+                                              .copyWith(
+                                                  color: firstColor,
+                                                  fontWeight: FontWeight.w600)),
+                                      Directionality(
+                                        textDirection: ui.TextDirection.ltr,
+                                        child: Text(
+                                          details.stockMainApi!.stockMRate
+                                              .toString(),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodySmall!
+                                              .copyWith(
+                                                  fontWeight: FontWeight.w500,
+                                                  color: details.stockMainApi!
+                                                          .stockMRate
+                                                          .toString()
+                                                          .contains('−')
+                                                      ? Colors.red
+                                                      : details.stockMainApi!
+                                                              .stockMRate
+                                                              .toString()
+                                                              .contains('+')
+                                                          ? Colors.green
+                                                          : firstColor),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+
                               const SizedBox(height: 15),
                               // Text(details.stockMainApi!.stockPrice.toString()),
                               // Text(details.stockMainApi!.incPercentage
                               //     .toString()),
 
-                              StockPrice(
+                              /*StockPrice(
                                   price: details.stockMainApi!.stockPrice
                                       // double.parse(details
                                       //         .stockMainApi!.stockPrice
@@ -321,7 +426,7 @@ class DetailNewsScreen extends StatelessWidget {
                                       .toString(),
                                   change: details.stockMainApi!.incPercentage
                                       .toString()),
-                              const SizedBox(height: 15),
+                              const SizedBox(height: 15),*/
                               // const DetailsChart(),
                               TestPage(ramz: details.ramz.toString()),
                               const SizedBox(height: 15),
@@ -443,6 +548,7 @@ class DetailNewsScreen extends StatelessWidget {
                 ),
               ),
               fallback: (context) => Container(
+                  width: 50,
                   color: Colors.white,
                   child: Center(
                       child: Center(child: Image.asset('assets/ripple.gif')))),

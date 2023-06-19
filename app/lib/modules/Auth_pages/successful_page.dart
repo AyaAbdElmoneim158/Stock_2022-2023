@@ -1,4 +1,5 @@
 import 'package:app/shared/components/components.dart';
+import 'package:app/shared/components/constants.dart';
 import 'package:app/shared/router/routes.dart';
 import 'package:app/shared/styles/colors.dart';
 import 'package:app/shared/styles/size_config.dart';
@@ -26,12 +27,12 @@ class SuccessfulLogin extends StatelessWidget {
             width: double.infinity,
           ),
           SizedBox(height: SizeConfig.screenHeight! * 0.08),
-          const Text(
-            "Login Success",
-            style: TextStyle(
+          Text(
+            Constants.loginSuccess,
+            style: const TextStyle(
               fontSize: 30,
               fontWeight: FontWeight.bold,
-              color: kPrimaryColor,
+              color: kTextColor,
             ),
           ),
           const Spacer(),
@@ -39,7 +40,7 @@ class SuccessfulLogin extends StatelessWidget {
             width: SizeConfig.screenWidth! * 0.6,
             child: CustomeTextButton(
               bgColor: firstColor,
-              buttonName: 'Back to home',
+              buttonName: Constants.backHome,
               onTap: () => Navigator.pushNamed(context, AppRoutes.navbarRoute),
               textColor: Colors.white,
             ),

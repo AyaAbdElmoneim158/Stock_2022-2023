@@ -23,6 +23,7 @@ class HomePage extends StatelessWidget {
         builder: (context, state) {
           final appCubit = AppCubit.get(context);
           return Scaffold(
+            // appBar: customeAppbar(context),
             // floatingActionButton: FloatingActionButton.small(
             //   child: const Icon(Icons.logout),
             //   onPressed: () => appCubit.fetchStockTimeline(),
@@ -51,7 +52,7 @@ class HomePage extends StatelessWidget {
                                         Radius.circular(size.height * 0.04)),
                               ),
                               child: Text(
-                                " الأسهم الخاصة بك التالية",
+                                " الأسهم الخاصة بك ",
                                 style: Theme.of(context)
                                     .textTheme
                                     .headlineSmall!
@@ -183,7 +184,7 @@ class HomePage extends StatelessWidget {
                               // controller: scrollController,
                               separatorBuilder: (context, index) => Padding(
                                 padding: const EdgeInsets.only(
-                                    top: 15, bottom: 15, left: 70, right: 15),
+                                    top: 15, bottom: 15, left: 15, right: 70),
                                 child: Divider(
                                   height: 1.6,
                                   thickness: 1.5,
@@ -228,23 +229,12 @@ class HomePage extends StatelessWidget {
                                 child: Column(
                                     // mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      const SizedBox(height: 20),
-                                      // const CircleAvatar(
-                                      //   radius: 90.0, backgroundColor: Colors.transparent,backgroundImage:
-                                      //NetworkImage(
-                                      // "https://img.freepik.com/premium-vector/like-thumb-up-symbol-finger-up-vector-stock-illustration_100456-10995.jpg"
-                                      // "https://cdn3d.iconscout.com/3d/premium/thumb/hands-with-heart-4883949-4073132.png"
-                                      // "https://cdn3d.iconscout.com/3d/premium/thumb/stock-analytics-5233669-4379879.png"
-                                      // ), ),
+                                      // const SizedBox(height: 20),
                                       Image.network(
                                         "https://cdn3d.iconscout.com/3d/free/thumb/stock-market-4756743-3960608.png",
-
-                                        // 'https://cdn-icons-png.flaticon.com/128/3208/3208709.png',
-                                        // 'https://cdn-icons-png.flaticon.com/128/7222/7222088.png',
-                                        // 'https://cdn-icons-png.flaticon.com/128/2899/2899445.png',
-                                        width: 150, fit: BoxFit.cover,
+                                        width: 130,
+                                        fit: BoxFit.cover,
                                       ),
-
                                       const SizedBox(height: 5),
                                       InkWell(
                                           onTap:
@@ -253,42 +243,16 @@ class HomePage extends StatelessWidget {
                                             "اختر الأسهم الخاص بك التي تريد متابعته",
                                             style: Theme.of(context)
                                                 .textTheme
-                                                .headlineSmall,
+                                                .titleSmall,
                                           ))
                                     ]),
                               ),
                             );
-
-                            /*Container(
-                              color: Colors.white,
-                              child: Column(children: [
-                                const SizedBox(height: 60),
-                                // Videop
-                                const CircleAvatar(
-                                  radius: 90.0,
-                                  backgroundImage: NetworkImage(
-                                    "https://cdn3d.iconscout.com/3d/free/thumb/stock-market-4756743-3960608.png?f=avif",
-                                    // "https://cdnl.iconscout.com/lottie/premium/thumb/stock-growth-7470720-6137749.mp4"
-                                    // 'https://cdn3d.iconscout.com/3d/premium/thumb/stock-exchange-4843322-4039643.png'
-                                  ),
-                                  backgroundColor: Colors.transparent,
-                                ),
-                                const SizedBox(height: 5),
-                                InkWell(
-                                    onTap:
-                                        () {}, //=> appCubit.changeCurrentIndex(2),//{}, //=> Navigator.pushNamed(context, AppRoutes.arrowsSectorRoute),
-                                    child: Text(
-                                      "اختر الأسهم الخاص بك التي تريد متابعته",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headlineSmall,
-                                    ))
-                              ]),
-                            );*/
                           },
                         );
                       } else {
                         return Container(
+                            width: 50,
                             color: Colors.white,
                             child: Center(
                                 child: Image.asset('assets/ripple.gif')));
