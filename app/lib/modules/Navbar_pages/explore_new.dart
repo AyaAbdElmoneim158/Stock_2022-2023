@@ -127,9 +127,9 @@ class ExploreUp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(children: [
       const SizedBox(height: 32),
-      SearchBox(
+      /*SearchBox(
         onChanged: (val) {},
-      ),
+      ),*/
       CarouselSlider.builder(
         options: CarouselOptions(
           height: SizeConfig.screenHeight! * 0.3,

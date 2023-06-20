@@ -108,26 +108,27 @@ class NewDash extends StatelessWidget {
                       children: [
                         //! Container_4 (AllCharts) ********************************************
                         incomeBarChartData1.isEmpty
-                            ? Container()
+                            ? noData()
                             : columnsChart(
                                 // incomeStatementData
                                 groupsData: incomeBarChartData1,
                                 chartName: 'بيانات الدخل'),
-                        incomeBarChartData1.isEmpty
-                            ? Container()
+
+                        /* incomeBarChartData1.isEmpty
+                            ? noData()
                             : columnsChart(
                                 //  balanceSheetData
                                 groupsData: balanceSheetBarChartData1,
                                 chartName: 'بَيَانُ المُوَازَنَة'),
                         incomeBarChartData1.isEmpty
-                            ? Container()
+                            ? noData()
                             : columnsChartWithLine(
                                 //  divideData
                                 groupsData: divideBarChartData1,
                                 chartName: 'الإيرادات',
                                 dataSourceLine: appCubit.divideData2),
                         incomeBarChartData1.isEmpty
-                            ? Container()
+                            ? noData()
                             : columnsChart(
                                 //revenueData1
                                 // revenueBarChartData1
@@ -136,11 +137,11 @@ class NewDash extends StatelessWidget {
                                     revenueData,
                                 chartName: 'أرباح'),
                         incomeBarChartData1.isEmpty
-                            ? Container()
+                            ? noData()
                             : columnsChart(
                                 // earningBarChartData1
                                 groupsData: earningData,
-                                chartName: 'العوائد'),
+                                chartName: 'العوائد'),*/
                       ],
                     ),
                   ),
@@ -154,6 +155,19 @@ class NewDash extends StatelessWidget {
         },
       ),
     );
+  }
+
+  Center noData() {
+    return Center(
+        child: Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Image.network(
+            'https://cdn-icons-png.flaticon.com/128/6598/6598519.png'),
+        const SizedBox(height: 16),
+        const Text("no data"),
+      ],
+    ));
   }
 }
 
@@ -218,8 +232,10 @@ Column columnsChart(
                                     ? const Color(0XFFfbc02d)
                                     : const Color(0XFFe0e3eb)),
         ],
-        primaryXAxis: CategoryAxis(isVisible: false),
+        primaryXAxis:
+            CategoryAxis(isVisible: false, placeLabelsNearAxisLine: false),
         primaryYAxis: NumericAxis(
+            placeLabelsNearAxisLine: false,
             isVisible: false,
             edgeLabelPlacement: EdgeLabelPlacement.shift,
             numberFormat:

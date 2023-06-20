@@ -214,6 +214,61 @@ class _CoinState extends State<Coin> {
                 return const Text("Error...");
               } else {
                 return Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Row(
+                      children: [
+                        Text(" EGP ",
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge!
+                                .copyWith(
+                                    color: firstColor,
+                                    fontWeight: FontWeight.w600)),
+                        Directionality(
+                          textDirection: ui.TextDirection.ltr,
+                          child: Text(
+                              dataModel.stockMainApi!.stockPrice.toString(),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headlineSmall!
+                                  .copyWith(
+                                      color: firstColor,
+                                      fontWeight: FontWeight.w600)),
+                        ),
+                        const SizedBox(width: 8),
+                        Text(" % ",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall!
+                                .copyWith(
+                                    color: firstColor,
+                                    fontWeight: FontWeight.w600)),
+                        Directionality(
+                          textDirection: ui.TextDirection.ltr,
+                          child: Text(
+                            dataModel.stockMainApi!.stockMRate.toString(),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall!
+                                .copyWith(
+                                    fontWeight: FontWeight.w500,
+                                    color: dataModel.stockMainApi!.stockMRate
+                                            .toString()
+                                            .contains('−')
+                                        ? Colors.red
+                                        : dataModel.stockMainApi!.stockMRate
+                                                .toString()
+                                                .contains('+')
+                                            ? Colors.green
+                                            : firstColor),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                );
+                /*Column(
                   children: [
 // import 'dart:ui' as ui;
                     //
@@ -267,7 +322,9 @@ class _CoinState extends State<Coin> {
                       ),
                     ),
                   ],
-                );
+                )*/
+
+                ;
 
                 // Price(snapshot.data!, context);
               }

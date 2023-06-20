@@ -664,30 +664,72 @@ class AppCubit extends Cubit<AppStates> {
   void fetchChartsData({required String ramz}) {
     emit(FetchIncomeChartLoadingState());
     DioHelper.getData(path: '/', queryParameters: {
-      "stock": "ABUK-1"
-      // "$ramz-1"
+      "stock": "$ramz-1"
+      // "ABUK-1"
     }).then((value) {
       // debugPrint(value.data.runtimeType.toString());debugPrint(jsonDecode(value.data).runtimeType.toString());
+      debugPrint("here1................................................");
 
-      var allData = StockChartModel.fromJson(jsonDecode(value.data));
+      var allData = StockChartModel2.fromJson(jsonDecode(value.data));
       // debugPrint(allData.incomeStatement!.header.toString());
       // final endIndexIncomeStatementtotalRevenue =allData.incomeStatement!.totalRevenue![i].indexOf("B", 0);
 //? Fetch Income Statement ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      //  'Total revenue', 'Gross profit','Operating income', 'Pretax income', 'Net income'
+      debugPrint("here2................................................");
+
+      debugPrint("1................................................");
+      List<double> categoriesTotalRevenue =
+          (allData.incomeStatement!.totalRevenue as List)
+              .map((item) => item as double)
+              .toList();
+      debugPrint("2................................................");
+
+      List<double> categoriesGrossProfit =
+          (allData.incomeStatement!.grossProfit as List)
+              .map((item) => item as double)
+              .toList();
+      List<double> categoriesOperatingIncome =
+          (allData.incomeStatement!.operatingIncome as List)
+              .map((item) => item as double)
+              .toList();
+      List<double> categoriesPretaxIncome =
+          (allData.incomeStatement!.pretaxIncome as List)
+              .map((item) => item as double)
+              .toList();
+      List<double> categoriesNetIncome =
+          (allData.incomeStatement!.netIncome as List)
+              .map((item) => item as double)
+              .toList();
+
+      debugPrint(
+          "categoriesTotalRevenue After :: $categoriesTotalRevenue :: ${categoriesTotalRevenue.runtimeType}, ${categoriesTotalRevenue.length}");
+      debugPrint(
+          "categoriesGrossProfit After :: $categoriesGrossProfit :: ${categoriesGrossProfit.runtimeType}, ${categoriesGrossProfit.length}");
+      debugPrint(
+          "categoriesPretaxIncome After ::$categoriesPretaxIncome :: ${categoriesPretaxIncome.runtimeType}, ${categoriesPretaxIncome.length}");
+      debugPrint(
+          "categoriesOperatingIncome After :: $categoriesOperatingIncome :: ${categoriesOperatingIncome.runtimeType}, ${categoriesOperatingIncome.length}");
+      debugPrint(
+          "categoriesNetIncome After :: $categoriesNetIncome :: ${categoriesNetIncome.runtimeType}, ${categoriesNetIncome.length}");
+
+      for (int i = 0; i < categoriesTotalRevenue.length; i++) {
+        debugPrint(
+            "${categoriesTotalRevenue[i]}: ${categoriesGrossProfit[i]}: ${categoriesPretaxIncome[i]}: ${categoriesOperatingIncome[i]}: ${categoriesNetIncome[i]}:");
+      }
+
+      ///--------------------------------------------------------------
       for (int i = 0; i < allData.incomeStatement!.header!.length - 1; i++) {
         // Fetch arrays of data ...............................................................................................................................
-        var valTotalRevenue = double.parse(
-                allData.incomeStatement!.totalRevenue![i].substring(0,
-                    allData.incomeStatement!.totalRevenue![i].indexOf("B", 0))),
-            valGrossProfit = double.parse(allData.incomeStatement!.grossProfit![i].substring(
-                0, allData.incomeStatement!.grossProfit![i].indexOf("B", 0))),
-            valOperatingIncome = double.parse(
-                allData.incomeStatement!.operatingIncome![i].substring(
-                    0,
-                    allData.incomeStatement!.operatingIncome![i]
-                        .indexOf("B", 0))),
-            valPretaxIncome =
-                double.parse(allData.incomeStatement!.pretaxIncome![i].substring(0, allData.incomeStatement!.pretaxIncome![i].indexOf("B", 0))),
-            valNetIncome = double.parse(allData.incomeStatement!.netIncome![i].substring(0, allData.incomeStatement!.netIncome![i].indexOf("B", 0)));
+        var valTotalRevenue = categoriesTotalRevenue[
+                i], //allData.incomeStatement!.totalRevenue![i],
+            valGrossProfit = categoriesGrossProfit[
+                i], //allData.incomeStatement!.grossProfit![i],
+            valOperatingIncome = categoriesOperatingIncome[
+                i], //allData.incomeStatement!.operatingIncome![i],
+            valPretaxIncome = categoriesPretaxIncome[
+                i], //allData.incomeStatement!.pretaxIncome![i],
+            valNetIncome = categoriesNetIncome[
+                i]; //allData.incomeStatement!.netIncome![i];
         // data arrays of data to SalesData...............................................................................................................................
         incomeSalesData1.add(
             SalesData(allData.incomeStatement!.header![i], valTotalRevenue));
@@ -713,7 +755,7 @@ class AppCubit extends Cubit<AppStates> {
       debugPrint("Income Statement.... Done!");
 //? Fetch BalanceSheet ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-      for (int i = 0; i < allData.balanceSheet!.header!.length; i++) {
+      /*for (int i = 0; i < allData.balanceSheet!.header!.length; i++) {
         // final endIndexBalanceSheettotalAssets =allData.balanceSheet!.totalAssets![i].indexOf("B", 0);
         // Fetch arrays of data ...............................................................................................................................
         var valTotalAssets = double.parse(allData.balanceSheet!.totalAssets![i]
@@ -735,11 +777,11 @@ class AppCubit extends Cubit<AppStates> {
         BarChart1('Total assets', balanceSheetSalesData1),
         BarChart1('Total liabilities', balanceSheetSalesData2),
       ];
-      debugPrint("BalanceSheet.... Done!");
+      debugPrint("BalanceSheet.... Done!");*/
 
 //? Fetch dividends ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-      for (int i = 0; i < allData.dividends!.header!.length; i++) {
+      /*for (int i = 0; i < allData.dividends!.header!.length; i++) {
         // Fetch arrays of data ...............................................................................................................................
         var valDividensPerShare =
                 double.parse(allData.dividends!.dividensPerShare![i]),
@@ -757,35 +799,35 @@ class AppCubit extends Cubit<AppStates> {
         BarChart1('Dividends per share', divideData1),
         // BarChart1('Total liabilities', divideData2),
       ];
-      debugPrint("dividends.... Done!");
+      debugPrint("dividends.... Done!");*/
 
 //? Fetch revenue ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       // [2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026]
       // [7.73B, 8.57B, 7.70B, 8.52B, 16.88B, 22.50B, 20.31B, 20.77B, 23.68B]
       // [7.55B, 8.59B,7.88B, 8.84B, 16.33B, —, —, —, —]
 
-      debugPrint(allData.revenue!.headerR.runtimeType.toString());
-      debugPrint(allData.revenue!.estimateR.runtimeType.toString());
-      debugPrint(allData.revenue!.reportedR.toString().runtimeType.toString());
-      List<String> strlist = allData.revenue!.reportedR!.cast<String>();
-      debugPrint(strlist.runtimeType.toString());
-      List<String> categories = (allData.revenue!.reportedR as List)
-          .map((item) => item as String)
-          .toList();
-      debugPrint(categories.runtimeType.toString());
+      // debugPrint(allData.revenue!.headerR.runtimeType.toString());
+      // debugPrint(allData.revenue!.estimateR.runtimeType.toString());
+      // debugPrint(allData.revenue!.reportedR.toString().runtimeType.toString());
+      // List<String> strlist = allData.revenue!.reportedR!.cast<String>();
+      // debugPrint(strlist.runtimeType.toString());
+      // List<String> categories = (allData.revenue!.reportedR as List)
+      //     .map((item) => item as String)
+      //     .toList();
+      // debugPrint(categories.runtimeType.toString());
 
       // for (var element in allData.revenue.reportedR) {
 
       // }
       // List<String> rev = allData.revenue!.estimateR; //.cast<String>();;
       // jsonToList(
-      List<String>? headerR = allData.revenue!.headerR;
-      // List<double>? estimateR = editList(list: allData.revenue!.estimateR);
-      debugPrint("1----");
-      List<double> reportedR1 = editList(categories);
-      // [7.73, 8.57,7.70,8.52,16.88,22.50,20.31,20.77,23.68 ];
+      // List<String>? headerR = allData.revenue!.headerR;
+      // // List<double>? estimateR = editList(list: allData.revenue!.estimateR);
+      // debugPrint("1----");
+      // List<double> reportedR1 = editList(categories);
+      // // [7.73, 8.57,7.70,8.52,16.88,22.50,20.31,20.77,23.68 ];
 
-      debugPrint("2----");
+      // debugPrint("2----");
 // if (element.contains("B")) {
 //       var ele = element.substring(0, element.indexOf("B", 0));
 //       print(to_double(ele));
@@ -803,37 +845,37 @@ class AppCubit extends Cubit<AppStates> {
       //     .toString()) as String?);
 // [2.27B,2.35B,2.72B,-,-,5.32B,-,-,5.31B,-]
 // [2.27B,2.54B,2.65B,3.59B,5.80B,4.29B,4.79B,6.44B,—, —]
-      for (int i = 0; i < 5; i++) {
-        // List<String>? headerR = allData.revenue!.headerR;
-        // debugPrint(headerR.toString());
-        // debugPrint(allData.revenue!.reportedR![i]
-        //     .substring(0, allData.revenue!.reportedR![i].indexOf("B", 0)));
-        // // debugPrint(reportedR.toString());
-        // var reportedR = double.parse(allData.revenue!.reportedR![i]
-        //     .substring(0, allData.revenue!.reportedR![i].indexOf("B", 0))
-        //     .replaceAll("—", '0'));
-        // debugPrint(reportedR.toString());
+      // for (int i = 0; i < 5; i++) {
+      // List<String>? headerR = allData.revenue!.headerR;
+      // debugPrint(headerR.toString());
+      // debugPrint(allData.revenue!.reportedR![i]
+      //     .substring(0, allData.revenue!.reportedR![i].indexOf("B", 0)));
+      // // debugPrint(reportedR.toString());
+      // var reportedR = double.parse(allData.revenue!.reportedR![i]
+      //     .substring(0, allData.revenue!.reportedR![i].indexOf("B", 0))
+      //     .replaceAll("—", '0'));
+      // debugPrint(reportedR.toString());
 
-        // var estimateR = double.parse(allData.revenue!.estimateR![i]
-        //     .substring(0, allData.revenue!.estimateR![i].indexOf("B", 0))
-        //     .replaceAll("—", '0'));
-        // debugPrint(estimateR.toString());
+      // var estimateR = double.parse(allData.revenue!.estimateR![i]
+      //     .substring(0, allData.revenue!.estimateR![i].indexOf("B", 0))
+      //     .replaceAll("—", '0'));
+      // debugPrint(estimateR.toString());
 
-        //* Fetch arrays of data ...............................................................................................................................
-        // var valReportedR = reportedR[i], valEstimateR = estimateR[i];
-        // debugPrint('${allData.revenue!.estimateR![i]} : ${allData.revenue!.estimateR![i]}');
+      //* Fetch arrays of data ...............................................................................................................................
+      // var valReportedR = reportedR[i], valEstimateR = estimateR[i];
+      // debugPrint('${allData.revenue!.estimateR![i]} : ${allData.revenue!.estimateR![i]}');
 
-        //* data arrays of data to SalesData...............................................................................................................................
-        revenueData1.add(SalesData(headerR![i], reportedR1[i]));
-        // revenueData2.add(SalesData(headerR![i], reportedR[i]));
-      }
+      //* data arrays of data to SalesData...............................................................................................................................
+      // revenueData1.add(SalesData(headerR![i], reportedR1[i]));
+      // revenueData2.add(SalesData(headerR![i], reportedR[i]));
+      // }
       // Add to group...............................................................................................................................
-      revenueBarChartData1 = [
-        BarChart1('Reported', revenueData1),
-        BarChart1('Estimate', revenueData2),
-      ];
+      // revenueBarChartData1 = [
+      // BarChart1('Reported', revenueData1),
+      // BarChart1('Estimate', revenueData2),
+      // ];
 
-      debugPrint("revenue.... Done!");
+      // debugPrint("revenue.... Done!");
 
 //? Fetch estimateE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -945,7 +987,10 @@ class AppCubit extends Cubit<AppStates> {
   List<SalesData> chartData2 = [];
   List<dynamic> dataPridiction = [];
   void fetchPridictionData({required String ramz}) {
-    days = getDaysInBetween(DateTime.now(), whatDate);
+    // DateTime whatDate = DateTime.now().add(const Duration(days: 8));
+
+    days =
+        getDaysInBetween(DateTime.now().add(const Duration(days: 1)), whatDate);
     // var data = [];
 
     chartData2 = [];
@@ -966,7 +1011,8 @@ class AppCubit extends Cubit<AppStates> {
       // DateTime endDate = DateTime(2023, 6, 20);
 //DateFormat.yMMMEd().format(appCubit.whatDate)
       // List<DateTime> days = getDaysInBetween(DateTime.now(), whatDate);/
-      days = getDaysInBetween(DateTime.now(), whatDate);
+      days = getDaysInBetween(
+          DateTime.now().add(const Duration(days: 1)), whatDate);
       for (int i = 1; i < days.length; i++) {
         chartData2.add(
             SalesData(DateFormat.yMMMEd().format(days[i]), dataPridiction[i]));

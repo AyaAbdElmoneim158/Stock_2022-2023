@@ -14,6 +14,7 @@ import 'package:app/models/sales_data_model.dart';
 import 'package:app/modules/Navbar_pages/my_chart.dart';
 import 'package:app/modules/Design/Details/componets_details.dart';
 import 'package:app/models/stock_model.dart';
+import 'package:app/modules/Navbar_pages/real_time.dart';
 import 'package:app/modules/test_page.dart';
 import 'package:app/shared/components/components.dart';
 import 'package:app/shared/components/constants.dart';
@@ -351,7 +352,8 @@ class DetailNewsScreen extends StatelessWidget {
                                 ],
                               ),
                               const SizedBox(height: 32),
-                              Column(
+                              // toDo-> Aya ..............................
+                              /*Column(
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   Row(
@@ -410,8 +412,12 @@ class DetailNewsScreen extends StatelessWidget {
                                     ],
                                   ),
                                 ],
+                              ),*/
+                              Coin(
+                                ramz: details.ramz.toString(),
+                                lastPrice:
+                                    details.stockMainApi!.stockPrice.toString(),
                               ),
-
                               const SizedBox(height: 15),
                               // Text(details.stockMainApi!.stockPrice.toString()),
                               // Text(details.stockMainApi!.incPercentage

@@ -1239,7 +1239,7 @@ class RecommendDataModel {
   });
 }
 
-List<RecommendDataModel> recommendDataList = [
+List<RecommendDataModel> recommendDataList1 = [
   RecommendDataModel(
       name: "مصر للفنادق ",
       ramz: "MHOT",
@@ -1291,6 +1291,68 @@ List<RecommendDataModel> recommendDataList = [
     name: "مصر للزيوت والصابون ",
     ramz: "MOSC",
     logo: "https://s3-symbol-logo.tradingview.com/misr-oils-and-soap--big.svg",
+  ),
+];
+
+/// ~> IRAX, MIPH, MFPC,WCDF, UEFM, EDFM, AXPH, ORAS, GSSC, OCPH
+List<RecommendDataModel> recommendDataList2 = [
+  RecommendDataModel(
+    name: "العز الدخيلة للصلب - الاسكندرية ",
+    ramz: "IRAX",
+    logo: "https://s3-symbol-logo.tradingview.com/ezz-steel--big.svg",
+  ),
+  RecommendDataModel(
+    name: "مينا فارم للأدوية والصناعات الكيماوية ",
+    ramz: "MIPH",
+    logo:
+        "https://s3-symbol-logo.tradingview.com/minapharm-pharmaceuticals--big.svg",
+  ),
+  RecommendDataModel(
+    name: "مصر لإنتاج الأسمدة ش م م ",
+    ramz: "MFPC",
+    logo:
+        "https://s3-symbol-logo.tradingview.com/misr-fretilizers-production-company-mopco--big.svg",
+  ),
+  RecommendDataModel(
+    name: "مطاحن وسط وغرب الدلتا ",
+    ramz: "WCDF",
+    logo:
+        "https://s3-symbol-logo.tradingview.com/middle-and-west-delta-flour-mills--big.svg",
+  ),
+  RecommendDataModel(
+    name: "مطاحن مصر العليا ",
+    ramz: "UEFM",
+    logo:
+        "https://s3-symbol-logo.tradingview.com/upper-egypt-flour-mills--big.svg",
+  ),
+  RecommendDataModel(
+    name: "مطاحن شرق الدلتا ",
+    ramz: "EDFM",
+    logo:
+        "https://s3-symbol-logo.tradingview.com/east-delta-flour-mills--big.svg",
+  ),
+  RecommendDataModel(
+    name: "الاسكندرية للادوية والصناعات الكيماوية ",
+    ramz: "AXPH",
+    logo:
+        "https://s3-symbol-logo.tradingview.com/alexandria-pharmaceuticals--big.svg",
+  ),
+  RecommendDataModel(
+    name: "أوراسكوم كونستراكشون بي ال سي ",
+    ramz: "ORAS",
+    logo:
+        "https://s3-symbol-logo.tradingview.com/orascom-construction-plc--big.svg",
+  ),
+  RecommendDataModel(
+    name: "العامة للصوامع والتخزين ",
+    ramz: "GSSC",
+    logo:
+        "https://s3-symbol-logo.tradingview.com/general-silos-and-storage--big.svg",
+  ),
+  RecommendDataModel(
+    name: "اكتوبر فارما ش م م ",
+    ramz: "OCPH",
+    logo: "https://s3-symbol-logo.tradingview.com/october-pharma--big.svg",
   ),
 ];
 

@@ -49,7 +49,7 @@ class RecommendPage extends StatelessWidget {
                               onTap: () {
                                 Navigator.pushNamed(
                                     context, AppRoutes.detailsStockRoute,
-                                    arguments: recommendDataList[index].ramz);
+                                    arguments: recommendDataList2[index].ramz);
                               },
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,7 +63,7 @@ class RecommendPage extends StatelessWidget {
                                   CircleAvatar(
                                     radius: 20,
                                     child: SvgPicture.network(
-                                      recommendDataList[index].logo.toString(),
+                                      recommendDataList2[index].logo.toString(),
                                       width: 50,
                                     ),
                                   ),
@@ -75,7 +75,7 @@ class RecommendPage extends StatelessWidget {
                                             CrossAxisAlignment.start,
                                         children: [
                                           //stockAtSector.symbol
-                                          Text(recommendDataList[index].name,
+                                          Text(recommendDataList2[index].name,
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
                                               style: Theme.of(context)
@@ -85,7 +85,7 @@ class RecommendPage extends StatelessWidget {
                                                       color: textColor,
                                                       fontWeight:
                                                           FontWeight.w600)),
-                                          Text(recommendDataList[index].ramz,
+                                          Text(recommendDataList2[index].ramz,
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .titleSmall!
@@ -113,7 +113,7 @@ class RecommendPage extends StatelessWidget {
                               color: Colors.grey.shade200,
                             ),
                           ),
-                      itemCount: recommendDataList.length)
+                      itemCount: recommendDataList2.length)
                   /*  ConditionalBuilder(
                   condition: state is! FetchDetailsLoadingState,
                   builder: (context) => ListView.separated(

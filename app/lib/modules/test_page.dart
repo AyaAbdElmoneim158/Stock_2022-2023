@@ -93,7 +93,9 @@ class _TestPageState extends State<TestPage> {
                                 appCubit.whatDate = (await showDatePicker(
                                     context: context,
                                     initialDate: appCubit.whatDate,
-                                    firstDate: DateTime(2022),
+                                    firstDate: DateTime.now().add(
+                                        const Duration(
+                                            days: 1)), //DateTime(2022),
                                     lastDate: DateTime(2050)))!;
                                 appCubit.fetchPridictionData(ramz: widget.ramz);
                                 ////!

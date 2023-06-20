@@ -34,11 +34,30 @@ class TestChatsApi extends StatelessWidget {
                       "stock": "ABUK-1"
                       // "$ramz-1"
                     }).then((value) {
-                      // debugPrint(value.runtimeType.toString());
+                      debugPrint(value.runtimeType.toString());
                       // debugPrint(value.data.runtimeType.toString());
-                      var allData =
-                          StockChartModel.fromJson(jsonDecode(value.data));
-                      debugPrint(allData.revenue?.reportedR.toString());
+                      // var allData =
+                      // StockChartModel.fromJson(jsonDecode(value.data));
+
+                      //  'Total revenue', 'Gross profit','Operating income', 'Pretax income', 'Net income'
+                      /* debugPrint(
+                          "${allData.incomeStatement!.totalRevenue.runtimeType}");
+                      debugPrint(
+                          "${allData.incomeStatement!.grossProfit.runtimeType}");
+                      debugPrint(
+                          "${allData.incomeStatement!.operatingIncome.runtimeType}");
+                      debugPrint(
+                          "${allData.incomeStatement!.pretaxIncome.runtimeType}");*/
+                      /*  debugPrint(
+                          "netIncome before :: ${allData.incomeStatement!.netIncome.runtimeType}");
+
+                      List<double> categories =
+                          (allData.incomeStatement!.netIncome as List)
+                              .map((item) => item as double)
+                              .toList();
+                      debugPrint(
+                          "netIncome After :: ${categories.runtimeType}");*/
+                      /*debugPrint(allData.revenue?.reportedR.toString());
                       debugPrint(allData.revenue?.headerR.toString());
 
                       debugPrint(allData.earning?.reportedE.toString());
@@ -77,7 +96,7 @@ class TestChatsApi extends StatelessWidget {
                       debugPrint("2");
 
                       debugPrint("listDouble:: ${listDoubleR.toString()}");
-                      debugPrint("3");
+                      debugPrint("3");*/
                     }).catchError((err) {
                       debugPrint(err.toString());
                     });

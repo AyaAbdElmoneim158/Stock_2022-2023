@@ -101,10 +101,11 @@ class _BottomNavbarNewState extends State<BottomNavbarNew> {
 List<Widget> _listOfWidget = <Widget>[
   // TestPage(ramz: 'abuk'),
   // ChatScreen(),
-  // TestChatsApi(),
-  const HomePage(),
-  const ExploreNew(),
-  // const NewDash(ramz: 'ABUK'),
+  const NewDash(ramz: 'irax'), //irax, fwry
+  const TestChatsApi(),
+  // const HomePage(),
+  // const ExploreNew(),
+
   // const MyChart(),
   // const DetailNewsScreen(ramz: 'ABUK'),
 
