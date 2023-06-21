@@ -31,13 +31,27 @@ class BookmarkPage extends StatelessWidget {
                 style: Theme.of(context).textTheme.headlineSmall,
               ),
               actions: [
-                TextButton(
-                  onPressed: () => AuthHelper.instance.logout(),
-                  child: Text(
-                    "Logout",
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                ),
+                IconButton(
+                    onPressed: () {
+                      // navigatorTo(context,);
+                      navigatorTo(
+                        context: context,
+                        routeName: AppRoutes.chatRoute,
+                      );
+                    },
+                    icon: Icon(
+                      Icons.chat_rounded,
+                      color: AppColors.firstColor,
+                    )),
+                IconButton(
+                    onPressed: () {
+                      // navigatorTo(context,);
+                      AuthHelper.instance.logout();
+                    },
+                    icon: Icon(
+                      Icons.logout,
+                      color: AppColors.firstColor,
+                    ))
               ],
             ),
             body: Container(

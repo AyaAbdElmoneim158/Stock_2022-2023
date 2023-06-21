@@ -4,6 +4,7 @@ import 'package:app/modules/Navbar_pages/details_new_page.dart';
 import 'package:app/modules/Navbar_pages/new_dash.dart';
 import 'package:app/modules/Navbar_pages/stocks_inner_sector_new.dart';
 import 'package:app/modules/Auth_pages/forgetpasssword/with_email.dart';
+import 'package:app/modules/chatApp/chat_screen.dart';
 import 'package:app/modules/landing_page.dart';
 import 'package:app/modules/news_url.dart';
 import 'package:app/modules/Auth_pages/login_page.dart';
@@ -16,6 +17,18 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 //ToDo: onGenerate-router.......................................................
 Route<dynamic> onGenerate(RouteSettings settings) {
   switch (settings.name) {
+    ///~> ChatScreen---------------------------------------------------------------
+    case AppRoutes.chatRoute:
+      return CupertinoPageRoute(
+          builder: (_) => StreamBuilder<ConnectivityResult>(
+              stream: Connectivity().onConnectivityChanged,
+              builder: (context, snapshot) {
+                return snapshot.data == ConnectivityResult.none
+                    ? const NoInternetPage()
+                    : const ChatScreen();
+              }),
+          settings: settings);
+
     ///~> NewsUrl---------------------------------------------------------------
     case AppRoutes.newsUrlRoute:
       final url = settings.arguments as String;

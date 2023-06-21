@@ -30,7 +30,8 @@ class _ChatScreenState extends State<ChatScreen> {
             // "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",
             // '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',
             // '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',
-            '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',
+            // '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',
+            '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',
         baseOption: HttpSetup(receiveTimeout: const Duration(seconds: 5)));
     super.initState();
   }

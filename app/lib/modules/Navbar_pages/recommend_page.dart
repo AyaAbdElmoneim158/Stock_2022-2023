@@ -26,21 +26,34 @@ class RecommendPage extends StatelessWidget {
             return Scaffold(
               backgroundColor: AppColors.kBackgroundColor,
               appBar: AppBar(
-                // leading: IconButton(icon: const Icon(Icons.search), onPressed: () {}),
-                title: Text(
-                  "نرشح لك  🔖",
-                  style: Theme.of(context).textTheme.headlineSmall,
-                ),
-                actions: [
-                  TextButton(
-                    onPressed: () => AuthHelper.instance.logout(),
-                    child: Text(
-                      "Logout",
-                      style: Theme.of(context).textTheme.titleLarge,
-                    ),
+                  // leading: IconButton(icon: const Icon(Icons.search), onPressed: () {}),
+                  title: Text(
+                    "نرشح لك  🔖",
+                    style: Theme.of(context).textTheme.headlineSmall,
                   ),
-                ],
-              ),
+                  actions: [
+                    IconButton(
+                        onPressed: () {
+                          // navigatorTo(context,);
+                          navigatorTo(
+                            context: context,
+                            routeName: AppRoutes.chatRoute,
+                          );
+                        },
+                        icon: Icon(
+                          Icons.chat_rounded,
+                          color: AppColors.firstColor,
+                        )),
+                    IconButton(
+                        onPressed: () {
+                          // navigatorTo(context,);
+                          AuthHelper.instance.logout();
+                        },
+                        icon: Icon(
+                          Icons.logout,
+                          color: AppColors.firstColor,
+                        ))
+                  ]),
               body: Center(
                   child: ListView.separated(
                       itemBuilder: (context, index) => Padding(

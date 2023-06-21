@@ -45,7 +45,7 @@ alltime_low,
 
 /*
 */
-
+// String totalRevenue = lang ? 'إجمالي الإيرادات' :'total_revenue';
 List graphsTrans = [
   {
     'income_statement': 'بيانات الدخل',
@@ -228,6 +228,42 @@ bool theme = true;
 String docmentIdFormLocationData() => DateTime.now().toIso8601String();
 
 abstract class Constants {
+  static String incomeStatement = !lang ? 'income_statement' : 'بيانات الدخل';
+  static String totalRevenue = lang ? 'إجمالي الإيرادات' : 'total_revenue';
+  static String netIncome = !lang ? 'net_income' : 'صافي الدخل';
+  static String pretaxIncome = !lang ? 'pretax_income' : 'الدخل قبل الضرائب';
+  static String operatingIncome = !lang ? 'operating_income' : 'دخل التشغيل';
+  static String grossProfit = !lang ? 'gross_profit' : 'الربح الإجمالي';
+
+  static String balanceSheet = !lang ? 'balance_sheet' : 'بيان الموازنه';
+  static String totalAssets = !lang ? 'total_assets' : 'إجمالي الأصول';
+  static String totalLiabilities =
+      !lang ? 'total_liabilities' : 'إجمالي المطلوبات';
+
+  static String dividends = !lang ? 'dividends' : 'ارباح';
+  static String dividensPerShare =
+      !lang ? 'dividens_per_share' : 'توزيعات الأرباح لكل سهم (سنة مالية)';
+
+  static String cashFlow = !lang ? 'cash_flow' : 'التدفقات النقديه';
+  static String cashFromOperatingActivity = !lang
+      ? 'cash_from_operating_activity'
+      : 'العائد النقدي من الأنشطة التشغيلية';
+  static String cashFromInvestingActivity = !lang
+      ? 'cash_from_investing_activity'
+      : 'العائد النقدي من الأنشطة الاستثمارية';
+  static String cashFromFinancingActivity = !lang
+      ? 'cash_from_financing_activity'
+      : 'العائد النقدي من الأنشطة المالية';
+
+  static String earning = !lang ? 'earning' : 'العائد لكل سهم';
+  static String reportedE = !lang ? 'reported_E' : '_مُبلّغ عنه';
+  static String estimateE = !lang ? 'estimate_E' : 'المتوقع';
+
+  static String revenue = !lang ? 'revenue' : 'الايرادات';
+  static String reportedR = !lang ? 'reported_R' : 'مُبلّغ عنه';
+  static String estimateR = !lang ? 'estimate_R' : 'المتوقع';
+
+  ///---------------------------------------------------
   static String err = lang ? 'حدث خطأ' : 'Error..!';
   static String success = lang ? 'تم نجاح العملية' : 'Successful..!';
   static String checkEmail =

@@ -35,6 +35,29 @@ class HomePage extends StatelessWidget {
             body: NestedScrollView(
                 headerSliverBuilder: (context, innerBoxIsScrolled) => [
                       SliverAppBar(
+                        actions: [
+                          IconButton(
+                              onPressed: () {
+                                // navigatorTo(context,);
+                                navigatorTo(
+                                  context: context,
+                                  routeName: AppRoutes.chatRoute,
+                                );
+                              },
+                              icon: Icon(
+                                Icons.chat_rounded,
+                                color: AppColors.firstColor,
+                              )),
+                          IconButton(
+                              onPressed: () {
+                                // navigatorTo(context,);
+                                AuthHelper.instance.logout();
+                              },
+                              icon: Icon(
+                                Icons.logout,
+                                color: AppColors.firstColor,
+                              ))
+                        ],
                         backgroundColor: Colors.white, //whiteColor,
                         elevation: 0,
                         automaticallyImplyLeading: false,
@@ -252,12 +275,13 @@ class HomePage extends StatelessWidget {
                           },
                         );
                       } else {
-                        return const LoadingPage();
-                        // Container(
-                        //     width: 50,
-                        //     color: Colors.white,
-                        //     child: Center(
-                        //         child: Image.asset('assets/ripple.gif')));
+                        return
+                            // const LoadingPage();
+                            Container(
+                                width: 50,
+                                color: Colors.white,
+                                child: Center(
+                                    child: Image.asset('assets/ripple.gif')));
                       }
                     })),
           );

@@ -2,10 +2,13 @@ import 'dart:convert';
 
 import 'package:app/models/sales_data_model.dart';
 import 'package:app/models/stock_chart_model.dart';
+import 'package:app/shared/components/components.dart';
 import 'package:app/shared/components/constants.dart';
 import 'package:app/shared/cubit/cubit.dart';
 import 'package:app/shared/cubit/states.dart';
+import 'package:app/shared/network/remote/auth_helper.dart';
 import 'package:app/shared/network/remote/dio_helper.dart';
+import 'package:app/shared/router/routes.dart';
 import 'package:app/shared/styles/colors.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +30,29 @@ class TestChatsApi extends StatelessWidget {
             final size = MediaQuery.of(context).size;
 
             return Scaffold(
+                appBar: AppBar(actions: [
+                  IconButton(
+                      onPressed: () {
+                        // navigatorTo(context,);
+                        navigatorTo(
+                          context: context,
+                          routeName: AppRoutes.chatRoute,
+                        );
+                      },
+                      icon: Icon(
+                        Icons.chat_rounded,
+                        color: AppColors.firstColor,
+                      )),
+                  IconButton(
+                      onPressed: () {
+                        // navigatorTo(context,);
+                        AuthHelper.instance.logout();
+                      },
+                      icon: Icon(
+                        Icons.logout,
+                        color: AppColors.firstColor,
+                      ))
+                ]),
                 floatingActionButton: FloatingActionButton(
                   onPressed: () {
                     print("Search");

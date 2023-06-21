@@ -1,6 +1,7 @@
 import 'package:app/models/sales_data_model.dart';
 import 'package:app/modules/loading_page.dart';
 import 'package:app/shared/components/components.dart';
+import 'package:app/shared/components/constants.dart';
 import 'package:app/shared/cubit/cubit.dart';
 import 'package:app/shared/cubit/states.dart';
 import 'package:app/shared/styles/colors.dart';
@@ -109,41 +110,45 @@ class NewDash extends StatelessWidget {
                     child: Column(
                       children: [
                         //! Container_4 (AllCharts) ********************************************
+/*
                         incomeBarChartData1.isEmpty
                             ? noData()
                             : columnsChart(
                                 // incomeStatementData
                                 groupsData: incomeBarChartData1,
-                                chartName: 'بيانات الدخل'),
-
-                        balanceSheetBarChartData1.isEmpty
+                                chartName: Constants.incomeStatement),
+ balanceSheetBarChartData1.isEmpty
                             ? noData()
                             : columnsChart(
                                 //  balanceSheetData
                                 groupsData: balanceSheetBarChartData1,
-                                chartName: 'بَيَانُ المُوَازَنَة'),
+                                chartName: Constants.balanceSheet),
+
+
+
                         divideBarChartData1.isEmpty
                             ? noData()
                             : columnsChartWithLine(
                                 //  divideData
                                 groupsData: divideBarChartData1,
-                                chartName: 'الإيرادات',
+                                chartName: Constants.dividends,
                                 dataSourceLine: appCubit.divideData2),
-                        divideBarChartData1.isEmpty
-                            ? noData()
-                            : columnsChartWithLine(
-                                //  divideData
-                                groupsData: divideBarChartData1,
-                                chartName: 'الإيرادات',
-                                dataSourceLine: appCubit.divideData2),
-                        revenueBarChartData1.isEmpty
+cashFlowBarChartData1.isEmpty
                             ? noData()
                             : columnsChart(
-                                //revenueData1
-                                // revenueBarChartData1
-                                groupsData: appCubit.cashFlowBarChartData1,
-                                // revenueData,
-                                chartName: 'أرباح'),
+                                groupsData: cashFlowBarChartData1,
+                                chartName: Constants.cashFlow),
+
+*/
+
+/*                        divideBarChartData1.isEmpty
+                            ? noData()
+                            : columnsChartWithLine(
+                                //  divideData
+                                groupsData: divideBarChartData1,
+                                chartName: 'الإيرادات',
+                                dataSourceLine: appCubit.divideData2),
+                       
                         revenueBarChartData1.isEmpty
                             ? noData()
                             : columnsChart(
@@ -158,16 +163,19 @@ class NewDash extends StatelessWidget {
                                 // earningBarChartData1
                                 groupsData: appCubit.earningBarChartData1,
                                 chartName: 'العوائد'),
+                                */
                       ],
                     ),
                   ),
                 )),
-            fallback: (context) => const LoadingPage(),
-            // Container(
-            //     width: 50,
-            //     color: Colors.white,
-            //     child: Center(
-            //         child: Center(child: Image.asset('assets/ripple.gif')))),
+            fallback: (context) =>
+                // const LoadingPage(),
+                Container(
+                    width: 50,
+                    color: Colors.white,
+                    child: Center(
+                        child:
+                            Center(child: Image.asset('assets/ripple.gif')))),
           );
         },
       ),
@@ -227,27 +235,42 @@ Column columnsChart(
                 name: group.name,
                 enableTooltip: true,
                 spacing: 0.3,
-                color: (group.name == 'Total revenue') ||
-                        (group.name == 'Total assets') ||
-                        (group.name == 'Cash from operating activities') ||
-                        (group.name == 'Reported' && groupsData == earningData)
+                color: (group.name == 'إجمالي الإيرادات') ||
+                        (group.name == 'total_revenue') ||
+                        (group.name == 'إجمالي الأصول') ||
+                        (group.name == 'total_assets') ||
+                        (group.name == 'العائد النقدي من الأنشطة التشغيلية') ||
+                        (group.name == 'cash_from_operating_activity') ||
+                        (group.name == 'reported_E') ||
+                        (group.name == '_مُبلّغ عنه')
                     ? const Color(0XFF448aff)
-                    : (group.name == 'Gross profit') ||
-                            (group.name == 'Total liabilities') ||
-                            (group.name == 'Cash from investing activities') ||
-                            (group.name == 'Reported' &&
-                                groupsData == revenueData)
+                    : (group.name == 'الربح الإجمالي') ||
+                            (group.name == 'gross_profit') ||
+                            (group.name == 'إجمالي المطلوبات') ||
+                            (group.name == 'total_liabilities') ||
+                            (group.name ==
+                                'العائد النقدي من الأنشطة الاستثمارية') ||
+                            (group.name == 'cash_from_investing_activity') ||
+                            (group.name == 'reported_R') ||
+                            (group.name == 'مُبلّغ عنه')
                         ? const Color(0XFF4dd0e1)
-                        : (group.name == 'Operating income') ||
+                        : (group.name == 'دخل التشغيل') ||
+                                (group.name == 'operating_income') ||
                                 (group.name ==
-                                    'Cash from financing activities') ||
-                                (group.name == 'Cash from financing activities')
+                                    'العائد النقدي من الأنشطة المالية') ||
+                                (group.name == 'cash_from_financing_activity')
                             ? const Color(0XFFf57f17)
-                            : (group.name == 'Pretax income')
+                            : (group.name == 'الدخل قبل الضرائب') ||
+                                    (group.name == 'pretax_income')
                                 ? const Color(0XFFb388ff)
-                                : (group.name == 'Net income')
-                                    ? const Color(0XFFfbc02d)
-                                    : const Color(0XFFe0e3eb)),
+                                : (group.name == 'صافي الدخل') ||
+                                        (group.name == 'net_income')
+                                    ? const Color(0XFF42bda8)
+                                    : (group.name ==
+                                                'توزيعات الأرباح لكل سهم (سنة مالية)') ||
+                                            (group.name == 'dividens_per_share')
+                                        ? const Color(0XFFfbc02d)
+                                        : const Color(0XFFe0e3eb)),
         ],
         primaryXAxis:
             CategoryAxis(isVisible: false, placeLabelsNearAxisLine: false),

@@ -4,6 +4,7 @@ import 'package:app/models/sales_data_model.dart';
 import 'package:app/models/stock_chart_model.dart';
 import 'package:app/models/stock_model.dart';
 import 'package:app/models/user_model.dart';
+import 'package:app/shared/components/constants.dart';
 import 'package:app/shared/cubit/states.dart';
 import 'package:app/shared/network/remote/auth_helper.dart';
 import 'package:app/shared/network/remote/dio_helper.dart';
@@ -449,12 +450,12 @@ class AppCubit extends Cubit<AppStates> {
       StockChartModel3 allData =
           StockChartModel3.fromJson(jsonDecode(value.data));
 
-      fetchIncomeStatement(allData: allData);
-      fetchBalanceSheet(allData: allData);
-      fetchDividends(allData: allData);
-      fetchCashFlow(allData: allData);
+      // fetchIncomeStatement(allData: allData);
+      // fetchBalanceSheet(allData: allData);
+      // fetchDividends(allData: allData);
+      // fetchCashFlow(allData: allData);
       fetchRevenue(allData: allData);
-      fetchEarning(allData: allData);
+      // fetchEarning(allData: allData);
 
       emit(FetchIncomeChartSuccessState());
     }).catchError((err) {
@@ -515,11 +516,11 @@ class AppCubit extends Cubit<AppStates> {
 
     ///~>3 Add to group...............................................................................................................................
     incomeBarChartData1 = [
-      BarChart('Total_revenue', incomeSalesData1),
-      BarChart('Gross_profit', incomeSalesData2),
-      BarChart('Operating_income', incomeSalesData3),
-      BarChart('Pretax_income', incomeSalesData4),
-      BarChart('Net_income', incomeSalesData5),
+      BarChart(Constants.totalRevenue, incomeSalesData1),
+      BarChart(Constants.grossProfit, incomeSalesData2),
+      BarChart(Constants.operatingIncome, incomeSalesData3),
+      BarChart(Constants.pretaxIncome, incomeSalesData4),
+      BarChart(Constants.netIncome, incomeSalesData5),
     ];
     debugPrint("Income Statement.... Done!");
   }
@@ -550,8 +551,8 @@ class AppCubit extends Cubit<AppStates> {
 
     ///3~> Add to group...............................................................................................................................
     balanceSheetBarChartData1 = [
-      BarChart('Total assets', balanceSheetSalesData1),
-      BarChart('Total liabilities', balanceSheetSalesData2),
+      BarChart(Constants.totalAssets, balanceSheetSalesData1),
+      BarChart(Constants.totalLiabilities, balanceSheetSalesData2),
     ];
     debugPrint("BalanceSheet.... Done!");
   }
@@ -582,7 +583,7 @@ class AppCubit extends Cubit<AppStates> {
 
     ///~>3 Add to group...............................................................................................................................
     divideBarChartData1 = [
-      BarChart('Dividends per share', divideData1),
+      BarChart(Constants.dividensPerShare, divideData1),
     ];
     debugPrint("dividends.... Done!");
   }
@@ -621,9 +622,9 @@ class AppCubit extends Cubit<AppStates> {
 
     ///~>3 Add to group...............................................................................................................................
     cashFlowBarChartData1 = [
-      BarChart('Cash from operating activities', cashFlowSalesData1),
-      BarChart('Cash from investing activities', cashFlowSalesData2),
-      BarChart('Cash from financing activities', cashFlowSalesData3),
+      BarChart(Constants.cashFromOperatingActivity, cashFlowSalesData1),
+      BarChart(Constants.cashFromInvestingActivity, cashFlowSalesData2),
+      BarChart(Constants.cashFromFinancingActivity, cashFlowSalesData3),
     ];
   }
 
@@ -648,8 +649,8 @@ class AppCubit extends Cubit<AppStates> {
 
       ///~>3 Add to group...............................................................................................................................
       revenueBarChartData1 = [
-        BarChart('Reported_R', revenueData2),
-        BarChart('Estimate_R', revenueData1),
+        BarChart(Constants.reportedR, revenueData2),
+        BarChart(Constants.estimateR, revenueData1),
       ];
 
       debugPrint("revenue.... Done!");
@@ -677,8 +678,8 @@ class AppCubit extends Cubit<AppStates> {
 
       ///~>3 Add to group...............................................................................................................................
       earningBarChartData1 = [
-        BarChart('Reported_E', earningData1),
-        BarChart('Estimate_E', earningData2),
+        BarChart(Constants.reportedE, earningData1),
+        BarChart(Constants.estimateE, earningData2),
       ];
 
       debugPrint("revenue.... Done!");
@@ -724,9 +725,13 @@ class AppCubit extends Cubit<AppStates> {
       dataPridiction = jsonDecode(value.body);
       debugPrint(dataPridiction.toString());
       debugPrint(dataPridiction.runtimeType.toString());
-
       days = getDaysInBetween(
           DateTime.now().add(const Duration(days: 1)), whatDate);
+      if (days.length < 4) {
+        days = getDaysInBetween(DateTime.now().add(const Duration(days: 1)),
+            DateTime.now().add(const Duration(days: 4)));
+      }
+
       for (int i = 1; i < days.length; i++) {
         chartData2.add(
             SalesData(DateFormat.yMMMEd().format(days[i]), dataPridiction[i]));

@@ -14,6 +14,6 @@ class AppRoutes {
   static const String detailsStockRoute = "/detailsStock";
   static const String dashStockRoute = "/dashStock";
   static const String stocksAtSectorRoute = "/stocksAtSectorRoute";
-  static const String newsUrlRoute = "newsUrlRoute";
-  static const String moreChatsRoute = "moreChatsRoute";
+  static const String newsUrlRoute = "/newsUrlRoute";
+  static const String chatRoute = "/chatRoute";
 }
