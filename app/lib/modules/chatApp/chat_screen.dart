@@ -1,7 +1,7 @@
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
-// import 'package:velocity_x/velocity_x.dart';
+// import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 import 'chatmessage.dart';
 import 'threedots.dart';
@@ -20,15 +20,18 @@ class _ChatScreenState extends State<ChatScreen> {
   bool _isImageSearch = false;
 
   bool _isTyping = false;
-/*
+
   @override
   void initState() {
     chatGPT = OpenAI.instance.build(
-        // ToDo ---------------------------------------------
         token:
-            dotenv.env["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"],
-        baseOption:
-            HttpSetup(receiveTimeout: const Duration(milliseconds: 60000)));
+            // "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"
+            // "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",
+            // "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",
+            // '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',
+            // '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',
+            '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',
+        baseOption: HttpSetup(receiveTimeout: const Duration(seconds: 5)));
     super.initState();
   }
 
@@ -60,19 +63,28 @@ class _ChatScreenState extends State<ChatScreen> {
       final request = GenerateImage(message.text, 1, size: "256x256");
 
       final response = await chatGPT!.generateImage(request);
-      // Vx.log(response!.data!.last!.url!);
-      insertNewData(response!.data!.last!.url!, isImage: true);
-    }
-    /*else {
+      Vx.log(response!.data!.last!.url!);
+      insertNewData(response.data!.last!.url!, isImage: true);
+      // todo::--------------------------------------
+      debugPrint("created :${response.created.toString()}");
+      debugPrint("data : ${response.data.toString()}");
+    } else {
       final request =
-          CompleteText(prompt: message.text, model: kTranslateModelV3);
+          CompleteText(prompt: message.text, model: kChatGptTurboModel
+              // kTranslateModelV3
+              // TextDavinci3Model()
+              );
 
       final response = await chatGPT!.onCompletion(request: request);
-      // onCompleteText(request: request);
 
+      ///onCompleteText(request: request);
       Vx.log(response!.choices[0].text);
       insertNewData(response.choices[0].text, isImage: false);
-    }*/
+
+      // todo::--------------------------------------
+      debugPrint("usage ${response.usage.toString()}");
+      debugPrint("created ${response.created.toString()}");
+    }
   }
 
   void insertNewData(String response, {bool isImage = false}) {
@@ -87,14 +99,14 @@ class _ChatScreenState extends State<ChatScreen> {
       _messages.insert(0, botMessage);
     });
   }
-*/
+
   Widget _buildTextComposer() {
     return Row(
       children: [
         Expanded(
           child: TextField(
             controller: _controller,
-            // onSubmitted: (value) => _sendMessage(),
+            onSubmitted: (value) => _sendMessage(),
             decoration: const InputDecoration.collapsed(
                 hintText: "Question/description"),
           ),
@@ -105,32 +117,38 @@ class _ChatScreenState extends State<ChatScreen> {
               icon: const Icon(Icons.send),
               onPressed: () {
                 _isImageSearch = false;
-                // _sendMessage();
+                _sendMessage();
               },
             ),
             TextButton(
                 onPressed: () {
                   _isImageSearch = true;
-                  // _sendMessage();
+                  _sendMessage();
                 },
                 child: const Text("Generate Image"))
           ],
         ),
       ],
-    );
+    ).px16();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text("ChatGPT & Dall-E2 Demo")),
+        appBar: AppBar(
+            // backgroundColor: Colors.grey.shade300,
+            title: Text(
+              "ChatGPT",
+              style: Theme.of(context).textTheme.headlineMedium,
+            ),
+            centerTitle: true),
         body: SafeArea(
           child: Column(
             children: [
               Flexible(
                   child: ListView.builder(
                 reverse: true,
-                padding: EdgeInsets.all(8), //Vx.m8,
+                padding: Vx.m8,
                 itemCount: _messages.length,
                 itemBuilder: (context, index) {
                   return _messages[index];
@@ -142,11 +160,9 @@ class _ChatScreenState extends State<ChatScreen> {
               ),
               Container(
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: context.cardColor,
                 ),
-                child:
-                    // null
-                    _buildTextComposer(),
+                child: _buildTextComposer(),
               )
             ],
           ),

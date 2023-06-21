@@ -10,7 +10,7 @@ ThemeData lightTheme = ThemeData(
       // brightness: Brightness.light,
     ),
     visualDensity: VisualDensity.adaptivePlatformDensity,
-    scaffoldBackgroundColor: whiteColor,
+    scaffoldBackgroundColor: AppColors.whiteColor,
     /*  inputDecorationTheme: InputDecorationTheme(
       border: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(20.0))),
@@ -34,14 +34,15 @@ ThemeData lightTheme = ThemeData(
     ),
 */
 //!~> bodyText >================================================<
-    textTheme: GoogleFonts.dmSansTextTheme().apply(displayColor: firstColor),
+    textTheme:
+        GoogleFonts.dmSansTextTheme().apply(displayColor: AppColors.firstColor),
     // textTheme: const  TextTheme(
     //   titleSmall: TextStyle(fontWeight: FontWeight.w600, fontSize: 20, color:secondColor ),//Color(0xff11414b)Color(0xff44686f)
     //     bodySmall: TextStyle(fontWeight: FontWeight.w500, fontSize: 15, color:textColor ),
     //     headlineSmall: TextStyle(fontWeight: FontWeight.w500, fontSize: 40, color: Colors.black),
 
     //         ),
-    dividerColor: firstColor,
+    dividerColor: AppColors.firstColor,
     // scaffoldBackgroundColor: Colors.white,
 //!~> AppBarTheme >================================================<
     // appBarTheme: const AppBarTheme(
@@ -55,7 +56,7 @@ ThemeData lightTheme = ThemeData(
     //     ),
 //!~> FloatingActionButtonThemeData >================================================<
     floatingActionButtonTheme:
-        const FloatingActionButtonThemeData(backgroundColor: secondColor));
+        FloatingActionButtonThemeData(backgroundColor: AppColors.secondColor));
 
 //ToDo: darkTheme ============================================================<
 ThemeData darkTheme = ThemeData(
@@ -63,12 +64,12 @@ ThemeData darkTheme = ThemeData(
         bodyMedium: TextStyle(
             fontWeight: FontWeight.w600, fontSize: 18, color: Colors.white)),
     dividerColor: Colors.white,
-    scaffoldBackgroundColor: secondColor,
-    appBarTheme: const AppBarTheme(
-        backgroundColor: secondColor,
+    scaffoldBackgroundColor: AppColors.secondColor,
+    appBarTheme: AppBarTheme(
+        backgroundColor: AppColors.secondColor,
         elevation: 0,
-        actionsIconTheme: IconThemeData(color: secondColor),
-        titleTextStyle: TextStyle(
+        actionsIconTheme: IconThemeData(color: AppColors.secondColor),
+        titleTextStyle: const TextStyle(
             color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)
         // color: Colors.black
         ),

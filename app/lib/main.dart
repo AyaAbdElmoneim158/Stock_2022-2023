@@ -16,8 +16,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:app/modules/no_internet_page.dart';
 
 // import 'package:flutter_localization/flutter_localization.dart';
+
+///~> -----------------------------------------------
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -62,7 +65,7 @@ class MyApp extends StatelessWidget {
         //ToDo:~> Add Routes ---------------------------------------------------->
         onGenerateRoute: onGenerate,
         initialRoute: AppRoutes.landingRoute,
-        // home: const TableTest(),
+        // home: NoInternetPage(),
       ),
     );
   }

@@ -73,7 +73,7 @@ class FixedColumnWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return DataTable(
       columnSpacing: 10,
-      headingRowColor: MaterialStateProperty.all(ksecondaryColor),
+      headingRowColor: MaterialStateProperty.all(AppColors.ksecondaryColor),
       decoration: const BoxDecoration(
         border: Border(
           right: BorderSide(
@@ -118,7 +118,7 @@ class ScrollableColumnWidget extends StatelessWidget {
       child: SingleChildScrollView(
         scrollDirection: Axis.horizontal,
         child: DataTable(
-          headingRowColor: MaterialStateProperty.all(ksecondaryColor),
+          headingRowColor: MaterialStateProperty.all(AppColors.ksecondaryColor),
           columnSpacing: 40,
           decoration: const BoxDecoration(
             border: Border(

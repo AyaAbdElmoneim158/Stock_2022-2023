@@ -1,18 +1,6 @@
-// import 'package:flutter/material.dart';
-
-// class DetailsScreen extends StatelessWidget {
-//   const DetailsScreen({super.key});
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container();
-//   }
-// }
-//
-// import 'package:covid_19/constants.dart';
 import 'dart:ui' as ui;
+
 import 'package:app/models/sales_data_model.dart';
-import 'package:app/modules/Navbar_pages/my_chart.dart';
-import 'package:app/modules/Design/Details/componets_details.dart';
 import 'package:app/models/stock_model.dart';
 import 'package:app/modules/Navbar_pages/real_time.dart';
 import 'package:app/modules/test_page.dart';
@@ -23,14 +11,14 @@ import 'package:app/shared/cubit/states.dart';
 import 'package:app/shared/router/routes.dart';
 import 'package:app/shared/styles/colors.dart';
 import 'package:app/shared/styles/style.dart';
+import 'package:arabic_numbers/arabic_numbers.dart';
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:intl/intl.dart';
-import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
-import 'package:arabic_numbers/arabic_numbers.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 ArabicNumbers arabicNumber = ArabicNumbers();
 // arabicNumber.convert(7);
@@ -67,7 +55,7 @@ class DetailNewsScreen extends StatelessWidget {
               condition: state is! FetchDetailsLoadingState,
               builder: (context) => Scaffold(
                 // resizeToAvoidBottomPadding: false,
-                backgroundColor: kBackgroundColor,
+                backgroundColor: AppColors.kBackgroundColor,
                 floatingActionButton: FloatingActionButton(
                   onPressed: () {
                     navigatorTo(
@@ -75,206 +63,23 @@ class DetailNewsScreen extends StatelessWidget {
                         routeName: AppRoutes.dashStockRoute,
                         arguments: details.ramz);
                   },
-                  child: const Align(child: Text("more")),
+                  child: const Align(child: Text("Charts")),
                 ),
                 appBar: AppBar(
-                  backgroundColor: kBackgroundColor,
+                  backgroundColor: AppColors.kBackgroundColor,
                   // title: Text(details.ramz.toString()),
-                  titleTextStyle: kBodyText2,
+                  titleTextStyle: AppTextStyles.kBodyText2,
                   leading: IconButton(
                     onPressed: () => Navigator.pop(context),
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.arrow_back_ios,
-                      color: firstColor,
+                      color: AppColors.firstColor,
                     ),
                   ),
                   actions: [
-                    StreamBuilder<List<StockModle>>(
-                        stream: appCubit.stocksAtFavStream(
-                            ramz: details.ramz.toString()),
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.active) {
-                            final stock = snapshot.data;
-                            debugPrint(stock.runtimeType.toString());
-                            if (stock!.isEmpty) {
-                              return IconButton(
-                                  onPressed: () {
-                                    StockModle stockModle = StockModle(
-                                      id: DateTime.now().toIso8601String(),
-                                      logo: details.logo.toString(),
-                                      name: details.name.toString(),
-                                      price: stockPriceController.text,
-                                      ramz: details.ramz.toString(),
-                                      stocksNo: stockNoController.text,
-                                    );
-                                    appCubit
-                                        .addArrowToFavoriteArrow(stockModle);
-                                  },
-                                  icon: const Icon(
-                                    Icons.bookmark_add_outlined,
-                                    color: firstColor,
-                                  ));
-                            } else {
-                              return IconButton(
-                                  onPressed: () {
-                                    appCubit.deleteFavoriteArrow(
-                                        id: stock[0]
-                                            .id); //! remove to fav with message
-                                  },
-                                  icon: const Icon(
-                                    Icons.bookmark_add,
-                                    color: Colors.grey,
-                                  ));
-                            }
-                          } else {
-                            return IconButton(
-                                onPressed: () {},
-                                icon: const Icon(
-                                  Icons.favorite,
-                                  color: firstColor,
-                                ));
-                          }
-                        }),
-                    StreamBuilder<List<StockModle>>(
-                        stream: appCubit.stocksAtFollowStream(
-                            ramz: details.ramz.toString()),
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.active) {
-                            final stock = snapshot.data;
-                            // debugPrint(stock![0].id.toString());
-                            debugPrint(stock.runtimeType.toString());
-                            if (stock!.isEmpty) {
-                              return IconButton(
-                                  onPressed: () {
-                                    //! pop....
-                                    showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return AlertDialog(
-                                            // title: Text("Success"),
-                                            content: SizedBox(
-                                              // color: Colors.blueGrey,
-                                              height: 250,
-                                              child: Form(
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: Column(
-                                                    children: [
-                                                      defaultField(
-                                                          hintText: Constants
-                                                              .stockNoLabel,
-                                                          labelText: Constants
-                                                              .stockNoLabel,
-                                                          controller:
-                                                              stockNoController,
-                                                          validator: (val) => val!
-                                                                  .isEmpty
-                                                              ? Constants
-                                                                  .stockNoAlart
-                                                              : null,
-                                                          onChanged: (val) =>
-                                                              appCubit
-                                                                  .changeStockNo(
-                                                                      val)),
-                                                      SizedBox(
-                                                          height: size.height *
-                                                              0.03),
-                                                      defaultField(
-                                                          hintText: Constants
-                                                              .stockPriceLabel,
-                                                          labelText: Constants
-                                                              .stockPriceLabel,
-                                                          controller:
-                                                              stockPriceController,
-                                                          validator: (val) => val!
-                                                                  .isEmpty
-                                                              ? Constants
-                                                                  .stockPriceAlart
-                                                              : null,
-                                                          onChanged: (val) =>
-                                                              appCubit
-                                                                  .changeStockPrice(
-                                                                      val)),
-                                                      SizedBox(
-                                                          height: size.height *
-                                                              0.03),
-                                                      defaultButton(
-                                                          text: "Follow",
-                                                          onPressed: () {
-                                                            //!.........................Added Here
-                                                            // debugPrint(stockPriceController.text);
-                                                            // debugPrint(stockNoController.text);
-                                                            StockModle
-                                                                stockModle =
-                                                                StockModle(
-                                                              id: DateTime.now()
-                                                                  .toIso8601String(),
-                                                              logo: details.logo
-                                                                  .toString(),
-                                                              name: details.name
-                                                                  .toString(),
-                                                              price:
-                                                                  stockPriceController
-                                                                      .text,
-                                                              ramz: details.ramz
-                                                                  .toString(),
-                                                              stocksNo:
-                                                                  stockNoController
-                                                                      .text,
-                                                            );
-                                                            appCubit
-                                                                .addArrowToFollowingArrow(
-                                                                    stockModle);
-                                                            Navigator.of(
-                                                                    context)
-                                                                .pop();
-                                                          },
-                                                          context: context)
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          );
-                                        });
-                                    // StockModle stockModle = StockModle(
-                                    //   id: docmentIdFormLocationData(),
-                                    //   logo: stockApiDataMap["logo"],
-                                    //   name: stockApiDataMap["name"],
-                                    //   price: stockApiDataMap["price"],
-                                    //   ramz: stockApiDataMap["ramz"],
-                                    //   stocksNo: "0",
-                                    // );
-                                    // appCubit.addArrowToFollowingArrow(stockModle);
-                                  },
-                                  icon: const Icon(
-                                    Icons.autorenew,
-                                    color: firstColor,
-                                  ));
-                            } else {
-                              return IconButton(
-                                  onPressed: () {
-                                    appCubit.deleteFollowingArrow(
-                                        id: stock[0]
-                                            .id); //! remove to fav with message
-                                  },
-                                  icon: const Icon(
-                                    Icons.autorenew,
-                                    color: Colors.green,
-                                  ));
-                            }
-                          } else {
-                            return IconButton(
-                                onPressed: () {},
-                                icon: const Icon(
-                                  Icons.autorenew,
-                                  color: firstColor,
-                                ));
-                          }
-                        }),
+                    bookmarkIcon(appCubit, details, stockPriceController,
+                        stockNoController),
+                    // followIcon(appCubit, details, stockNoController, size, stockPriceController),
                   ],
                 ),
 
@@ -307,12 +112,6 @@ class DetailNewsScreen extends StatelessWidget {
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  // CircleAvatar(
-                                  //     radius: 28,
-                                  //     backgroundColor:
-                                  //         kPrimaryColor.withOpacity(0.1),
-                                  //     backgroundImage: NetworkImage(
-                                  //         details.logo.toString())),
                                   CircleAvatar(
                                     radius: 20,
                                     child: SvgPicture.network(
@@ -334,7 +133,8 @@ class DetailNewsScreen extends StatelessWidget {
                                                   .textTheme
                                                   .titleSmall!
                                                   .copyWith(
-                                                      color: kTextLightColor,
+                                                      color: AppColors
+                                                          .kTextLightColor,
                                                       fontWeight:
                                                           FontWeight.w400)),
                                           Text(details.name.toString(),
@@ -344,7 +144,8 @@ class DetailNewsScreen extends StatelessWidget {
                                                   .textTheme
                                                   .titleMedium!
                                                   .copyWith(
-                                                      color: firstColor,
+                                                      color:
+                                                          AppColors.firstColor,
                                                       fontWeight:
                                                           FontWeight.w500)),
                                         ]),
@@ -352,202 +153,36 @@ class DetailNewsScreen extends StatelessWidget {
                                 ],
                               ),
                               const SizedBox(height: 32),
-                              // toDo-> Aya ..............................
-                              /*Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Row(
-                                    children: [
-                                      Text(" EGP ",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .titleLarge!
-                                              .copyWith(
-                                                  color: firstColor,
-                                                  fontWeight: FontWeight.w600)),
-                                      Directionality(
-                                        textDirection: ui.TextDirection.ltr,
-                                        child: Text(
-                                            details.stockMainApi!.stockPrice
-                                                .toString(),
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .headlineSmall!
-                                                .copyWith(
-                                                    color: firstColor,
-                                                    fontWeight:
-                                                        FontWeight.w600)),
-                                      ),
-                                      const SizedBox(width: 8),
-                                      Text(" % ",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodySmall!
-                                              .copyWith(
-                                                  color: firstColor,
-                                                  fontWeight: FontWeight.w600)),
-                                      Directionality(
-                                        textDirection: ui.TextDirection.ltr,
-                                        child: Text(
-                                          details.stockMainApi!.stockMRate
-                                              .toString(),
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodySmall!
-                                              .copyWith(
-                                                  fontWeight: FontWeight.w500,
-                                                  color: details.stockMainApi!
-                                                          .stockMRate
-                                                          .toString()
-                                                          .contains('−')
-                                                      ? Colors.red
-                                                      : details.stockMainApi!
-                                                              .stockMRate
-                                                              .toString()
-                                                              .contains('+')
-                                                          ? Colors.green
-                                                          : firstColor),
-                                        ),
-                                      ),
-                                    ],
+                                  Coin(
+                                    ramz: details.ramz.toString(),
+                                    lastPrice: details.stockMainApi!.stockPrice
+                                        .toString(),
                                   ),
+                                  followIcon(
+                                      appCubit,
+                                      details,
+                                      stockNoController,
+                                      size,
+                                      stockPriceController),
                                 ],
-                              ),*/
-                              Coin(
-                                ramz: details.ramz.toString(),
-                                lastPrice:
-                                    details.stockMainApi!.stockPrice.toString(),
                               ),
                               const SizedBox(height: 15),
-                              // Text(details.stockMainApi!.stockPrice.toString()),
-                              // Text(details.stockMainApi!.incPercentage
-                              //     .toString()),
-
-                              /*StockPrice(
-                                  price: details.stockMainApi!.stockPrice
-                                      // double.parse(details
-                                      //         .stockMainApi!.stockPrice
-                                      //         .toString())
-                                      // arabicNumber.convert( details.stockMainApi!.stockPrice)
-                                      .toString(),
-                                  change: details.stockMainApi!.incPercentage
-                                      .toString()),
-                              const SizedBox(height: 15),*/
-                              // const DetailsChart(),
                               TestPage(ramz: details.ramz.toString()),
                               const SizedBox(height: 15),
                             ],
                           ),
                         ),
                         const SizedBox(height: 15),
-//! Container_2 (About) ********************************************
+                        //! Container_2 (About) ********************************************
                         aboutContainer(context,
                             about: details.about.toString()),
                         const SizedBox(height: 15),
-//! Container_3 (News) ********************************************
+                        //! Container_3 (News) ********************************************
                         newsContainer(context, news: details.news!),
-                        /*?X Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 25),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: [
-                              BoxShadow(
-                                offset: const Offset(0, 21),
-                                blurRadius: 53,
-                                color: Colors.black.withOpacity(0.05),
-                              ),
-                            ],
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              buildTitleWithMoreIcon(),
-                              const SizedBox(height: 15),
-                              // buildCaseNumber(context),
-                              Row(
-                                children: <Widget>[
-                                  Text(
-                                    details.stockMainApi!.stockPrice.toString(),
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headlineLarge!
-                                        .copyWith(
-                                            color: kPrimaryColor, height: 1.2),
-                                  ),
-                                  Text(
-                                    details.stockMainApi!.incPercentage
-                                        .toString(),
-                                    style:
-                                        const TextStyle(color: kPrimaryColor),
-                                  ),
-                                  // SvgPicture.asset("assets/icons/increase.svg")
-                                ],
-                              ),
-                              const SizedBox(height: 15),
-                            ],
-                          ),
-                        ),
-                        MyChart(ramz: ramz),
-                        // const SizedBox(height: 20),
-                        Container(
-                          padding: const EdgeInsets.all(20),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: [
-                              BoxShadow(
-                                offset: const Offset(0, 21),
-                                blurRadius: 54,
-                                color: Colors.black.withOpacity(0.05),
-                              ),
-                            ],
-                          ),
-                          child: Column(
-                            children: <Widget>[
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Text(
-                                    "About ",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headlineMedium!
-                                        .copyWith(
-                                            color: kPrimaryColor, height: 1.2),
-                                  ),
-                                  const Icon(Icons.location_city)
-                                ],
-                              ),
-                              const SizedBox(height: 10),
-                              // SvgPicture.asset("assets/icons/map.svg"),
-                              Text(
-                                details.about.toString(),
-                                style: const TextStyle(
-                                  height: 1.5,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: 20),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text(
-                              "News",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headlineMedium!
-                                  .copyWith(color: kPrimaryColor, height: 1.2),
-                            ),
-                            const Icon(Iconsax.location)
-                          ],
-                        ),
-                        NewsList(news: details.news!),
-                      */
                       ],
                     ),
                   ),
@@ -560,91 +195,6 @@ class DetailNewsScreen extends StatelessWidget {
                       child: Center(child: Image.asset('assets/ripple.gif')))),
             );
           }),
-    );
-  }
-
-  RichText buildInfoTextWithPercentage(
-      {required String title, required String percentage}) {
-    return RichText(
-      text: TextSpan(
-        children: [
-          TextSpan(
-            text: "$percentage% \n",
-            style: TextStyle(
-              fontSize: 20,
-              color: kPrimaryColor,
-            ),
-          ),
-          TextSpan(
-            text: title,
-            style: const TextStyle(
-              color: kTextMediumColor,
-              height: 1.5,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Row buildCaseNumber(BuildContext context) {
-    return Row(
-      children: <Widget>[
-        Text(
-          "5.47 ",
-          style: Theme.of(context)
-              .textTheme
-              .headline2!
-              .copyWith(color: kPrimaryColor, height: 1.2),
-        ),
-        Text(
-          "5.9% ",
-          style: TextStyle(color: kPrimaryColor),
-        ),
-        // SvgPicture.asset("assets/icons/increase.svg")
-      ],
-    );
-  }
-
-  Row buildTitleWithMoreIcon() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        Align(
-          alignment: Alignment.centerLeft,
-          child: Text(
-            ramz,
-            style: const TextStyle(
-              color: kTextMediumColor,
-              fontWeight: FontWeight.w600,
-              fontSize: 15,
-            ),
-          ),
-        ),
-        // SvgPicture.asset("assets/icons/more.svg")
-      ],
-    );
-  }
-
-  AppBar buildDetailsAppBar(BuildContext context) {
-    return AppBar(
-      backgroundColor: kBackgroundColor,
-      elevation: 0,
-      leading: IconButton(
-        icon: Icon(
-          Icons.arrow_back_ios,
-          color: kPrimaryColor,
-        ),
-        onPressed: () {
-          Navigator.pop(context);
-        },
-      ),
-      actions: <Widget>[
-        IconButton(
-          icon: SvgPicture.asset("assets/icons/search.svg"),
-          onPressed: () {},
-        ),
-      ],
     );
   }
 }

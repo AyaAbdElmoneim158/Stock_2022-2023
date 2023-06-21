@@ -1,4 +1,5 @@
 import 'package:app/models/sector_model.dart';
+import 'package:app/modules/loading_page.dart';
 import 'package:app/shared/components/components.dart';
 import 'package:app/shared/cubit/cubit.dart';
 import 'package:app/shared/cubit/states.dart';
@@ -79,7 +80,7 @@ class ExploreDown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: kBackgroundColor,
+      color: AppColors.kBackgroundColor,
       child: ConditionalBuilder(
         condition: state is! FetchStocksAtSectorLoadingState,
         builder: (context) => SizedBox(
@@ -108,11 +109,12 @@ class ExploreDown extends StatelessWidget {
                         stockAtSector: appCubit.stocksAtSectorscat[index]),
                   )),
         ),
-        fallback: (context) => Container(
+        fallback: (context) => const LoadingPage(),
+        /*Container(
             // width: 100,
-            color: kBackgroundColor,
+            color: AppColors.kBackgroundColor,
             child:
-                Center(child: Center(child: Image.asset('assets/ripple.gif')))),
+                Center(child: Center(child: Image.asset('assets/ripple.gif'))),*/
       ),
     );
   }

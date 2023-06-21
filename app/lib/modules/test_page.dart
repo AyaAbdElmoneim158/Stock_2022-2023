@@ -14,8 +14,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:intl/intl.dart';
 
-List<BarChart1> divideData = [
-  BarChart1('Dividends per share', salesData5),
+List<BarChart> divideData = [
+  BarChart('Dividends per share', salesData5),
 ];
 List<SalesData> salesData5 = [
   SalesData("2018", 19),
@@ -87,7 +87,7 @@ class _TestPageState extends State<TestPage> {
                           padding: const EdgeInsets.all(32),
                           child: defaultButton(
                               text: "Predict",
-                              color: firstColor,
+                              color: AppColors.firstColor,
                               onPressed: () async {
                                 // ToDo........................................
                                 appCubit.whatDate = (await showDatePicker(

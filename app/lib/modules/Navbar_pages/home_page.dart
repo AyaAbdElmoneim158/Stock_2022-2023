@@ -1,5 +1,6 @@
 import 'package:app/models/stock_at_sector_model.dart';
 import 'package:app/models/stock_model.dart';
+import 'package:app/modules/loading_page.dart';
 import 'package:app/shared/components/components.dart';
 import 'package:app/shared/components/constants.dart';
 import 'package:app/shared/cubit/cubit.dart';
@@ -57,7 +58,7 @@ class HomePage extends StatelessWidget {
                                     .textTheme
                                     .headlineSmall!
                                     .copyWith(
-                                        color: firstColor,
+                                        color: AppColors.firstColor,
                                         fontWeight: FontWeight.bold),
                               )),
                         ),
@@ -115,7 +116,7 @@ class HomePage extends StatelessWidget {
                                         padding: const EdgeInsets.all(12),
                                         width: double.infinity,
                                         decoration: BoxDecoration(
-                                            color: firstColor,
+                                            color: AppColors.firstColor,
                                             borderRadius:
                                                 BorderRadius.circular(20)),
                                         child: Row(
@@ -133,7 +134,7 @@ class HomePage extends StatelessWidget {
                                                       MainAxisAlignment.center,
                                                   children: [
                                                     const Text(
-                                                        " نقد لك بعض المميزات ⚡",
+                                                        " نقدم لك بعض المميزات ⚡",
                                                         style: TextStyle(
                                                             color: Colors.white,
                                                             fontSize: 20)),
@@ -141,9 +142,9 @@ class HomePage extends StatelessWidget {
                                                     Text(
                                                         Constants.onboaringData[
                                                             itemIndex]["text"],
-                                                        style: const TextStyle(
-                                                            color:
-                                                                kTextLightColor,
+                                                        style: TextStyle(
+                                                            color: AppColors
+                                                                .kTextLightColor,
                                                             fontWeight:
                                                                 FontWeight
                                                                     .w600)),
@@ -224,7 +225,7 @@ class HomePage extends StatelessWidget {
                           ),
                           fallback: (context) {
                             return Container(
-                              color: kBackgroundColor,
+                              color: AppColors.kBackgroundColor,
                               child: Center(
                                 child: Column(
                                     // mainAxisAlignment: MainAxisAlignment.center,
@@ -251,11 +252,12 @@ class HomePage extends StatelessWidget {
                           },
                         );
                       } else {
-                        return Container(
-                            width: 50,
-                            color: Colors.white,
-                            child: Center(
-                                child: Image.asset('assets/ripple.gif')));
+                        return const LoadingPage();
+                        // Container(
+                        //     width: 50,
+                        //     color: Colors.white,
+                        //     child: Center(
+                        //         child: Image.asset('assets/ripple.gif')));
                       }
                     })),
           );

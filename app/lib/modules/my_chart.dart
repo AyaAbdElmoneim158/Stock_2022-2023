@@ -20,6 +20,12 @@ class SalesDataYear {
   final double sales;
 }
 
+class BarChart1 {
+  final String name;
+  final List<SalesData> data;
+  BarChart1(this.name, this.data);
+}
+
 class MyChart extends StatelessWidget {
   const MyChart({super.key});
   @override
@@ -85,7 +91,7 @@ class MyChart extends StatelessWidget {
                               xValueMapper: (SalesData sales, _) => sales.month,
                               yValueMapper: (SalesData sales, _) => sales.sales,
                               pointColorMapper: (SalesData sales, _) =>
-                                  firstColor)
+                                  AppColors.firstColor)
                         ]),
                   ),
                 ),

@@ -1,35 +1,24 @@
-import 'package:app/layout/bottom_navbar.dart';
 import 'package:app/layout/bottom_navbar_new.dart';
-import 'package:app/models/sector_model.dart';
 import 'package:app/modules/Auth_pages/successful_page.dart';
 import 'package:app/modules/Navbar_pages/details_new_page.dart';
 import 'package:app/modules/Navbar_pages/new_dash.dart';
 import 'package:app/modules/Navbar_pages/stocks_inner_sector_new.dart';
-import 'package:app/modules/Navbar_pages/old_dash.dart';
 import 'package:app/modules/Auth_pages/forgetpasssword/with_email.dart';
 import 'package:app/modules/landing_page.dart';
-// import 'package:app/modules/more_charts.dart';
 import 'package:app/modules/news_url.dart';
-// import 'package:app/modules/stocks_inner_sector.dart';
-
 import 'package:app/modules/Auth_pages/login_page.dart';
-// import 'package:app/modules/onboarding_page.dart';
 import 'package:app/modules/Auth_pages/register_page.dart';
 import 'package:app/modules/no_internet_page.dart';
 import 'package:app/shared/router/routes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 
+//ToDo: onGenerate-router.......................................................
 Route<dynamic> onGenerate(RouteSettings settings) {
   switch (settings.name) {
-    // case AppRoutes.moreChatsRoute:
-    //   // final url = settings.arguments as String;
-
-    //   return CupertinoPageRoute(
-    //       builder: (_) => const DashBoardScreen(), settings: settings);
+    ///~> NewsUrl---------------------------------------------------------------
     case AppRoutes.newsUrlRoute:
       final url = settings.arguments as String;
-
       return CupertinoPageRoute(
           builder: (_) => StreamBuilder<ConnectivityResult>(
               stream: Connectivity().onConnectivityChanged,
@@ -39,12 +28,10 @@ Route<dynamic> onGenerate(RouteSettings settings) {
                     : NewsUrl(url: url);
               }),
           settings: settings);
+
+    ///~> StockAtSectorNew------------------------------------------------------
     case AppRoutes.stocksAtSectorRoute:
       final args = settings.arguments as Map<String, dynamic>;
-      // final sector = args["sector"] as SectorModle;
-      // final index = args["index"] as int;
-      // final args = settings.arguments as String;
-
       return CupertinoPageRoute(
           builder: (_) => StreamBuilder<ConnectivityResult>(
               stream: Connectivity().onConnectivityChanged,
@@ -56,9 +43,9 @@ Route<dynamic> onGenerate(RouteSettings settings) {
                         sectorNameEn: args["titleEn"],
                         svgSrc: args["image"]);
               }), //
-          // StocksInnerSectot(sectorName: args),
           settings: settings);
 
+    ///~> DetailNewsScreen------------------------------------------------------
     case AppRoutes.detailsStockRoute:
       final ramz = settings.arguments as String;
       return CupertinoPageRoute(
@@ -69,11 +56,9 @@ Route<dynamic> onGenerate(RouteSettings settings) {
                     ? const NoInternetPage()
                     : DetailNewsScreen(ramz: ramz);
               }),
-          // DetailsStock(ramz: ramz),
           settings: settings);
 
-// dashStockRoute
-
+    ///~> NewDash---------------------------------------------------------------
     case AppRoutes.dashStockRoute:
       final ramz = settings.arguments as String;
       return CupertinoPageRoute(
@@ -84,10 +69,9 @@ Route<dynamic> onGenerate(RouteSettings settings) {
                     ? const NoInternetPage()
                     : NewDash(ramz: ramz);
               }),
-          //  OldDash(ramz: ramz),
-          // DetailsStock(ramz: ramz),
           settings: settings);
 
+    ///~> BottomNavbarNew-------------------------------------------------------
     case AppRoutes.navbarRoute:
       return CupertinoPageRoute(
           builder: (_) => StreamBuilder<ConnectivityResult>(
@@ -98,6 +82,8 @@ Route<dynamic> onGenerate(RouteSettings settings) {
                     : const BottomNavbarNew();
               }),
           settings: settings);
+
+    ///~> SuccessfulLogin-------------------------------------------------------
     case AppRoutes.successRoute:
       return CupertinoPageRoute(
           builder: (_) => StreamBuilder<ConnectivityResult>(
@@ -108,6 +94,8 @@ Route<dynamic> onGenerate(RouteSettings settings) {
                     : const SuccessfulLogin();
               }),
           settings: settings);
+
+    ///~> ForgetPasswordWithEmail-----------------------------------------------
     case AppRoutes.resetPasswordRoute:
       return CupertinoPageRoute(
           builder: (_) => StreamBuilder<ConnectivityResult>(
@@ -118,6 +106,8 @@ Route<dynamic> onGenerate(RouteSettings settings) {
                     : ForgetPasswordWithEmail();
               }),
           settings: settings);
+
+    ///~> LoginPage-------------------------------------------------------------
     case AppRoutes.loginRoute:
       return CupertinoPageRoute(
           builder: (_) => StreamBuilder<ConnectivityResult>(
@@ -128,6 +118,8 @@ Route<dynamic> onGenerate(RouteSettings settings) {
                     : LoginPage();
               }),
           settings: settings);
+
+    ///~> RegisterPage----------------------------------------------------------
     case AppRoutes.registerRoute:
       return CupertinoPageRoute(
           builder: (_) => StreamBuilder<ConnectivityResult>(
@@ -138,6 +130,8 @@ Route<dynamic> onGenerate(RouteSettings settings) {
                     : RegisterPage();
               }),
           settings: settings);
+
+    ///~> LandingPage-----------------------------------------------------------
     case AppRoutes.landingRoute:
     default:
       return CupertinoPageRoute(

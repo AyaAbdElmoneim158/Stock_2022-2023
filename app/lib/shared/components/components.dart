@@ -6,6 +6,7 @@ import 'package:app/models/stock_at_sector_model.dart';
 import 'package:app/models/stock_model.dart';
 import 'package:app/modules/Navbar_pages/new_dash.dart';
 import 'package:app/modules/Navbar_pages/real_time.dart';
+import 'package:app/modules/loading_page.dart';
 import 'package:app/shared/components/constants.dart';
 //  import 'package:app/modules/coin.dart';
 import 'package:app/shared/cubit/cubit.dart';
@@ -49,8 +50,8 @@ Widget defaultButton(
         {required String text,
         required void Function()? onPressed,
         required BuildContext context,
-        Color color = secondColor,
-        Color textColor = whiteColor}) =>
+        Color color = const Color(0XFFF5A623),
+        Color textColor = const Color(0XFFEDEDED)}) =>
     SizedBox(
       width: double.infinity,
       height: 50,
@@ -72,14 +73,14 @@ Widget defaultButton0({String text = '', final VoidCallback? onTap}) =>
       child: ElevatedButton(
         onPressed: onTap,
         style: ElevatedButton.styleFrom(
-          backgroundColor: secondColor, //Colors.green.shade600,
+          backgroundColor: AppColors.secondColor, //Colors.green.shade600,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
         ),
         child: Text(
           text,
-          style: const TextStyle(color: whiteColor, fontSize: 16),
+          style: TextStyle(color: AppColors.whiteColor, fontSize: 16),
         ),
       ),
     );
@@ -97,22 +98,23 @@ Widget defaultField({
       width: double.infinity,
       height: 60,
       child: TextFormField(
-        cursorColor: kTextColor,
+        cursorColor: AppColors.kTextColor,
         onChanged: onChanged,
         controller: controller,
         validator: validator,
         textInputAction: TextInputAction.next,
         decoration: InputDecoration(
           // labelText: labelText,
-          floatingLabelStyle: const TextStyle(
-              color: kTextMediumColor, fontWeight: FontWeight.w600),
+          floatingLabelStyle: TextStyle(
+              color: AppColors.kTextMediumColor, fontWeight: FontWeight.w600),
           hintText: hintText,
           enabledBorder: OutlineInputBorder(
             borderSide: const BorderSide(color: Colors.grey, width: 1.5),
             borderRadius: BorderRadius.circular(10),
           ),
           focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: ksecondaryColor, width: 1.5),
+            borderSide:
+                BorderSide(color: AppColors.ksecondaryColor, width: 1.5),
             borderRadius: BorderRadius.circular(10),
           ),
           errorBorder: UnderlineInputBorder(
@@ -226,7 +228,7 @@ Widget defaultCard(context,
           clipBehavior: Clip.none,
           children: [
             Card(
-              color: firstColor,
+              color: AppColors.firstColor,
               elevation: 20,
               shadowColor: Theme.of(context).dividerColor,
               child: Padding(
@@ -242,7 +244,7 @@ Widget defaultCard(context,
                             style: Theme.of(context)
                                 .textTheme
                                 .headlineSmall!
-                                .copyWith(color: whiteColor),
+                                .copyWith(color: AppColors.whiteColor),
                           ),
                         ),
                         // Coin(ramz: arrowModle.ramz, lastPrice: arrowModle.price)
@@ -257,7 +259,7 @@ Widget defaultCard(context,
                             style: Theme.of(context)
                                 .textTheme
                                 .bodySmall!
-                                .copyWith(color: secondColor)),
+                                .copyWith(color: AppColors.secondColor)),
                         isFollow
                             ? Text(
                                 // "",
@@ -296,7 +298,7 @@ Widget defaultCard(context,
 }
 
 //!~> defaultSector >===========================<
-Widget defaultSector(context, SectorModel sectorModle, {int index = 0}) =>
+/*Widget defaultSector(context, SectorModel sectorModle, {int index = 0}) =>
     SizedBox(
       width: double.infinity,
       child: InkWell(
@@ -332,7 +334,7 @@ Widget defaultSector(context, SectorModel sectorModle, {int index = 0}) =>
         ),
       ),
     );
-
+*/
 //!~> SocailCArd................................................................
 class SocailCArd extends StatelessWidget {
   const SocailCArd({
@@ -365,13 +367,15 @@ class SocailCArd extends StatelessWidget {
 
 //!~> snackbarErr........................................................
 SnackBar snackbarErr(AppStates state,
-    {required String message, required ContentType contentType}) {
+    {required String message,
+    required ContentType contentType,
+    String title = ''}) {
   return SnackBar(
     elevation: 0,
     behavior: SnackBarBehavior.floating,
     backgroundColor: Colors.transparent,
     content: AwesomeSnackbarContent(
-        title: '', message: message, contentType: contentType
+        title: title, message: message, contentType: contentType
         // ContentType.failure,
         ),
   );
@@ -393,7 +397,7 @@ class SearchBox extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: firstColor.withOpacity(0.32),
+          color: AppColors.firstColor.withOpacity(0.32),
         ),
       ),
       child: TextField(
@@ -402,7 +406,7 @@ class SearchBox extends StatelessWidget {
           border: InputBorder.none,
           icon: const Icon(Icons.search, color: Color(0XFF12192C)),
           hintText: Constants.searchHere,
-          hintStyle: const TextStyle(color: kTextColor),
+          hintStyle: TextStyle(color: AppColors.kTextColor),
         ),
       ),
     );
@@ -460,7 +464,7 @@ class ItemCard extends StatelessWidget {
                   margin: const EdgeInsets.only(bottom: 15),
                   padding: const EdgeInsets.all(25),
                   decoration: BoxDecoration(
-                    color: kPrimaryColor.withOpacity(0.13),
+                    color: AppColors.kPrimaryColor.withOpacity(0.13),
                     shape: BoxShape.circle,
                   ),
                   child: Image.network(
@@ -473,9 +477,9 @@ class ItemCard extends StatelessWidget {
                     lang ? titleAr : titleEn,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: kBodyText.copyWith(
+                    style: AppTextStyles.kBodyText.copyWith(
                         fontSize: 20,
-                        color: kTextColor,
+                        color: AppColors.kTextColor,
                         fontWeight: FontWeight.w700),
                   ),
                 ),
@@ -491,7 +495,7 @@ class ItemCard extends StatelessWidget {
 //?~>homeAppBar.................................................................
 AppBar homeAppBar(BuildContext context) {
   return AppBar(
-    backgroundColor: kBackgroundColor,
+    backgroundColor: AppColors.kBackgroundColor,
     elevation: 0,
     leading: IconButton(
       icon: const Icon(Icons.menu, color: Color(0XFF12192C)),
@@ -555,8 +559,8 @@ class CategoryItem extends StatelessWidget {
                 Text(
                   category.categoryAr,
                   style: isActive
-                      ? const TextStyle(
-                          color: kTextColor,
+                      ? TextStyle(
+                          color: AppColors.kTextColor,
                           fontWeight: FontWeight.bold,
                         )
                       : const TextStyle(fontSize: 12),
@@ -567,7 +571,7 @@ class CategoryItem extends StatelessWidget {
                     height: 3,
                     width: 22,
                     decoration: BoxDecoration(
-                      color: secondColor,
+                      color: AppColors.secondColor,
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
@@ -722,8 +726,8 @@ class NewsCard extends StatelessWidget {
               children: <Widget>[
                 Text(
                   news.title.toString(),
-                  style: kBodyText.copyWith(
-                      color: firstColor, fontWeight: FontWeight.w700),
+                  style: AppTextStyles.kBodyText.copyWith(
+                      color: AppColors.firstColor, fontWeight: FontWeight.w700),
                 ),
                 const SizedBox(height: 16),
                 Expanded(
@@ -731,7 +735,8 @@ class NewsCard extends StatelessWidget {
                     news.des.toString(),
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
-                    style: kBodyText.copyWith(color: kTextColor),
+                    style: AppTextStyles.kBodyText
+                        .copyWith(color: AppColors.kTextColor),
                   ),
                 ),
                 Align(
@@ -768,15 +773,17 @@ class NewsList extends StatelessWidget {
 }
 
 //?~> buildDetailsAppBar...................................................................
-AppBar buildDetailsAppBar(BuildContext context, {required String title}) {
+/*AppBar buildDetailsAppBar(BuildContext context, {required String title}) {
   return AppBar(
-    backgroundColor: kBackgroundColor,
+    backgroundColor: AppColors.kBackgroundColor,
     elevation: 0,
-    title: Text(title, style: kBodyText.copyWith(color: kPrimaryColor)),
+    title: Text(title,
+        style:
+            AppTextStyles.kBodyText.copyWith(color: AppColors.kPrimaryColor)),
     leading: IconButton(
-      icon: const Icon(
+      icon: Icon(
         Icons.arrow_back_ios,
-        color: kPrimaryColor,
+        color: AppColors.kPrimaryColor,
       ),
       onPressed: () {
         Navigator.pop(context);
@@ -789,7 +796,7 @@ AppBar buildDetailsAppBar(BuildContext context, {required String title}) {
       ),
     ],
   );
-}
+}*/
 
 /*
 //! Search_box ..............................................................
@@ -1201,7 +1208,7 @@ class StockCard extends StatelessWidget {
                                       .textTheme
                                       .titleSmall!
                                       .copyWith(
-                                          color: kTextColor,
+                                          color: AppColors.kTextColor,
                                           fontWeight: FontWeight.w600)),
                               Text(stockAtSector.name,
                                   maxLines: 1,
@@ -1210,7 +1217,7 @@ class StockCard extends StatelessWidget {
                                       .textTheme
                                       .titleLarge!
                                       .copyWith(
-                                          color: textColor,
+                                          color: AppColors.textColor,
                                           fontWeight: FontWeight.w600)),
                             ]),
                       ),
@@ -1222,12 +1229,13 @@ class StockCard extends StatelessWidget {
                             debugPrint(snapshot.data.toString());
                             switch (snapshot.connectionState) {
                               case ConnectionState.waiting:
-                                return Container(
-                                    width: 50,
-                                    color: Colors.white,
-                                    child: Center(
-                                        child: Image.asset(
-                                            'assets/ripple.gif'))); //const Center(child: CircularProgressIndicator());
+                                return const LoadingPage();
+                              // Container(
+                              //     width: 50,
+                              //     color: Colors.white,
+                              //     child: Center(
+                              //         child: Image.asset(
+                              //             'assets/ripple.gif'))); //const Center(child: CircularProgressIndicator());
                               default:
                                 if (snapshot.hasError) {
                                   return const Text("Error...");
@@ -1283,13 +1291,13 @@ class StockCard extends StatelessWidget {
                                                                               .toString()))) <
                                                                   0
                                                               ? Colors.green
-                                                              : firstColor,
+                                                              : AppColors.firstColor,
                                                     )),
-                                            const Text(
+                                            Text(
                                               " EGP ",
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold,
-                                                  color: firstColor),
+                                                  color: AppColors.firstColor),
                                             )
                                           ],
                                         ),
@@ -1332,8 +1340,7 @@ class StockCard extends StatelessWidget {
                                                               0
                                                           // .contains('-')
                                                           ? Colors.red
-                                                          : (double.parse(appCubit
-                                                                              .priceNo[
+                                                          : (double.parse(appCubit.priceNo[
                                                                           1]) *
                                                                       (double.parse(appCubit.priceNo[0]) -
                                                                           double.parse(appCubit
@@ -1343,13 +1350,14 @@ class StockCard extends StatelessWidget {
                                                                               .toString()))) <
                                                                   0
                                                               ? Colors.green
-                                                              : firstColor,
+                                                              : AppColors
+                                                                  .firstColor,
                                                     )),
-                                            const Text(
+                                            Text(
                                               " % ",
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold,
-                                                  color: firstColor),
+                                                  color: AppColors.firstColor),
                                             )
                                           ],
                                         ),
@@ -1477,7 +1485,7 @@ class StockCardFav extends StatelessWidget {
                                     .textTheme
                                     .titleSmall!
                                     .copyWith(
-                                        color: textColor,
+                                        color: AppColors.textColor,
                                         fontWeight: FontWeight.w600)),
                             Text(stockAtSector.name,
                                 maxLines: 1,
@@ -1486,7 +1494,7 @@ class StockCardFav extends StatelessWidget {
                                     .textTheme
                                     .titleLarge!
                                     .copyWith(
-                                        color: textColor,
+                                        color: AppColors.textColor,
                                         fontWeight: FontWeight.w600)),
                           ]),
                     ),
@@ -1597,10 +1605,8 @@ GestureDetector stockCardInnerSector(BuildContext context,
                 stockAtSector.ramz,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: Theme.of(context)
-                    .textTheme
-                    .titleSmall!
-                    .copyWith(color: kTextColor, fontWeight: FontWeight.w600),
+                style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                    color: AppColors.kTextColor, fontWeight: FontWeight.w600),
               ),
 
               Text(
@@ -1608,10 +1614,8 @@ GestureDetector stockCardInnerSector(BuildContext context,
                 transs[stockAtSector.name].toString(),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: Theme.of(context)
-                    .textTheme
-                    .titleLarge!
-                    .copyWith(color: textColor, fontWeight: FontWeight.w600),
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                    color: AppColors.textColor, fontWeight: FontWeight.w600),
               ),
             ]),
           ),
@@ -1624,7 +1628,7 @@ GestureDetector stockCardInnerSector(BuildContext context,
                   textDirection: ui.TextDirection.ltr,
                   child: Text(stockAtSector.price,
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            color: firstColor,
+                            color: AppColors.firstColor,
                           ))),
               Directionality(
                   textDirection: ui.TextDirection.ltr,
@@ -1709,7 +1713,7 @@ Container newsContainer(BuildContext context, {required List<News> news}) {
               style: Theme.of(context)
                   .textTheme
                   .headlineMedium!
-                  .copyWith(color: secondColor, height: 1.2),
+                  .copyWith(color: AppColors.secondColor, height: 1.2),
             ),
             // const Icon(Icons.newspaper)
           ],
@@ -1745,7 +1749,7 @@ Container aboutContainer(BuildContext context, {required String about}) {
               style: Theme.of(context)
                   .textTheme
                   .headlineMedium!
-                  .copyWith(color: secondColor, height: 1.2),
+                  .copyWith(color: AppColors.secondColor, height: 1.2),
             ),
             // const Icon(Icons.location_city)
           ],
@@ -1774,8 +1778,8 @@ Row nameLogo({required String ramz, required String logo}) {
         // alignment: Alignment.centerRight,
         child: Text(
           ramz,
-          style: const TextStyle(
-            color: kTextColor,
+          style: TextStyle(
+            color: AppColors.kTextColor,
             fontWeight: FontWeight.w600,
             fontSize: 20,
           ),
@@ -1788,7 +1792,7 @@ Row nameLogo({required String ramz, required String logo}) {
 CircleAvatar logoCircleAvatar({required String logo}) {
   return CircleAvatar(
     radius: 30,
-    backgroundColor: kPrimaryColor.withOpacity(0.5),
+    backgroundColor: AppColors.kPrimaryColor.withOpacity(0.5),
     backgroundImage: NetworkImage(logo),
   );
 }
@@ -1817,13 +1821,13 @@ class CustomeTextField extends StatelessWidget {
       child: TextFormField(
         validator: validator,
         controller: controller,
-        style: kBodyText.copyWith(color: kTextColor),
+        style: AppTextStyles.kBodyText.copyWith(color: AppColors.kTextColor),
         keyboardType: inputType,
         textInputAction: TextInputAction.next,
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.all(20),
           hintText: hintText,
-          hintStyle: kBodyText,
+          hintStyle: AppTextStyles.kBodyText,
           enabledBorder: OutlineInputBorder(
             borderSide: const BorderSide(
               color: Colors.grey,
@@ -1832,8 +1836,8 @@ class CustomeTextField extends StatelessWidget {
             borderRadius: BorderRadius.circular(18),
           ),
           focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(
-              color: kPrimaryColor,
+            borderSide: BorderSide(
+              color: AppColors.kPrimaryColor,
               width: 2,
             ),
             borderRadius: BorderRadius.circular(18),
@@ -1876,7 +1880,7 @@ class CustomeTextButton extends StatelessWidget {
         onPressed: onTap,
         child: Text(
           buttonName,
-          style: kButtonText.copyWith(color: textColor),
+          style: AppTextStyles.kButtonText.copyWith(color: textColor),
         ),
       ),
     );
@@ -1906,8 +1910,8 @@ class CustomePasswordField extends StatelessWidget {
       child: TextFormField(
         validator: validator,
         controller: controller,
-        style: kBodyText.copyWith(
-          color: ksecondaryColor,
+        style: AppTextStyles.kBodyText.copyWith(
+          color: AppColors.ksecondaryColor,
         ),
         obscureText: isPasswordVisible,
         keyboardType: TextInputType.text,
@@ -1927,7 +1931,7 @@ class CustomePasswordField extends StatelessWidget {
           ),
           contentPadding: const EdgeInsets.all(20),
           hintText: hintText,
-          hintStyle: kBodyText,
+          hintStyle: AppTextStyles.kBodyText,
           enabledBorder: OutlineInputBorder(
             borderSide: const BorderSide(
               color: Colors.grey,
@@ -1936,8 +1940,8 @@ class CustomePasswordField extends StatelessWidget {
             borderRadius: BorderRadius.circular(18),
           ),
           focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(
-              color: kPrimaryColor,
+            borderSide: BorderSide(
+              color: AppColors.kPrimaryColor,
               width: 2,
             ),
             borderRadius: BorderRadius.circular(18),
@@ -1969,11 +1973,12 @@ class detailsChart extends StatelessWidget {
           // chartData,
           chartName: 'Divide',
           dataSourceLine: chartData),
-      fallback: (context) => Container(
-          width: 100,
-          color: Colors.white,
-          child:
-              Center(child: Center(child: Image.asset('assets/ripple.gif')))),
+      fallback: (context) => const LoadingPage(),
+      // Container(
+      //     width: 100,
+      //     color: Colors.white,
+      //     child:
+      //         Center(child: Center(child: Image.asset('assets/ripple.gif')))),
     );
   }
 }
@@ -1983,9 +1988,9 @@ AppBar generalAppbar(BuildContext context) {
     backgroundColor: Colors.transparent,
     elevation: 0,
     leading: IconButton(
-        icon: const Icon(
+        icon: Icon(
           Icons.arrow_back_ios,
-          color: firstColor,
+          color: AppColors.firstColor,
         ),
         onPressed: () => Navigator.pop(context)),
   );
@@ -2087,7 +2092,7 @@ Column carouselSildeWelcome(BuildContext context, int itemIndex) {
           width: MediaQuery.of(context).size.width * 0.8,
           child: Text(
             Constants.carouselData[itemIndex]["text"],
-            style: kBodyText2,
+            style: AppTextStyles.kBodyText2,
             textAlign: TextAlign.center,
           ),
         ),
@@ -2117,7 +2122,7 @@ class _PasswordFeildState extends State<PasswordFeild> {
       child: TextFormField(
         controller: widget.controller,
         onChanged: widget.onChanged,
-        cursorColor: kTextColor,
+        cursorColor: AppColors.kTextColor,
         obscureText: passwordVisible,
         validator: (val) => val!.isEmpty ? Constants.passwordFeildAlert : null,
         decoration: InputDecoration(
@@ -2127,7 +2132,7 @@ class _PasswordFeildState extends State<PasswordFeild> {
           // helperText: "Password must contain special character",
           // helperStyle: TextStyle(color: Colors.green),
           suffixIcon: IconButton(
-            color: secondColor,
+            color: AppColors.secondColor,
             icon:
                 Icon(passwordVisible ? Icons.visibility : Icons.visibility_off),
             onPressed: () {
@@ -2145,7 +2150,8 @@ class _PasswordFeildState extends State<PasswordFeild> {
             borderRadius: BorderRadius.circular(10),
           ),
           focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: ksecondaryColor, width: 1.5),
+            borderSide:
+                BorderSide(color: AppColors.ksecondaryColor, width: 1.5),
             borderRadius: BorderRadius.circular(10),
           ),
           errorBorder: UnderlineInputBorder(
@@ -2173,6 +2179,245 @@ AppBar customeAppbar(BuildContext context) {
           "Logout",
           style: Theme.of(context).textTheme.titleLarge,
         ),
+      ),
+    ],
+  );
+}
+
+StreamBuilder<List<StockModle>> followIcon(
+    AppCubit appCubit,
+    StockModelApi details,
+    TextEditingController stockNoController,
+    ui.Size size,
+    TextEditingController stockPriceController) {
+  return StreamBuilder<List<StockModle>>(
+      stream: appCubit.stocksAtFollowStream(ramz: details.ramz.toString()),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.active) {
+          final stock = snapshot.data;
+          // debugPrint(stock![0].id.toString());
+          debugPrint(stock.runtimeType.toString());
+          if (stock!.isEmpty) {
+            return TextButton(
+                onPressed: () {
+                  //! pop....
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          // title: Text("Success"),
+                          content: SizedBox(
+                            // color: Colors.blueGrey,
+                            height: 250,
+                            child: Form(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  children: [
+                                    defaultField(
+                                        hintText: Constants.stockNoLabel,
+                                        labelText: Constants.stockNoLabel,
+                                        controller: stockNoController,
+                                        validator: (val) => val!.isEmpty
+                                            ? Constants.stockNoAlart
+                                            : null,
+                                        onChanged: (val) =>
+                                            appCubit.changeStockNo(val)),
+                                    SizedBox(height: size.height * 0.03),
+                                    defaultField(
+                                        hintText: Constants.stockPriceLabel,
+                                        labelText: Constants.stockPriceLabel,
+                                        controller: stockPriceController,
+                                        validator: (val) => val!.isEmpty
+                                            ? Constants.stockPriceAlart
+                                            : null,
+                                        onChanged: (val) =>
+                                            appCubit.changeStockPrice(val)),
+                                    SizedBox(height: size.height * 0.03),
+                                    defaultButton(
+                                        text: "Follow",
+                                        onPressed: () {
+                                          //!.........................Added Here
+                                          // debugPrint(stockPriceController.text);
+                                          // debugPrint(stockNoController.text);
+                                          StockModle stockModle = StockModle(
+                                            id: DateTime.now()
+                                                .toIso8601String(),
+                                            logo: details.logo.toString(),
+                                            name: details.name.toString(),
+                                            price: stockPriceController.text,
+                                            ramz: details.ramz.toString(),
+                                            stocksNo: stockNoController.text,
+                                          );
+                                          appCubit.addArrowToFollowingArrow(
+                                              stockModle);
+                                          Navigator.of(context).pop();
+                                        },
+                                        context: context)
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      });
+                },
+                child: Text(
+                  "follow",
+                  style: AppTextStyles.kBodyText,
+                ));
+          } else {
+            return TextButton(
+                onPressed: () {
+                  appCubit.deleteFollowingArrow(
+                      id: stock[0].id); //! remove to fav with message
+                },
+                child: Text(
+                  "follower",
+                  style: AppTextStyles.kBodyText!.copyWith(color: Colors.green),
+                ));
+          }
+        } else {
+          return TextButton(
+              onPressed: () {},
+              child: Text(
+                "follow",
+                style: AppTextStyles.kBodyText,
+              ));
+        }
+      });
+}
+
+StreamBuilder<List<StockModle>> bookmarkIcon(
+    AppCubit appCubit,
+    StockModelApi details,
+    TextEditingController stockPriceController,
+    TextEditingController stockNoController) {
+  return StreamBuilder<List<StockModle>>(
+      stream: appCubit.stocksAtFavStream(ramz: details.ramz.toString()),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.active) {
+          final stock = snapshot.data;
+          debugPrint(stock.runtimeType.toString());
+          if (stock!.isEmpty) {
+            return IconButton(
+                onPressed: () {
+                  StockModle stockModle = StockModle(
+                    id: DateTime.now().toIso8601String(),
+                    logo: details.logo.toString(),
+                    name: details.name.toString(),
+                    price: stockPriceController.text,
+                    ramz: details.ramz.toString(),
+                    stocksNo: stockNoController.text,
+                  );
+                  appCubit.addArrowToFavoriteArrow(stockModle);
+                },
+                icon: Icon(
+                  Icons.bookmark_add_outlined,
+                  color: AppColors.firstColor,
+                ));
+          } else {
+            return IconButton(
+                onPressed: () {
+                  appCubit.deleteFavoriteArrow(
+                      id: stock[0].id); //! remove to fav with message
+                },
+                icon: const Icon(
+                  Icons.bookmark_add,
+                  color: Colors.grey,
+                ));
+          }
+        } else {
+          return IconButton(
+              onPressed: () {},
+              icon: Icon(
+                Icons.bookmark_add_outlined,
+                color: AppColors.firstColor,
+              ));
+        }
+      });
+}
+
+RichText buildInfoTextWithPercentage(
+    {required String title, required String percentage}) {
+  return RichText(
+    text: TextSpan(
+      children: [
+        TextSpan(
+          text: "$percentage% \n",
+          style: TextStyle(
+            fontSize: 20,
+            color: AppColors.kPrimaryColor,
+          ),
+        ),
+        TextSpan(
+          text: title,
+          style: TextStyle(
+            color: AppColors.kTextMediumColor,
+            height: 1.5,
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+Row buildCaseNumber(BuildContext context) {
+  return Row(
+    children: <Widget>[
+      Text(
+        "5.47 ",
+        style: Theme.of(context)
+            .textTheme
+            .headline2!
+            .copyWith(color: AppColors.kPrimaryColor, height: 1.2),
+      ),
+      Text(
+        "5.9% ",
+        style: TextStyle(color: AppColors.kPrimaryColor),
+      ),
+      // SvgPicture.asset("assets/icons/increase.svg")
+    ],
+  );
+}
+
+Row buildTitleWithMoreIcon({required ramz}) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: <Widget>[
+      Align(
+        alignment: Alignment.centerLeft,
+        child: Text(
+          ramz,
+          style: TextStyle(
+            color: AppColors.kTextMediumColor,
+            fontWeight: FontWeight.w600,
+            fontSize: 15,
+          ),
+        ),
+      ),
+      // SvgPicture.asset("assets/icons/more.svg")
+    ],
+  );
+}
+
+AppBar buildDetailsAppBar(BuildContext context) {
+  return AppBar(
+    backgroundColor: AppColors.kBackgroundColor,
+    elevation: 0,
+    leading: IconButton(
+      icon: Icon(
+        Icons.arrow_back_ios,
+        color: AppColors.kPrimaryColor,
+      ),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    ),
+    actions: <Widget>[
+      IconButton(
+        icon: SvgPicture.asset("assets/icons/search.svg"),
+        onPressed: () {},
       ),
     ],
   );

@@ -61,7 +61,7 @@ class _BottomNavbarNewState extends State<BottomNavbarNew> {
             borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(16), topRight: Radius.circular(16)),
             child: SlidingClippedNavBar(
-              backgroundColor: firstColor, // const Color(0XFF12192C),
+              backgroundColor: AppColors.firstColor, // const Color(0XFF12192C),
               onButtonPressed: onButtonPressed,
               iconSize: 30,
               activeColor: const Color(0xFFffffff),
@@ -101,7 +101,7 @@ class _BottomNavbarNewState extends State<BottomNavbarNew> {
 List<Widget> _listOfWidget = <Widget>[
   // TestPage(ramz: 'abuk'),
   // ChatScreen(),
-  const NewDash(ramz: 'irax'), //irax, fwry
+  const NewDash(ramz: 'abuk'), //irax, fwry,RACC,SCTS,TRTO
   const TestChatsApi(),
   // const HomePage(),
   // const ExploreNew(),

@@ -4,11 +4,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 class CacheHelper {
   static SharedPreferences? shared;
 
-//!~> Cache_init >=============================================================<
+  ///~> Cache_init--------------------------------------------------------------
   static Future<SharedPreferences> init() async =>
       shared = await SharedPreferences.getInstance();
 
-//!~> Dio_setData >============================================================<
+  ///~> Dio_setData-------------------------------------------------------------
   static Future<bool> setData(String key, dynamic value) async {
     switch (value.runtimeType) {
       case int:
@@ -26,10 +26,10 @@ class CacheHelper {
     }
   }
 
-//!~> Dio_getData >============================================================<
-  static dynamic getData({required String key})  =>  shared!.get(key);
+  ///~> Dio_getData-------------------------------------------------------------
+  static dynamic getData({required String key}) => shared!.get(key);
 
-//!~> Dio_removeData >=========================================================<
-  static Future<bool> removeData({required String key}) async => await shared!.remove(key);
-
+  ///~> Dio_removeData----------------------------------------------------------
+  static Future<bool> removeData({required String key}) async =>
+      await shared!.remove(key);
 }

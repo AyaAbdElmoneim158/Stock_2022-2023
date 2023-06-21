@@ -1,4 +1,5 @@
 import 'package:app/models/sales_data_model.dart';
+import 'package:app/modules/loading_page.dart';
 import 'package:app/shared/components/components.dart';
 import 'package:app/shared/cubit/cubit.dart';
 import 'package:app/shared/cubit/states.dart';
@@ -45,37 +46,37 @@ List<SalesData> salesData5 = [
   SalesData("2022", 44),
 ];
 
-List<BarChart1> incomeStatementData = [
-  BarChart1('Total revenue', salesData1),
-  BarChart1('Gross profit', salesData2),
-  BarChart1('Operating income', salesData3),
-  BarChart1('Pretax income', salesData4),
-  BarChart1('Net income', salesData5),
+List<BarChart> incomeStatementData = [
+  BarChart('Total revenue', salesData1),
+  BarChart('Gross profit', salesData2),
+  BarChart('Operating income', salesData3),
+  BarChart('Pretax income', salesData4),
+  BarChart('Net income', salesData5),
 ];
 
-List<BarChart1> balanceSheetData = [
-  BarChart1('Total assets', salesData1),
-  BarChart1('Total liabilities', salesData2),
+List<BarChart> balanceSheetData = [
+  BarChart('Total assets', salesData1),
+  BarChart('Total liabilities', salesData2),
 ];
 
-List<BarChart1> cashFlowData = [
-  BarChart1('Cash from operating activities', salesData1),
-  BarChart1('Cash from investing activities', salesData2),
-  BarChart1('Cash from financing activities', salesData2),
+List<BarChart> cashFlowData = [
+  BarChart('Cash from operating activities', salesData1),
+  BarChart('Cash from investing activities', salesData2),
+  BarChart('Cash from financing activities', salesData2),
 ];
 
-List<BarChart1> divideData = [
-  BarChart1('Dividends per share', salesData1),
+List<BarChart> divideData = [
+  BarChart('Dividends per share', salesData1),
 ];
 
-List<BarChart1> revenueData = [
-  BarChart1('Reported', salesData1),
-  BarChart1('Estimate', salesData2),
+List<BarChart> revenueData = [
+  BarChart('Reported', salesData1),
+  BarChart('Estimate', salesData2),
 ];
 
-List<BarChart1> earningData = [
-  BarChart1('Reported', salesData1),
-  BarChart1('Estimate', salesData2),
+List<BarChart> earningData = [
+  BarChart('Reported', salesData1),
+  BarChart('Estimate', salesData2),
 ];
 
 class NewDash extends StatelessWidget {
@@ -91,9 +92,10 @@ class NewDash extends StatelessWidget {
         builder: (context, state) {
           final appCubit = AppCubit.get(context);
           final size = MediaQuery.of(context).size;
-          List<BarChart1> incomeBarChartData1 = appCubit.incomeBarChartData1,
+          List<BarChart> incomeBarChartData1 = appCubit.incomeBarChartData1,
               balanceSheetBarChartData1 = appCubit.balanceSheetBarChartData1,
               divideBarChartData1 = appCubit.divideBarChartData1,
+              cashFlowBarChartData1 = appCubit.cashFlowBarChartData1,
               revenueBarChartData1 = appCubit.revenueBarChartData1,
               earningBarChartData1 = appCubit.earningBarChartData1;
 
@@ -101,7 +103,7 @@ class NewDash extends StatelessWidget {
             condition: state is! FetchIncomeChartLoadingState,
             builder: (context) => Scaffold(
                 appBar: generalAppbar(context),
-                backgroundColor: kBackgroundColor,
+                backgroundColor: AppColors.kBackgroundColor,
                 body: Center(
                   child: SingleChildScrollView(
                     child: Column(
@@ -114,43 +116,58 @@ class NewDash extends StatelessWidget {
                                 groupsData: incomeBarChartData1,
                                 chartName: 'بيانات الدخل'),
 
-                        /* incomeBarChartData1.isEmpty
+                        balanceSheetBarChartData1.isEmpty
                             ? noData()
                             : columnsChart(
                                 //  balanceSheetData
                                 groupsData: balanceSheetBarChartData1,
                                 chartName: 'بَيَانُ المُوَازَنَة'),
-                        incomeBarChartData1.isEmpty
+                        divideBarChartData1.isEmpty
                             ? noData()
                             : columnsChartWithLine(
                                 //  divideData
                                 groupsData: divideBarChartData1,
                                 chartName: 'الإيرادات',
                                 dataSourceLine: appCubit.divideData2),
-                        incomeBarChartData1.isEmpty
+                        divideBarChartData1.isEmpty
+                            ? noData()
+                            : columnsChartWithLine(
+                                //  divideData
+                                groupsData: divideBarChartData1,
+                                chartName: 'الإيرادات',
+                                dataSourceLine: appCubit.divideData2),
+                        revenueBarChartData1.isEmpty
                             ? noData()
                             : columnsChart(
                                 //revenueData1
                                 // revenueBarChartData1
-                                groupsData:
-                                    // appCubit.revenueBarChartData1,
-                                    revenueData,
+                                groupsData: appCubit.cashFlowBarChartData1,
+                                // revenueData,
                                 chartName: 'أرباح'),
-                        incomeBarChartData1.isEmpty
+                        revenueBarChartData1.isEmpty
+                            ? noData()
+                            : columnsChart(
+                                //revenueData1
+                                // revenueBarChartData1
+                                groupsData: appCubit.revenueBarChartData1,
+                                // revenueData,
+                                chartName: 'أرباح'),
+                        earningBarChartData1.isEmpty
                             ? noData()
                             : columnsChart(
                                 // earningBarChartData1
-                                groupsData: earningData,
-                                chartName: 'العوائد'),*/
+                                groupsData: appCubit.earningBarChartData1,
+                                chartName: 'العوائد'),
                       ],
                     ),
                   ),
                 )),
-            fallback: (context) => Container(
-                width: 50,
-                color: Colors.white,
-                child: Center(
-                    child: Center(child: Image.asset('assets/ripple.gif')))),
+            fallback: (context) => const LoadingPage(),
+            // Container(
+            //     width: 50,
+            //     color: Colors.white,
+            //     child: Center(
+            //         child: Center(child: Image.asset('assets/ripple.gif')))),
           );
         },
       ),
@@ -172,7 +189,7 @@ class NewDash extends StatelessWidget {
 }
 
 Column columnsChart(
-    {required List<BarChart1> groupsData, required String chartName}) {
+    {required List<BarChart> groupsData, required String chartName}) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
@@ -247,7 +264,7 @@ Column columnsChart(
 }
 
 Column columnsChartWithLine(
-    {required List<BarChart1> groupsData,
+    {required List<BarChart> groupsData,
     required String chartName,
     required List<SalesData> dataSourceLine}) {
   return Column(
@@ -313,7 +330,7 @@ Column columnsChartWithLine(
 }
 
 Column chartWithLine(
-    {required List<BarChart1> groupsData,
+    {required List<BarChart> groupsData,
     required String chartName,
     required List<SalesData> dataSourceLine}) {
   return Column(
@@ -363,7 +380,7 @@ Column chartWithLine(
 }
 
 Column chartWithLine2(
-    {required List<BarChart1> groupsData,
+    {required List<BarChart> groupsData,
     required String chartName,
     required List<SalesData> dataSourceLine}) {
   return Column(

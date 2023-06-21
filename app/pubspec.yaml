@@ -46,6 +46,7 @@ dependencies:
     git:
       url: https://github.com/iampawan/Flutter-ChatGPT.git
   flutter_dotenv: ^5.1.0
+  velocity_x: ^3.6.0
 
 dev_dependencies:
   flutter_test:
@@ -54,6 +55,14 @@ dev_dependencies:
     sdk: flutter
 
   flutter_lints: ^2.0.0
+  flutter_launcher_icons: ^0.9.2
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/logo.png"
+  adaptive_icon_background: "#ffffff"
+  adaptive_icon_foreground: "assets/logo.png"
 
 flutter:
   # the material Icons class.

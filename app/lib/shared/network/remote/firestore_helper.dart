@@ -6,7 +6,7 @@ class FirestoreHelper {
   static final instance = FirestoreHelper._();
   final _fireStore = FirebaseFirestore.instance;
 
-//!~> setData >================================================================<
+  ///~> setData-----------------------------------------------------------------
   Future<void> setData(
       {required String path, required Map<String, dynamic> data}) async {
     final reference = _fireStore.doc(path);
@@ -15,7 +15,7 @@ class FirestoreHelper {
     await reference.set(data);
   }
 
-//!~> deleteData >=============================================================<
+  ///~> deleteData--------------------------------------------------------------
   Future<void> deleteData({required String path}) async {
     final reference = _fireStore.doc(path);
     // ignore: avoid_print
@@ -23,7 +23,7 @@ class FirestoreHelper {
     await reference.delete();
   }
 
-//!~> documentsStream >========================================================<
+  ///~> documentsStream---------------------------------------------------------
   Stream<T> documentsStream<T>(
       {required String path,
       required T Function(Map<String, dynamic>? data, String documentId)
@@ -33,7 +33,7 @@ class FirestoreHelper {
     return snapshots.map((snapshot) => builder(snapshot.data(), snapshot.id));
   }
 
-//!~> collectionsStream >======================================================<
+  ///~> collectionsStream-------------------------------------------------------
   Stream<List<T>> collectionsStream<T>(
       {required String path,
       required T Function(Map<String, dynamic>? data, String documentId)
@@ -62,19 +62,12 @@ class FirestoreHelper {
     });
   }
 
+  ///~> isFavoriteArrow---------------------------------------------------------
   //! firestore.collection('posts').where('tags', '!=', null)
   bool isFavoriteArrow({required user}) {
     Query<Map<String, dynamic>> query = _fireStore
         .collection('users/${user?.uid}/followingArrow/')
         .where('isFav', isEqualTo: true);
-    //!db.collection.find({ "fieldToCheck" : { $exists : true, $not : null } })
-    // _fireStore.collection.
-    //! db.getCollection('collectionName').findOne({"fieldName" : {$ne: null}})
-    // _fireStore.collection("").where(field)
-    // .getCollection('users/${user?.uid}/followingArrow/').findOne({"isFav":{true}});
-    // if(query){
-
-    // }
     return true;
   }
 }

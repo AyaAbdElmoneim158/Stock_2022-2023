@@ -26,22 +26,21 @@ class TestViewPage extends StatelessWidget {
         children: [
           CircleAvatar(
               radius: 24,
-              backgroundColor: firstColor.withOpacity(0.1),
+              backgroundColor: AppColors.firstColor.withOpacity(0.1),
               backgroundImage: const NetworkImage('stockAtSector.logo')),
           const SizedBox(width: 16),
           Expanded(
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Text('ACGC',
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleSmall!
-                      .copyWith(color: textColor, fontWeight: FontWeight.w400)),
+                  style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                      color: AppColors.textColor, fontWeight: FontWeight.w400)),
               Text('العربيه لخليج الاقطان',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                      color: firstColor, fontWeight: FontWeight.w500)),
+                      color: AppColors.firstColor,
+                      fontWeight: FontWeight.w500)),
             ]),
           ),
           const SizedBox(width: 20),
@@ -52,18 +51,18 @@ class TestViewPage extends StatelessWidget {
                 children: [
                   Text("45.34",
                       style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                          color: textColor, fontWeight: FontWeight.w400)),
+                          color: AppColors.textColor,
+                          fontWeight: FontWeight.w400)),
                   Text(" EGP",
                       style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                          color: textColor, fontWeight: FontWeight.w400))
+                          color: AppColors.textColor,
+                          fontWeight: FontWeight.w400))
                 ],
               ),
               Text(
                 "4.3",
-                style: Theme.of(context)
-                    .textTheme
-                    .titleMedium!
-                    .copyWith(fontWeight: FontWeight.w400, color: textColor),
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                    fontWeight: FontWeight.w400, color: AppColors.textColor),
               ),
             ],
           ),
@@ -111,7 +110,7 @@ class _DetailsChartDesignState extends State<DetailsChartDesign> {
                 children: [
                   CircleAvatar(
                       radius: 24,
-                      backgroundColor: firstColor.withOpacity(0.1),
+                      backgroundColor: AppColors.firstColor.withOpacity(0.1),
                       backgroundImage:
                           const NetworkImage('stockAtSector.logo')),
                   const SizedBox(width: 16),
@@ -124,7 +123,7 @@ class _DetailsChartDesignState extends State<DetailsChartDesign> {
                                   .textTheme
                                   .titleSmall!
                                   .copyWith(
-                                      color: textColor,
+                                      color: AppColors.textColor,
                                       fontWeight: FontWeight.w400)),
                           Text('العربيه لخليج الاقطان',
                               maxLines: 1,
@@ -133,7 +132,7 @@ class _DetailsChartDesignState extends State<DetailsChartDesign> {
                                   .textTheme
                                   .titleMedium!
                                   .copyWith(
-                                      color: firstColor,
+                                      color: AppColors.firstColor,
                                       fontWeight: FontWeight.w500)),
                         ]),
                   ),
@@ -149,18 +148,21 @@ class _DetailsChartDesignState extends State<DetailsChartDesign> {
                           .textTheme
                           .headlineMedium!
                           .copyWith(
-                              color: textColor, fontWeight: FontWeight.w600)),
+                              color: AppColors.textColor,
+                              fontWeight: FontWeight.w600)),
                   // toDo ~> change ... setState
                   Text(price,
                       style: Theme.of(context)
                           .textTheme
                           .headlineMedium!
                           .copyWith(
-                              color: textColor, fontWeight: FontWeight.w600)),
+                              color: AppColors.textColor,
+                              fontWeight: FontWeight.w600)),
                   // toDo ~> change ...setState
                   Text(date,
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          color: kTextColor, fontWeight: FontWeight.w600)),
+                          color: AppColors.kTextColor,
+                          fontWeight: FontWeight.w600)),
                 ],
               ),
               const SizedBox(height: 8),
@@ -168,22 +170,26 @@ class _DetailsChartDesignState extends State<DetailsChartDesign> {
                 children: [
                   Text("EGP ",
                       style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                          color: textColor, fontWeight: FontWeight.w500)),
+                          color: AppColors.textColor,
+                          fontWeight: FontWeight.w500)),
                   // toDo ~> change ...setState
                   Text(
                     change1,
                     style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                        fontWeight: FontWeight.w500, color: textColor),
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.textColor),
                   ),
                   const SizedBox(width: 8),
                   Text("%",
                       style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                          color: textColor, fontWeight: FontWeight.w700)),
+                          color: AppColors.textColor,
+                          fontWeight: FontWeight.w700)),
                   // toDo ~> change ...setState
                   Text(
                     change2,
                     style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                        fontWeight: FontWeight.w500, color: textColor),
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.textColor),
                   ),
                 ],
               ),
@@ -297,7 +303,7 @@ class _DetailsChartDesignState extends State<DetailsChartDesign> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(32),
                           color: currentIndex == 3
-                              ? kPrimaryColor
+                              ? AppColors.kPrimaryColor
                               : Colors.grey.shade200,
                         ),
                         child: Text(

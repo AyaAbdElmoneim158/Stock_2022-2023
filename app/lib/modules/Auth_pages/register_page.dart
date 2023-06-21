@@ -36,7 +36,10 @@ class RegisterPage extends StatelessWidget {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(snackbarErr(state,
-                message: state.err, contentType: ContentType.failure));
+                // message: state.err,
+                title: Constants.err,
+                message: getMessageFromErrorCode(errorCode: state.err),
+                contentType: ContentType.failure));
         }
         if (state is AuthRegisterAppSuccessState) {
           debugPrint("AuthRegisterAppSuccessState");
@@ -44,7 +47,7 @@ class RegisterPage extends StatelessWidget {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(snackbarErr(state,
-                message: "تم التسجيل بنجاح ",
+                message: Constants.successSign,
                 contentType: ContentType.success));
           Timer(const Duration(seconds: 3), () {
             Navigator.popAndPushNamed(context, AppRoutes.loginRoute);
@@ -55,7 +58,7 @@ class RegisterPage extends StatelessWidget {
         final appCubit = AppCubit.get(context);
         return Scaffold(
           appBar: generalAppbar(context),
-          backgroundColor: kBackgroundColor,
+          backgroundColor: AppColors.kBackgroundColor,
           body: Center(
             child: SingleChildScrollView(
               child: Column(
@@ -88,14 +91,14 @@ class RegisterPage extends StatelessWidget {
                       ? FadeInUp(
                           duration: const Duration(milliseconds: 500),
                           child: Text(Constants.register,
-                              style: titleStyle(context)
-                                  .copyWith(color: kTextColor)),
+                              style: AppTextStyles.titleStyle(context)
+                                  .copyWith(color: AppColors.kTextColor)),
                         )
                       : FadeInDown(
                           duration: const Duration(milliseconds: 500),
                           child: Text(Constants.register,
-                              style: titleStyle(context)
-                                  .copyWith(color: kTextColor)),
+                              style: AppTextStyles.titleStyle(context)
+                                  .copyWith(color: AppColors.kTextColor)),
                         ),
 
                   Form(
@@ -187,12 +190,12 @@ class RegisterPage extends StatelessWidget {
                               ? ZoomIn(
                                   duration: const Duration(milliseconds: 2000),
                                   child: (state is AuthRegisterApploadingState)
-                                      ? const CircularProgressIndicator(
-                                          color: kPrimaryColor)
+                                      ? CircularProgressIndicator(
+                                          color: AppColors.kPrimaryColor)
                                       : (state is AuthRegisterAppSuccessState)
                                           ? defaultButton(
                                               text: Constants.loginBtn,
-                                              color: firstColor,
+                                              color: AppColors.firstColor,
                                               context: context,
                                               onPressed: () {
                                                 if (formKey.currentState!
@@ -207,7 +210,7 @@ class RegisterPage extends StatelessWidget {
                                             )
                                           : defaultButton(
                                               text: Constants.loginBtn,
-                                              color: firstColor,
+                                              color: AppColors.firstColor,
                                               context: context,
                                               onPressed: () {
                                                 if (formKey.currentState!
@@ -255,7 +258,7 @@ class RegisterPage extends StatelessWidget {
                                   duration: const Duration(milliseconds: 2000),
                                   child: defaultButton(
                                     text: Constants.loginBtn,
-                                    color: firstColor,
+                                    color: AppColors.firstColor,
                                     context: context,
                                     onPressed: () {
                                       if (formKey.currentState!.validate()) {
@@ -295,7 +298,7 @@ class RegisterPage extends StatelessWidget {
                                                   .textTheme
                                                   .bodyMedium!
                                                   .copyWith(
-                                                    color: textColor,
+                                                    color: AppColors.textColor,
                                                   )),
                                           TextSpan(
                                             text: Constants.loginBtn,
@@ -303,7 +306,8 @@ class RegisterPage extends StatelessWidget {
                                                 .textTheme
                                                 .bodySmall!
                                                 .copyWith(
-                                                    color: secondColor,
+                                                    color:
+                                                        AppColors.secondColor,
                                                     fontSize: 19),
                                           )
                                         ]),
@@ -329,7 +333,7 @@ class RegisterPage extends StatelessWidget {
                                                   .textTheme
                                                   .bodyMedium!
                                                   .copyWith(
-                                                    color: textColor,
+                                                    color: AppColors.textColor,
                                                   )),
                                           TextSpan(
                                             text: Constants.loginBtn,
@@ -337,7 +341,8 @@ class RegisterPage extends StatelessWidget {
                                                 .textTheme
                                                 .bodySmall!
                                                 .copyWith(
-                                                    color: secondColor,
+                                                    color:
+                                                        AppColors.secondColor,
                                                     fontSize: 19),
                                           )
                                         ]),

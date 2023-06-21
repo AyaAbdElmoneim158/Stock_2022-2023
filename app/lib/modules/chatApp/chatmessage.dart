@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-// import 'package:velocity_x/velocity_x.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 class ChatMessage extends StatelessWidget {
   const ChatMessage(
@@ -17,13 +17,16 @@ class ChatMessage extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          sender,
-          style: TextStyle(
-              color: sender == "user"
-                  ? Colors.red.shade200
-                  : Colors.green.shade200),
-        ),
+        Text(sender)
+            .text
+            .subtitle1(context)
+            .make()
+            .box
+            .color(sender == "user" ? Vx.red200 : Vx.green200)
+            .p16
+            .rounded
+            .alignCenter
+            .makeCentered(),
         Expanded(
           child: isImage
               ? AspectRatio(
@@ -36,10 +39,9 @@ class ChatMessage extends StatelessWidget {
                             : const CircularProgressIndicator.adaptive(),
                   ),
                 )
-              : Text(text),
-          // .text.bodyText1(context).make().px8(),
+              : text.trim().text.bodyText1(context).make().px8(),
         ),
       ],
-    );
+    ).py8();
   }
 }

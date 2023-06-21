@@ -38,7 +38,7 @@ class LoginPage extends StatelessWidget {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(snackbarErr(state,
-                message: "تم التسجيل بنجاح ",
+                message: Constants.successSign,
                 contentType: ContentType.success));
           Timer(const Duration(seconds: 3), () {
             Navigator.popAndPushNamed(context, AppRoutes.successRoute);
@@ -50,7 +50,10 @@ class LoginPage extends StatelessWidget {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(snackbarErr(state,
-                message: state.err, contentType: ContentType.failure));
+                // message: state.err,
+                title: Constants.err,
+                message: getMessageFromErrorCode(errorCode: state.err),
+                contentType: ContentType.failure));
         }
         if (state is AuthLoginWithEmailApploadingState) {
           debugPrint("AuthLoginWithEmailApploadingState");
@@ -60,21 +63,17 @@ class LoginPage extends StatelessWidget {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(snackbarErr(state,
-                message: state.err, contentType: ContentType.failure));
-        }
-        if (state is AuthWithFacebookAppErrorState) {
-          debugPrint("AuthWithGoogleAppErrorState");
-          ScaffoldMessenger.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(snackbarErr(state,
-                message: state.err, contentType: ContentType.failure));
+                // message: state.err,
+                title: Constants.err,
+                message: getMessageFromErrorCode(errorCode: state.err),
+                contentType: ContentType.failure));
         }
       },
       builder: (context, state) {
         final appCubit = AppCubit.get(context);
         return Scaffold(
             appBar: generalAppbar(context),
-            backgroundColor: kBackgroundColor,
+            backgroundColor: AppColors.kBackgroundColor,
             body: Center(
               child: SingleChildScrollView(
                 child: Column(
@@ -107,14 +106,14 @@ class LoginPage extends StatelessWidget {
                         ? FadeInDown(
                             duration: const Duration(milliseconds: 500),
                             child: Text(Constants.loginTitle,
-                                style: titleStyle(context)
-                                    .copyWith(color: kTextColor)),
+                                style: AppTextStyles.titleStyle(context)
+                                    .copyWith(color: AppColors.kTextColor)),
                           )
                         : FadeInUp(
                             duration: const Duration(milliseconds: 500),
                             child: Text(Constants.loginTitle,
-                                style: titleStyle(context)
-                                    .copyWith(color: kTextColor)),
+                                style: AppTextStyles.titleStyle(context)
+                                    .copyWith(color: AppColors.kTextColor)),
                           ),
 
                     Form(
@@ -191,7 +190,7 @@ class LoginPage extends StatelessWidget {
                                               .textTheme
                                               .bodyMedium!
                                               .copyWith(
-                                                color: firstColor,
+                                                color: AppColors.firstColor,
                                               ),
                                         ),
                                         onTap: () {
@@ -214,7 +213,7 @@ class LoginPage extends StatelessWidget {
                                               .textTheme
                                               .bodyMedium!
                                               .copyWith(
-                                                color: kTextColor,
+                                                color: AppColors.kTextColor,
                                               ),
                                         ),
                                         onTap: () {
@@ -235,13 +234,13 @@ class LoginPage extends StatelessWidget {
                                         const Duration(milliseconds: 2500),
                                     child: (state
                                             is AuthLoginWithEmailApploadingState)
-                                        ? const CircularProgressIndicator(
-                                            color: kPrimaryColor)
+                                        ? CircularProgressIndicator(
+                                            color: AppColors.kPrimaryColor)
                                         : (state
                                                 is AuthLoginWithEmailAppSuccessState)
                                             ? defaultButton(
                                                 text: Constants.loginBtn,
-                                                color: firstColor,
+                                                color: AppColors.firstColor,
                                                 context: context,
                                                 onPressed: () {
                                                   if (formKey.currentState!
@@ -256,7 +255,7 @@ class LoginPage extends StatelessWidget {
                                               )
                                             : defaultButton(
                                                 text: Constants.loginBtn,
-                                                color: firstColor,
+                                                color: AppColors.firstColor,
                                                 context: context,
                                                 onPressed: () {
                                                   if (formKey.currentState!
@@ -275,7 +274,7 @@ class LoginPage extends StatelessWidget {
                                         const Duration(milliseconds: 2500),
                                     child: defaultButton(
                                       text: Constants.loginBtn,
-                                      color: firstColor,
+                                      color: AppColors.firstColor,
                                       context: context,
                                       onPressed: () {
                                         if (formKey.currentState!.validate()) {
@@ -307,7 +306,8 @@ class LoginPage extends StatelessWidget {
                                                     .textTheme
                                                     .bodyMedium!
                                                     .copyWith(
-                                                      color: textColor,
+                                                      color:
+                                                          AppColors.textColor,
                                                     )),
                                             TextSpan(
                                               text: Constants.register,
@@ -315,7 +315,8 @@ class LoginPage extends StatelessWidget {
                                                   .textTheme
                                                   .bodySmall!
                                                   .copyWith(
-                                                      color: secondColor,
+                                                      color:
+                                                          AppColors.secondColor,
                                                       fontSize: 19),
                                             )
                                           ]),
@@ -343,7 +344,8 @@ class LoginPage extends StatelessWidget {
                                                     .textTheme
                                                     .bodyMedium!
                                                     .copyWith(
-                                                      color: textColor,
+                                                      color:
+                                                          AppColors.textColor,
                                                     )),
                                             TextSpan(
                                               text: Constants.register,
@@ -351,7 +353,8 @@ class LoginPage extends StatelessWidget {
                                                   .textTheme
                                                   .bodySmall!
                                                   .copyWith(
-                                                      color: secondColor,
+                                                      color:
+                                                          AppColors.secondColor,
                                                       fontSize: 19),
                                             )
                                           ]),
@@ -372,9 +375,9 @@ class LoginPage extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 const SizedBox(width: 20),
-                                const Text(
+                                Text(
                                   'Sign in Google',
-                                  style: kBodyText,
+                                  style: AppTextStyles.kBodyText,
                                 ),
                                 flag
                                     ? FadeInLeft(

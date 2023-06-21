@@ -1,4 +1,7 @@
+//ToDo: AppStates-class.........................................................
 abstract class AppStates {}
+
+///~> AuthAppChange-class-------------------------------------------------------
 
 class AppInitState implements AppStates {}
 
@@ -18,8 +21,7 @@ class AuthAppChangestockNoState implements AppStates {}
 
 class AuthAppChangestockPriceState implements AppStates {}
 
-//
-//!~> forgetPassword  =============================================================<
+///~> AuthforgetPasswordApp-states----------------------------------------------
 class AuthforgetPasswordAppSuccessState extends AppStates {}
 
 class AuthforgetPasswordAppErrorState extends AppStates {
@@ -29,11 +31,8 @@ class AuthforgetPasswordAppErrorState extends AppStates {
 
 class AuthforgetPasswordApploadingState extends AppStates {}
 
-//? !~> AuthWithEmail Login =============================================================<
-class AuthLoginWithEmailAppSuccessState extends AppStates {
-  // final String uId;
-  // AuthLoginWithEmailAppSuccessState(this.uId);
-}
+///~> AuthLoginWithEmail-states-------------------------------------------------
+class AuthLoginWithEmailAppSuccessState extends AppStates {}
 
 class AuthLoginWithEmailAppErrorState extends AppStates {
   final String err;
@@ -42,7 +41,7 @@ class AuthLoginWithEmailAppErrorState extends AppStates {
 
 class AuthLoginWithEmailApploadingState extends AppStates {}
 
-//? !~> AuthWithGoogle =============================================================<
+///~> AuthWithGoogleApp-states--------------------------------------------------
 class AuthWithGoogleAppSuccessState extends AppStates {}
 
 class AuthWithGoogleAppErrorState extends AppStates {
@@ -52,19 +51,7 @@ class AuthWithGoogleAppErrorState extends AppStates {
 
 class AuthWithGoogleApploadingState extends AppStates {}
 
-//?~> LoginWithFacebook_states.....................................................
-class AuthWithFacebookApploadingState implements AppStates {}
-
-class AuthWithFacebookAppSuccessState implements AppStates {}
-
-class AuthWithFacebookAppErrorState implements AppStates {
-  final String err;
-  AuthWithFacebookAppErrorState({
-    required this.err,
-  });
-}
-
-//!X~> AuthWithEmail Regisster =============================================================<
+///~> AuthRegisterApp-states----------------------------------------------------
 class AuthRegisterAppSuccessState extends AppStates {}
 
 class AuthRegisterAppErrorState extends AppStates {
@@ -74,23 +61,7 @@ class AuthRegisterAppErrorState extends AppStates {
 
 class AuthRegisterApploadingState extends AppStates {}
 
-class AuthpasswordConfirmErrorState extends AppStates {}
-
-class AuthNoPhoneErrorState extends AppStates {}
-
-class AuthcheckPasswordsErrorState extends AppStates {}
-
-// //! StockApi .......................................
-// class GetStockApiDatawSuccessState extends AppStates {}
-
-// class GetStockApiDatawErrorState extends AppStates {
-//   final String err;
-//   GetStockApiDatawErrorState(this.err);
-// }
-
-// class GetStockApiDatawLoadingState extends AppStates {}
-
-//!~> Add Arrow to fav
+///~> AddArrow && RemoveArrow-states--------------------------------------------
 class AddArrowToFavSuccessState extends AppStates {}
 
 class AddArrowToFollowSuccessState extends AppStates {}
@@ -101,32 +72,7 @@ class RemoveArrowToFollowSuccessState extends AppStates {}
 
 class AddArrowToFavExistState extends AppStates {}
 
-// //? !Income chart StockApi .......................................
-// class GetIncomeChartApiDatawSuccessState extends AppStates {}
-
-// class GetBalanceSheetChartApiDatawSuccessState extends AppStates {}
-
-// class GetCashFlowChartApiDatawSuccessState extends AppStates {}
-
-// //
-// class GetIncomeChartApiDatawErrorState extends AppStates {
-//   final String err;
-//   GetIncomeChartApiDatawErrorState(this.err);
-// }
-
-// class GetIncomeChartApiDatawLoadingState extends AppStates {}
-
-// //? !  Stock inner sectors Api .......................................
-// class GetStockInnerSectorSuccessState extends AppStates {}
-
-// class GetStockInnerSectorErrorState extends AppStates {
-//   final String err;
-//   GetStockInnerSectorErrorState(this.err);
-// }
-
-// class GetStockInnerSectorLoadingState extends AppStates {}
-
-//! StockApi .......................................
+///~> GetStockApiData-states----------------------------------------------------
 class GetStockApiDataSuccessState extends AppStates {}
 
 class GetStockApiDataErrorState extends AppStates {
@@ -136,8 +82,7 @@ class GetStockApiDataErrorState extends AppStates {
 
 class GetStockApiDataLoadingState extends AppStates {}
 
-//****************************************************************************** */
-//! fetchStocksAtSector ---------------------------------------------------
+///~> FetchStocksAtSector-states------------------------------------------------
 class FetchStocksAtSectorSuccessState extends AppStates {}
 
 class FetchStocksAtSectorLoadingState extends AppStates {}
@@ -147,7 +92,7 @@ class FetchStocksAtSectorErrorState extends AppStates {
   FetchStocksAtSectorErrorState(this.err);
 }
 
-//! fetchDetails ---------------------------------------------------
+///~> FetchDetails-states-------------------------------------------------------
 class FetchDetailsSuccessState extends AppStates {}
 
 class FetchDetailsLoadingState extends AppStates {}
@@ -157,8 +102,7 @@ class FetchDetailsErrorState extends AppStates {
   FetchDetailsErrorState(this.err);
 }
 
-//fetchStockTimeline
-//! fetchStockTimeline ---------------------------------------------------
+///~> FetchStockTimeline-states-------------------------------------------------
 class FetchStockTimelineSuccessState extends AppStates {}
 
 class FetchStockTimelineLoadingState extends AppStates {}
@@ -168,7 +112,7 @@ class FetchStockTimelineErrorState extends AppStates {
   FetchStockTimelineErrorState(this.err);
 }
 
-//! fetchIncomeChart ---------------------------------------------------
+///~> FetchIncomeChart-states---------------------------------------------------
 class FetchIncomeChartSuccessState extends AppStates {}
 
 class FetchIncomeChartLoadingState extends AppStates {}
@@ -177,8 +121,8 @@ class FetchIncomeChartErrorState extends AppStates {
   final String err;
   FetchIncomeChartErrorState(this.err);
 }
-//! fetchPridictionData------------
 
+///~> FetchPridictionData-states------------------------------------------------
 class FetchPridictionDataSuccessState extends AppStates {}
 
 class FetchPridictionDataLoadingState extends AppStates {}

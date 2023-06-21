@@ -8,14 +8,14 @@ class AuthHelper {
   static final instance = AuthHelper._();
   final _firebaseAuth = FirebaseAuth.instance;
 
-//!~> loginWithEmailAndPassword >==============================================<
+  ///~> loginWithEmailAndPassword-----------------------------------------------
   Future<User?> loginWithEmailAndPassword(String email, String password) async {
     final userAuth = await _firebaseAuth.signInWithEmailAndPassword(
         email: email, password: password);
     return userAuth.user;
   }
 
-//!~> signUpWithEmailAndPassword >=============================================<
+  ///~> signUpWithEmailAndPassword----------------------------------------------
   Future<User?> signUpWithEmailAndPassword(
       String email, String password) async {
     final userAuth = await _firebaseAuth.createUserWithEmailAndPassword(
@@ -24,17 +24,17 @@ class AuthHelper {
     return userAuth.user;
   }
 
-//!~> authStateChanes >========================================================<
+  ///~> authStateChanes---------------------------------------------------------
   Stream authStateChanes() => _firebaseAuth.authStateChanges();
 
-//!~> currentUser >============================================================<
-  User? get currentUser => _firebaseAuth.currentUser;
-  // User? get user => userAuth.user;
+  ///~> currentUser-------------------------------------------------------------
+  User? get currentUser =>
+      _firebaseAuth.currentUser; // User? get user => userAuth.user;
 
-//!~> logout >=================================================================<
+  ///~> logout------------------------------------------------------------------
   Future<void> logout() async => await _firebaseAuth.signOut();
 
-//!~> signInWithGoogle >=======================================================<
+  ///~> signInWithGoogle--------------------------------------------------------
   Future<UserCredential> signInWithGoogle() async {
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
     final GoogleSignInAuthentication? googleAuth =
@@ -46,7 +46,7 @@ class AuthHelper {
     return await _firebaseAuth.signInWithCredential(credential);
   }
 
-//!~> AuthHelper_SignInWithFacebook.............................................
+  ///~> AuthHelper_SignInWithFacebook-------------------------------------------
   Future<UserCredential> signInWithFacebook() async {
     final LoginResult loginResult = await FacebookAuth.instance.login();
     final OAuthCredential facebookAuthCredential =
@@ -54,12 +54,12 @@ class AuthHelper {
     return _firebaseAuth.signInWithCredential(facebookAuthCredential);
   }
 
-//!~> passwordReset >==========================================================<
+  ///~> passwordReset-----------------------------------------------------------
   Future<void> passwordReset(String email) async {
     await _firebaseAuth.sendPasswordResetEmail(email: email);
   }
 
-//!~> verifyPhoneNum >=========================================================<
+  ///~> verifyPhoneNum----------------------------------------------------------
   Future<void> verifyPhoneNum(String? phoneNumber, String? verify) async {
     await FirebaseAuth.instance.verifyPhoneNumber(
       phoneNumber: phoneNumber, //'${countryCode.text+phone}',

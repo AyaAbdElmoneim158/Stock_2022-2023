@@ -121,6 +121,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:app/models/stock_model.dart';
+import 'package:app/modules/loading_page.dart';
 import 'package:app/shared/styles/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -203,12 +204,13 @@ class _CoinState extends State<Coin> {
           debugPrint(snapshot.data.toString());
           switch (snapshot.connectionState) {
             case ConnectionState.waiting:
-              return Container(
-                  width: 50,
-                  color: Colors.white,
-                  child: Center(
-                      child: Image.asset(
-                          'assets/ripple.gif'))); //const Center(child: CircularProgressIndicator());
+              return const LoadingPage();
+            // Container(
+            //     width: 50,
+            //     color: Colors.white,
+            //     child: Center(
+            //         child: Image.asset(
+            //             'assets/ripple.gif'))); //const Center(child: CircularProgressIndicator());
             default:
               if (snapshot.hasError) {
                 return const Text("Error...");
@@ -223,7 +225,7 @@ class _CoinState extends State<Coin> {
                                 .textTheme
                                 .titleLarge!
                                 .copyWith(
-                                    color: firstColor,
+                                    color: AppColors.firstColor,
                                     fontWeight: FontWeight.w600)),
                         Directionality(
                           textDirection: ui.TextDirection.ltr,
@@ -233,7 +235,7 @@ class _CoinState extends State<Coin> {
                                   .textTheme
                                   .headlineSmall!
                                   .copyWith(
-                                      color: firstColor,
+                                      color: AppColors.firstColor,
                                       fontWeight: FontWeight.w600)),
                         ),
                         const SizedBox(width: 8),
@@ -242,7 +244,7 @@ class _CoinState extends State<Coin> {
                                 .textTheme
                                 .bodySmall!
                                 .copyWith(
-                                    color: firstColor,
+                                    color: AppColors.firstColor,
                                     fontWeight: FontWeight.w600)),
                         Directionality(
                           textDirection: ui.TextDirection.ltr,
@@ -261,7 +263,7 @@ class _CoinState extends State<Coin> {
                                                 .toString()
                                                 .contains('+')
                                             ? Colors.green
-                                            : firstColor),
+                                            : AppColors.firstColor),
                           ),
                         ),
                       ],

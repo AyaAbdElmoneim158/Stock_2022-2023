@@ -1,3 +1,4 @@
+import 'package:app/modules/loading_page.dart';
 import 'package:app/shared/components/components.dart';
 import 'package:app/shared/cubit/cubit.dart';
 import 'package:app/shared/cubit/states.dart';
@@ -34,16 +35,16 @@ class StockAtSectorNew extends StatelessWidget {
           return ConditionalBuilder(
             condition: state is! FetchStocksAtSectorLoadingState,
             builder: (context) => Scaffold(
-                backgroundColor: kBackgroundColor,
+                backgroundColor: AppColors.kBackgroundColor,
                 appBar: AppBar(
-                  backgroundColor: kBackgroundColor,
+                  backgroundColor: AppColors.kBackgroundColor,
                   // title: Text('${appCubit.stocksAtSectors.length}stock'),
-                  titleTextStyle: kBodyText2,
+                  titleTextStyle: AppTextStyles.kBodyText2,
                   leading: IconButton(
                     onPressed: () => Navigator.pop(context),
-                    icon: const Icon(
+                    icon: Icon(
                       Icons.arrow_back_ios,
-                      color: firstColor,
+                      color: AppColors.firstColor,
                     ),
                   ),
                 ),
@@ -59,7 +60,7 @@ class StockAtSectorNew extends StatelessWidget {
                           .textTheme
                           .headlineSmall!
                           .copyWith(
-                              color: kPrimaryColor,
+                              color: AppColors.kPrimaryColor,
                               height: 1.2,
                               fontWeight: FontWeight.w600),
                     ),
@@ -113,10 +114,11 @@ class StockAtSectorNew extends StatelessWidget {
                           )),
                   ],
                 )),
-            fallback: (context) => Container(
-                width: 50,
-                color: Colors.white,
-                child: Center(child: Image.asset('assets/ripple.gif'))),
+            fallback: (context) => const LoadingPage(),
+            // Container(
+            //     width: 50,
+            //     color: Colors.white,
+            //     child: Center(child: Image.asset('assets/ripple.gif'))),
           );
         },
       ),

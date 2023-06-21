@@ -1,5 +1,9 @@
+import 'package:app/shared/components/constants.dart';
+import 'package:app/shared/styles/colors.dart';
+import 'package:app/shared/styles/style.dart';
 import 'package:flutter/material.dart';
 import 'package:app/shared/styles/size_config.dart';
+import 'package:skeletons/skeletons.dart';
 
 class NoInternetPage extends StatelessWidget {
   const NoInternetPage({super.key});
@@ -11,12 +15,18 @@ class NoInternetPage extends StatelessWidget {
     return Scaffold(
       body: Center(
           child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text("No Connection..!"),
-          Image.network(
-            'https://img.freepik.com/premium-vector/lost-wireless-connection-disconnected-cable-no-wifi-signal-internet-page-found-display-smartphone-screen-background-vector-illustration_2175-1157.jpg?size=626&ext=jpg',
+          Center(
+              child: Image.asset(
+            'assets/no1.png',
             height: SizeConfig.screenHeight! * 0.3, //30%
             width: double.infinity,
+          )),
+          Text(
+            Constants.noInternet,
+            style:
+                AppTextStyles.kBodyText2.copyWith(color: AppColors.kTextColor),
           ),
         ],
       )),

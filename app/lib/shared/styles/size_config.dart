@@ -1,6 +1,7 @@
 //! SizeConfig: ................................................................
 import 'package:flutter/material.dart';
 
+//ToDo: SizeConfig-class.........................................................
 class SizeConfig {
   static MediaQueryData? _mediaQueryData;
   static double? screenWidth;

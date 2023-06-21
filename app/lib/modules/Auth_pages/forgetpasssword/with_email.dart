@@ -22,8 +22,10 @@ class ForgetPasswordWithEmail extends StatelessWidget {
           behavior: SnackBarBehavior.floating,
           backgroundColor: Colors.transparent,
           content: AwesomeSnackbarContent(
-            title: 'ESuccess..!',
-            message: "Check your Email ",
+            title: Constants.success,
+            message: Constants.checkEmail,
+            // title: 'ESuccess..!',
+            // message: "Check your Email ",
             contentType: ContentType.success,
           ),
         );
@@ -45,8 +47,9 @@ class ForgetPasswordWithEmail extends StatelessWidget {
           behavior: SnackBarBehavior.floating,
           backgroundColor: Colors.transparent,
           content: AwesomeSnackbarContent(
-            title: 'Error..!',
-            message: state.err,
+            title: Constants.err,
+            message: getMessageFromErrorCode(errorCode: state.err),
+            // message: state.err,
             contentType: ContentType.failure,
           ),
         );
@@ -65,7 +68,7 @@ class ForgetPasswordWithEmail extends StatelessWidget {
       SizeConfig().init(context);
 
       return Scaffold(
-        backgroundColor: kBackgroundColor,
+        backgroundColor: AppColors.kBackgroundColor,
         appBar: generalAppbar(context),
         body: Center(
           child: Padding(
@@ -88,7 +91,8 @@ class ForgetPasswordWithEmail extends StatelessWidget {
                             .textTheme
                             .headlineSmall!
                             .copyWith(
-                                color: kTextColor, fontWeight: FontWeight.w700),
+                                color: AppColors.kTextColor,
+                                fontWeight: FontWeight.w700),
                       ),
                     ),
                     const SizedBox(height: 30),
@@ -105,7 +109,7 @@ class ForgetPasswordWithEmail extends StatelessWidget {
                     const SizedBox(height: 32),
                     defaultButton(
                         text: Constants.reset,
-                        color: firstColor,
+                        color: AppColors.firstColor,
                         onPressed: () {
                           appCubit.forgetPassword();
                         },

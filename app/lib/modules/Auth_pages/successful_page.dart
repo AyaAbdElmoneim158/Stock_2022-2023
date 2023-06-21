@@ -13,7 +13,7 @@ class SuccessfulLogin extends StatelessWidget {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
-      backgroundColor: kBackgroundColor,
+      backgroundColor: AppColors.kBackgroundColor,
       body: Column(
         children: [
           SizedBox(height: SizeConfig.screenHeight! * 0.04),
@@ -29,17 +29,17 @@ class SuccessfulLogin extends StatelessWidget {
           SizedBox(height: SizeConfig.screenHeight! * 0.08),
           Text(
             Constants.loginSuccess,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 30,
               fontWeight: FontWeight.bold,
-              color: kTextColor,
+              color: AppColors.kTextColor,
             ),
           ),
           const Spacer(),
           SizedBox(
             width: SizeConfig.screenWidth! * 0.6,
             child: CustomeTextButton(
-              bgColor: firstColor,
+              bgColor: AppColors.firstColor,
               buttonName: Constants.backHome,
               onTap: () => Navigator.pushNamed(context, AppRoutes.navbarRoute),
               textColor: Colors.white,

@@ -151,7 +151,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     // int current = 0;
 
     return Scaffold(
-      backgroundColor: kBackgroundColor,
+      backgroundColor: AppColors.kBackgroundColor,
       body: Center(
         child: SingleChildScrollView(
           child: SafeArea(

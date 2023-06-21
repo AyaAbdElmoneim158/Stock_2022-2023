@@ -24,7 +24,7 @@ class RecommendPage extends StatelessWidget {
           builder: (context, state) {
             final appCubit = AppCubit.get(context);
             return Scaffold(
-              backgroundColor: kBackgroundColor,
+              backgroundColor: AppColors.kBackgroundColor,
               appBar: AppBar(
                 // leading: IconButton(icon: const Icon(Icons.search), onPressed: () {}),
                 title: Text(
@@ -82,7 +82,8 @@ class RecommendPage extends StatelessWidget {
                                                   .textTheme
                                                   .titleLarge!
                                                   .copyWith(
-                                                      color: textColor,
+                                                      color:
+                                                          AppColors.textColor,
                                                       fontWeight:
                                                           FontWeight.w600)),
                                           Text(recommendDataList2[index].ramz,
@@ -90,7 +91,8 @@ class RecommendPage extends StatelessWidget {
                                                   .textTheme
                                                   .titleSmall!
                                                   .copyWith(
-                                                      color: textColor,
+                                                      color:
+                                                          AppColors.textColor,
                                                       fontWeight:
                                                           FontWeight.w600)),
                                         ]),

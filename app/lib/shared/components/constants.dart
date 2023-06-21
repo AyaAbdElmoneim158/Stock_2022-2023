@@ -1,3 +1,4 @@
+// flutter build ios --release  , flutter build apk --release
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:app/models/sector_model.dart';
 import 'package:app/shared/styles/colors.dart';
@@ -42,6 +43,148 @@ alltime_low,
 52_week_low 
  */
 
+/*
+*/
+
+List graphsTrans = [
+  {
+    'income_statement': 'بيانات الدخل',
+    'total_revenue': 'إجمالي الإيرادات',
+    'cost_of_goods_sold': 'تكلفه السلع المباعه',
+    'gross_profit': 'الربح الإجمالي',
+    'operating_expenses': 'مصاريف التشغيل',
+    'operating_income': 'دخل التشغيل',
+    'nonOperating_income': 'الدخل غير التشغيلي',
+    'pretax_income': 'الدخل قبل الضرائب',
+    'equity_in_earnings': 'حقوق الملكية في الأرباح',
+    'taxes': 'الضرائب',
+    'nonControllingMinority_interest': 'حقوق الأقلية غير المسيطرة',
+    'after_tax_other_income_expense': 'الدخل/المصروفات الأخرى بعد الضريبة',
+    'net_income_before_discontinued_operations':
+        'صافي الدخل قبل العمليات المتوقفة',
+    'discontinued_operations': 'العمليات المتوقفة',
+    'net_income': 'صافي الدخل',
+    'dilution_adjustment': 'تعديل التخفيف',
+    'preferred_dividends': 'توزيعات أرباح الأسهم الممتازة',
+    'diluted_net_income_available_to_common_stockholders':
+        'صافي الدخل المخفف المتاح للمساهمين العاديين',
+    'basic_EPS': 'ربحية السهم الأساسية',
+    'diluted_EPS': 'ربحية السهم المخففة',
+    'average_basic_shares_outstanding': 'متوسط الأسهم الأساسية القائمة',
+    'diluted_shares_outstanding': 'الأسهم المخففة القائمة',
+    'EBITDA': 'الأرباح قبل خصم ضرائب الفائدة والاستهلاك والتخفيف',
+    'EBIT': 'النمو السنوي(EBIT)',
+    'total_operating_expenses': 'إجمالي النفقات التشغيلية'
+  },
+  {
+    'balance_sheet': 'بيان الموازنه',
+    'total_assets': 'إجمالي الأصول',
+    'total_liabilities': 'إجمالي المطلوبات',
+    'total_equity': 'إجمالي حقوق المساهمين',
+    'total_liabilities_and_shareholders': 'إجمالي المطلوبات وحقوق المساهمين',
+    'total_debt': 'إجمالي المديونية',
+    'net_debt': 'صافي الدين',
+    'book_value_per_share': 'القيمة الدفترية للسهم'
+  },
+  {
+    'cash_flow': 'التدفقات النقديه',
+    'cash_from_operating_activity': 'العائد النقدي من الأنشطة التشغيلية',
+    'cash_from_investing_activity': 'العائد النقدي من الأنشطة الاستثمارية',
+    'cash_from_financing_activity': 'العائد النقدي من الأنشطة المالية',
+    'free_cash_flow': 'التدفق النقدي الحر'
+  },
+  {
+    'dividends': 'ارباح',
+    'dividens_per_share': 'توزيعات الأرباح لكل سهم (سنة مالية)',
+    'dividend_yield': 'عائد توزيعات الأرباح (السنة المالية) %',
+    'payout_ratio': 'نسبة الدفع (السنة المالية) %'
+  },
+  {
+    'earning': 'العائد لكل سهم',
+    'reported_E': 'مُبلّغ عنه',
+    'estimate_E': 'المتوقع',
+    'surprise_E': 'مفاجأة'
+  },
+  {
+    'revenue': 'الايرادات',
+    'reported_R': 'مُبلّغ عنه',
+    'estimate_R': 'المتوقع',
+    'surprise_R': 'المتوقع'
+  },
+];
+
+//!~> getMessageFromErrorCode...................................................
+String getMessageFromErrorCode({required errorCode}) {
+  switch (errorCode) {
+//? signInWithEmailAndPassword -------------------------------------------------
+    //* case 'wrong-password': return '';
+    //* case 'invalid-email': return '';
+    //* case 'user-disabled': return '';
+    //* case 'user-not-found': return '';
+
+//? createUserWithEmailAndPassword -------------------------------------------------
+    //* case 'email-already-in-use': return '';
+    // case 'invalid-email': return '';
+    //* case 'operation-not-allowed': return '';
+    //* case 'weak-password': return '';
+
+//? signInWithCredential -------------------------------------------------
+    //* case 'account-exists-with-different-credential': return '';
+    //* case 'invalid-credential': return '';
+    // case 'operation-not-allowed': return '';
+    // case 'user-disabled': return '';
+    // case 'user-not-found': return '';
+    // case 'wrong-password': return '';
+    //* case 'invalid-verification-code': return '';
+    //* case 'invalid-verification-id': return '';
+
+//? eauthenticateWithCredential -------------------------------------------------
+    //* case 'user-mismatch': return '';
+    // case 'user-not-found': return '';
+    // case 'invalid-credential': return '';
+    // case 'invalid-email': return '';
+    // case 'wrong-password': return '';
+    // case 'invalid-verification-code': return '';
+    // case 'invalid-verification-id': return '';
+
+//? signInWithAuthProvider -------------------------------------------------
+    // case 'user-disabled': return '';
+
+//? signInAnonymously -------------------------------------------------
+    // case 'operation-not-allowed': return '';
+
+//? signInWithEmailLink -------------------------------------------------
+    //* case 'expired-action-code': return '';
+    // case 'invalid-email': return '';
+    // case 'user-disabled': return '';
+
+    case "ERROR_EMAIL_ALREADY_IN_USE":
+    case "account-exists-with-different-credential":
+    case "email-already-in-use":
+      return Constants.case1;
+    case "ERROR_WRONG_PASSWORD":
+    case "wrong-password":
+      return Constants.case2;
+    case "ERROR_USER_NOT_FOUND":
+    case "user-not-found":
+      return Constants.case3;
+    case "ERROR_USER_DISABLED":
+    case "user-disabled":
+      return Constants.case4;
+    case "ERROR_TOO_MANY_REQUESTS":
+    case "operation-not-allowed":
+      return Constants.case5;
+    case "ERROR_OPERATION_NOT_ALLOWED":
+      return Constants.case6;
+    case "ERROR_INVALID_EMAIL":
+    case "invalid-email":
+      return Constants.case7;
+
+    default:
+      return Constants.case8;
+  }
+}
+
 class Category {
   String categoryAr;
   String categoryEn;
@@ -85,6 +228,40 @@ bool theme = true;
 String docmentIdFormLocationData() => DateTime.now().toIso8601String();
 
 abstract class Constants {
+  static String err = lang ? 'حدث خطأ' : 'Error..!';
+  static String success = lang ? 'تم نجاح العملية' : 'Successful..!';
+  static String checkEmail =
+      lang ? "تحقق من بريدك الإلكتروني" : "Check your Email ";
+  static String successSign = lang
+      ? "Registration proccess has been successful"
+      : "تم عمليه التسجيل بنجاح";
+  // ----------------
+  static String noInternet =
+      lang ? 'لا يوجد اتصال بالإنترنت' : 'no internet connection';
+  //? Handel-error-firbase ****************************************************************
+  // message: getMessageFromErrorCode(errorCode: state.err),
+
+  static String case1 = lang
+      ? "البريد الإلكتروني مستخدم بالفعل. انتقل إلى صفحة تسجيل الدخول."
+      : "Email already used. Go to login page.";
+  static String case2 = lang
+      ? "تركيبة خاطئة بين البريد الإلكتروني وكلمة المرور."
+      : "Wrong email/password combination.";
+  static String case3 = lang
+      ? "لم يتم العثور على مستخدم بهذا البريد الإلكتروني."
+      : "No user found with this email.";
+  static String case4 = lang ? "المستخدم معطل" : "User disabled.";
+  static String case5 = lang
+      ? "هناك عدد كبير جدًا من الطلبات لتسجيل الدخول إلى هذا الحساب."
+      : "Too many requests to log into this account.";
+  static String case6 = lang
+      ? "خطأ في الخادم ، يرجى المحاولة مرة أخرى في وقت لاحق."
+      : "Server error, please try again later.";
+  static String case7 =
+      lang ? "عنوان البريد الإلكتروني غير صالح." : "Email address is invalid.";
+  static String case8 = lang
+      ? "فشل تسجيل الدخول. يرجى المحاولة مرة أخرى."
+      : "Login failed. Please try again.";
   static List<Map<String, dynamic>> onboaringData = [
     {
       'image':
@@ -92,8 +269,8 @@ abstract class Constants {
       // 'https://cdn3d.iconscout.com/3d/premium/thumb/stock-research-7252794-5914997.png',
       // 'https://ouch-cdn2.icons8.com/yIxQmzj1OHH3S9AiIgelaTGdpj3wApWqSqFh80arSEA/rs:fit:784:828/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvMTMx/L2NmOGIzZmY4LWRh/YjEtNDdiMS1hZGQ4/LWFkMTUwZTQwNzIx/NC5wbmc.png',
       'text': onboardingText1,
-      'textColor': textColor,
-      'btnColor': secondColor,
+      'textColor': AppColors.textColor,
+      'btnColor': AppColors.secondColor,
     },
     {
       'image':
@@ -101,8 +278,8 @@ abstract class Constants {
       // 'https://cdn3d.iconscout.com/3d/premium/thumb/stock-market-investment-5768786-4833583.png',
       //'https://ouch-cdn2.icons8.com/oEXWmNUZgj3vd_T5XSJe2dTB1GFWIBeJ1QEqRWw76O8/rs:fit:784:748/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvMzM1/L2Q3MjMyYzJlLTk0/NTMtNDUzMC1iZTEx/LWQ2MDZiN2RjYmFm/Yy5wbmc.png',
       'text': onboardingText2,
-      'textColor': whiteColor,
-      'btnColor': whiteColor //,
+      'textColor': AppColors.whiteColor,
+      'btnColor': AppColors.whiteColor //,
     },
     {
       'image':
@@ -110,8 +287,8 @@ abstract class Constants {
       // 'https://cdn3d.iconscout.com/3d/premium/thumb/stock-exchange-6020107-4974984.png',
       //'https://ouch-cdn2.icons8.com/g8bZd-d4qiYuomOBWh3x61II6HlK8Ir2zp_a2cFTcCA/rs:fit:784:784/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvNDI4/LzdjMjEyYjgzLTg0/NjQtNDQzMS04NzAz/LTNkNzk1YmUyMzli/MC5wbmc.png',
       'text': onboardingText3,
-      'textColor': whiteColor,
-      'btnColor': firstColor,
+      'textColor': AppColors.whiteColor,
+      'btnColor': AppColors.firstColor,
     }
   ];
 
